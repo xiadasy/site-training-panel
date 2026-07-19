@@ -751,7 +751,7 @@ new Chart(document.getElementById('weightChart'),{
 });
 
 // ===== Shoe Cabinet =====
-const shoes=(window.MERGED_DATA&&window.MERGED_DATA.shoes.length)?window.MERGED_DATA.shoes.map(s=>({...s,limit:800,img:'xtep-160x-7-pro.jpeg'})):[
+const shoes=(window.MERGED_DATA&&window.MERGED_DATA.shoes.length)?window.MERGED_DATA.shoes.map(s=>({...s,name:'特步 160X 7.0 Pro',limit:800,img:'xtep-160x-7-pro.jpeg'})):[
   {name:"特步 160X 7.0 Pro",km:24.00817,runs:1,limit:800,img:'xtep-160x-7-pro.jpeg'},
 ];
 document.getElementById('shoeGrid').innerHTML=shoes.map(s=>{
