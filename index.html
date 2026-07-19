@@ -220,6 +220,76 @@ a{color:var(--accent);text-decoration:none}
   .week-day{padding:6px 2px;font-size:10px}
   .quote-text{font-size:15px}
 }
+
+/* ===== Weather Bar ===== */
+.weather-bar{background:linear-gradient(135deg,#161616,#1a1714);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;margin-top:16px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.wb-left{display:flex;flex-direction:column;gap:2px;min-width:130px}
+.wb-date{font-size:18px;font-weight:700}
+.wb-week{font-size:12px;color:var(--text2)}
+.wb-main{display:flex;align-items:center;gap:10px}
+.wb-icon{font-size:36px;line-height:1}
+.wb-temp{font-size:26px;font-weight:800;color:var(--accent)}
+.wb-desc{font-size:13px;color:var(--text2)}
+.wb-feel{font-size:11px;color:var(--text3)}
+.wb-metrics{display:flex;gap:16px;flex-wrap:wrap;flex:1;justify-content:flex-end}
+.wb-metric{font-size:11px;color:var(--text3);text-align:center}
+.wb-metric b{display:block;font-size:15px;color:var(--text);font-weight:700;margin-bottom:1px}
+.wb-train{width:100%;font-size:12px;padding:9px 14px;border-radius:8px;background:var(--bg2);border-left:3px solid var(--accent2);color:var(--text2);margin-top:4px}
+.wb-train.warn{border-left-color:var(--red);color:var(--red)}
+.wb-train.ok{border-left-color:var(--green);color:var(--green)}
+
+/* ===== Races Section ===== */
+.races-stat{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:12px}
+.rstat{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center}
+.rstat b{display:block;font-size:22px;font-weight:800}
+.rstat small{font-size:10px;color:var(--text3);letter-spacing:.5px}
+.races-soon{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 8px;margin-top:10px;scrollbar-width:thin}
+.races-soon::-webkit-scrollbar{height:5px}
+.races-soon::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+.rmini{min-width:170px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:.2s;flex-shrink:0}
+.rmini:hover{border-color:var(--accent);transform:translateY(-2px)}
+.rmini-date{font-size:11px;color:var(--accent);font-weight:700;letter-spacing:.5px}
+.rmini-title{font-size:13px;font-weight:600;margin:5px 0;line-height:1.3;height:34px;overflow:hidden}
+.rmini-meta{font-size:10px;color:var(--text2)}
+.races-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;align-items:center}
+.races-toolbar input,.races-toolbar select{background:var(--card2);border:1px solid var(--border2);color:var(--text);padding:7px 10px;border-radius:8px;font-size:12px;outline:none}
+.races-toolbar input{flex:1;min-width:150px}
+.races-toolbar select{cursor:pointer}
+.races-toolbar input:focus,.races-toolbar select:focus{border-color:var(--accent)}
+.races-view{display:flex;gap:0;margin-left:auto}
+.races-view button{background:var(--card2);border:1px solid var(--border2);color:var(--text2);padding:7px 14px;font-size:12px;cursor:pointer;transition:.2s}
+.races-view button:first-child{border-radius:8px 0 0 8px}
+.races-view button:last-child{border-radius:0 8px 8px 0;border-left:none}
+.races-view button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.races-count{font-size:11px;color:var(--text3);margin:10px 0 8px}
+.races-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.rcard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;cursor:pointer;transition:.2s}
+.rcard:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.rcard-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:11px}
+.rcard-cat{font-weight:700}
+.rcard-st{font-weight:600}
+.rcard-fav{margin-left:auto;cursor:pointer;font-size:18px;color:var(--text3);transition:.2s;user-select:none}
+.rcard-fav.on{color:var(--yellow)}
+.rcard-fav:hover{transform:scale(1.25)}
+.rcard-title{font-size:14px;font-weight:700;line-height:1.35;margin-bottom:10px}
+.rcard-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.rcard-l{color:var(--text3)}
+.rcard-lottery{display:inline-block;background:rgba(255,91,58,.15);color:var(--accent);font-size:10px;padding:1px 8px;border-radius:4px;margin-top:6px;font-weight:600}
+.rcard-cds{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+.rc-cd{font-size:10px;padding:2px 8px;border-radius:4px;background:rgba(96,165,250,.15);color:var(--blue)}
+.rc-cd.soon{background:rgba(251,191,36,.15);color:var(--yellow)}
+.rc-cd.urgent{background:rgba(239,68,68,.15);color:var(--red);font-weight:700}
+.races-more{display:block;margin:18px auto 0;background:var(--card2);border:1px solid var(--border2);color:var(--text2);padding:10px 28px;border-radius:10px;font-size:13px;cursor:pointer;transition:.2s}
+.races-more:hover{border-color:var(--accent);color:var(--accent)}
+@media(max-width:768px){
+  .weather-bar{flex-direction:column;align-items:flex-start;gap:10px}
+  .wb-metrics{justify-content:flex-start;gap:12px}
+  .races-stat{grid-template-columns:repeat(3,1fr)}
+  .races-list{grid-template-columns:1fr}
+  .races-toolbar input{min-width:120px}
+  .races-view{margin-left:0;width:100%}
+  .races-view button{flex:1}
+}
 </style>
 </head>
 <body>
@@ -251,7 +321,42 @@ a{color:var(--accent);text-decoration:none}
   </div>
 </div>
 
+<!-- Race Detail Modal -->
+<div class="modal-overlay" id="raceModal" onclick="if(event.target===this)closeRaceModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🏃 <span class="date" id="raceModalDate"></span></h3>
+      <button class="modal-close" onclick="closeRaceModal()">×</button>
+    </div>
+    <div class="modal-body" id="raceModalBody"></div>
+  </div>
+</div>
+
 <div class="container">
+
+<!-- ===== Weather Bar ===== -->
+<div class="weather-bar" id="weatherBar">
+  <div class="wb-left">
+    <div class="wb-date" id="wbDate">— 月 — 日</div>
+    <div class="wb-week" id="wbWeek">星期—</div>
+  </div>
+  <div class="wb-main">
+    <div class="wb-icon" id="wbIcon">⏳</div>
+    <div>
+      <div class="wb-temp" id="wbTemp">—°</div>
+      <div class="wb-desc" id="wbDesc">天气加载中</div>
+      <div class="wb-feel" id="wbFeel">体感 —°</div>
+    </div>
+  </div>
+  <div class="wb-metrics">
+    <div class="wb-metric"><b id="wbHi">—</b>最高</div>
+    <div class="wb-metric"><b id="wbLo">—</b>最低</div>
+    <div class="wb-metric"><b id="wbHum">—</b>湿度%</div>
+    <div class="wb-metric"><b id="wbWind">—</b>风速</div>
+    <div class="wb-metric"><b id="wbRain">—</b>降水mm</div>
+  </div>
+  <div class="wb-train" id="wbTrain">上海 · 训练建议加载中…</div>
+</div>
 
 <!-- ===== Dashboard ===== -->
 <div class="section-title">总览 Overview</div>
@@ -374,6 +479,30 @@ a{color:var(--accent);text-decoration:none}
     </tbody>
   </table>
 </div>
+
+<!-- ===== 2026 Marathon Races ===== -->
+<div class="section-title">2026 马拉松赛事 Calendar</div>
+<div class="races-stat" id="racesStat"></div>
+<div style="font-size:11px;color:var(--text3);margin-top:8px">数据来源：中国田协 · nowrun.cn · 492 场赛事 · 点击卡片查看详情与报名费</div>
+
+<div class="section-title" style="margin-top:20px;font-size:12px">近期开赛 ⏰（未来30天）</div>
+<div class="races-soon" id="racesSoon"></div>
+
+<div class="races-toolbar">
+  <input id="racesSearch" placeholder="🔍 搜索赛事名 / 城市 / 省份">
+  <select id="filterProv"><option value="">全部省份</option></select>
+  <select id="filterEvent"><option value="">全部项目</option><option value="全程">全程</option><option value="半程">半程</option></select>
+  <select id="filterStatus"><option value="">全部状态</option><option value="open">报名中</option><option value="upcoming">即将开赛</option><option value="ended">已结束</option><option value="closed">报名截止</option><option value="cancelled">已取消</option></select>
+  <select id="filterMonth"><option value="">全部月份</option><option value="01">1月</option><option value="02">2月</option><option value="03">3月</option><option value="04">4月</option><option value="05">5月</option><option value="06">6月</option><option value="07">7月</option><option value="08">8月</option><option value="09">9月</option><option value="10">10月</option><option value="11">11月</option><option value="12">12月</option></select>
+  <select id="filterSort"><option value="date_asc">日期升序</option><option value="date_desc">日期降序</option><option value="reg_end">报名截止升序</option></select>
+  <div class="races-view">
+    <button id="racesViewAll" class="on">全部赛事</button>
+    <button id="racesViewFav">★ 我的收藏</button>
+  </div>
+</div>
+<div class="races-count" id="racesCount"></div>
+<div class="races-list" id="racesList"></div>
+<button class="races-more" id="racesMore" style="display:none">加载更多</button>
 
 <div class="footer">
   小老虎训练中心 · 数据来源：Garmin + 手动记录 · Daniels/Hansons 框架<br>
@@ -770,6 +899,45 @@ function showModal(date,data){
 }
 function closeModal(){document.getElementById('searchModal').classList.remove('show');}
 
+// ===== Weather (Open-Meteo, 上海) =====
+(function(){
+  const WMO={0:'晴',1:'少云',2:'多云',3:'阴',45:'雾',48:'雾凇',51:'毛毛雨',53:'毛毛雨',55:'毛毛雨',56:'冻毛雨',57:'冻毛雨',61:'小雨',63:'中雨',65:'大雨',66:'冻雨',67:'冻雨',71:'小雪',73:'中雪',75:'大雪',77:'霰',80:'阵雨',81:'阵雨',82:'强阵雨',85:'阵雪',86:'阵雪',95:'雷雨',96:'雷雨冰雹',99:'雷雨冰雹'};
+  const ICON={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌦️',56:'🌧️',57:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',66:'🌧️',67:'🌧️',71:'🌨️',73:'🌨️',75:'❄️',77:'🌨️',80:'🌦️',81:'🌦️',82:'⛈️',85:'🌨️',86:'🌨️',95:'⛈️',96:'⛈️',99:'⛈️'};
+  const WEEK=['周日','周一','周二','周三','周四','周五','周六'];
+  const LAT=31.23,LON=121.47,CITY='上海';
+  const now=new Date();
+  document.getElementById('wbDate').textContent=(now.getMonth()+1)+'月'+now.getDate()+'日';
+  document.getElementById('wbWeek').textContent=WEEK[now.getDay()];
+  const url=`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=Asia%2FShanghai&forecast_days=1`;
+  fetch(url).then(r=>r.json()).then(d=>{
+    const c=d.current,dy=d.daily,code=c.weather_code;
+    document.getElementById('wbIcon').textContent=ICON[code]||'🌡️';
+    document.getElementById('wbTemp').textContent=Math.round(c.temperature_2m)+'°';
+    document.getElementById('wbDesc').textContent=WMO[code]||'—';
+    document.getElementById('wbFeel').textContent='体感 '+Math.round(c.apparent_temperature)+'°';
+    document.getElementById('wbHi').textContent=Math.round(dy.temperature_2m_max[0])+'°';
+    document.getElementById('wbLo').textContent=Math.round(dy.temperature_2m_min[0])+'°';
+    document.getElementById('wbHum').textContent=c.relative_humidity_2m;
+    document.getElementById('wbWind').textContent=Math.round(c.wind_speed_10m);
+    document.getElementById('wbRain').textContent=(c.precipitation||0).toFixed(1);
+    const t=c.temperature_2m,hi=dy.temperature_2m_max[0],rain=c.precipitation||0;
+    let msg='',cls='';
+    if(code>=95){msg='⛈️ 雷雨天气，建议室内训练或择期';cls='warn';}
+    else if(rain>5){msg='🌧️ 降水较大，注意路滑与能见度';cls='warn';}
+    else if(hi>=33){msg='🔥 高温预警 '+Math.round(hi)+'°，避开正午，控强度多补水';cls='warn';}
+    else if(hi>=29){msg='🥵 较热，建议晨/夜跑，注意补水与心率上漂';cls='warn';}
+    else if(t<=2){msg='❄️ 低温，充分热身，注意防寒';cls='ok';}
+    else{msg='✅ 气温适宜，适合按计划训练';cls='ok';}
+    const tb=document.getElementById('wbTrain');
+    tb.textContent=CITY+' · '+msg;
+    tb.className='wb-train '+cls;
+  }).catch(()=>{
+    document.getElementById('wbDesc').textContent='天气获取失败';
+    document.getElementById('wbTrain').textContent='天气服务暂时不可用，请稍后刷新';
+  });
+})();
 </script>
+<script src="races_data.js?v=20260719a"></script>
+<script src="races.js?v=20260719a"></script>
 </body>
 </html>
