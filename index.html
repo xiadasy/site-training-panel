@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小老虎训练中心 · Training Panel</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="merged_data.js?v=20260719-1205"></script>
+<style>
+:root{
+  --bg:#0a0a0a; --bg2:#141414; --card:#1a1a1a; --card2:#222;
+  --border:#2a2a2a; --border2:#333;
+  --accent:#ff5b3a; --accent2:#ff8c42; --accent-dim:rgba(255,91,58,.15);
+  --text:#e8e8e8; --text2:#999; --text3:#666;
+  --green:#4ade80; --yellow:#fbbf24; --red:#ef4444; --blue:#60a5fa;
+  --radius:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
+
+/* ===== Header ===== */
+.header{position:sticky;top:0;z-index:100;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.header h1{font-size:18px;font-weight:700;letter-spacing:.5px}
+.header h1 span{color:var(--accent)}
+.header .sub{font-size:12px;color:var(--text3);margin-top:2px}
+.header-right{display:flex;gap:10px;align-items:center}
+.badge{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(255,91,58,.3);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+/* ===== Header Search ===== */
+.search-box{display:flex;gap:8px;align-items:center}
+.search-input{background:var(--card2);border:1px solid var(--border2);color:var(--text);padding:7px 12px;border-radius:8px;font-size:12px;width:160px;outline:none;transition:.2s}
+.search-input:focus{border-color:var(--accent);width:200px}
+.search-input::placeholder{color:var(--text3)}
+.search-btn{background:var(--accent);color:#fff;border:none;padding:7px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:.2s}
+.search-btn:hover{background:var(--accent2)}
+.live-dot{width:8px;height:8px;background:var(--green);border-radius:50%;box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ===== Search Modal ===== */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.show{display:flex}
+.modal{background:var(--card);border:1px solid var(--border2);border-radius:16px;max-width:720px;width:100%;max-height:88vh;overflow-y:auto}
+.lap-table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px}
+.lap-table{width:100%;border-collapse:collapse;min-width:560px}
+.lap-table th,.lap-table td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:right;font-size:11px;white-space:nowrap}
+.lap-table th{color:var(--text3);font-weight:600;background:var(--bg2);position:sticky;top:0}
+.lap-table th:first-child,.lap-table td:first-child{text-align:left}
+.lap-table tr:last-child td{border-bottom:none}
+.weight-table{width:100%;border-collapse:collapse;margin-top:12px}
+.weight-table th,.weight-table td{padding:9px 10px;border-bottom:1px solid var(--border);font-size:12px;text-align:left}
+.weight-table th{color:var(--text3);font-weight:600}
+.weight-table td:nth-child(2){color:var(--accent);font-weight:700}
+.detail-hint{font-size:10px;color:var(--text3);margin-top:5px}
+.modal-header{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.modal-header h3{font-size:16px;font-weight:700}
+.modal-header h3 .date{color:var(--accent)}
+.modal-close{background:none;border:none;color:var(--text3);font-size:22px;cursor:pointer;padding:0 4px}
+.modal-close:hover{color:var(--accent)}
+.modal-body{padding:20px}
+.modal-sec{margin-bottom:18px}
+.modal-sec-title{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:700}
+.modal-sec-content{font-size:13px;color:var(--text);line-height:1.7}
+.modal-data-row{display:flex;gap:16px;flex-wrap:wrap}
+.modal-data-item{background:var(--card2);border:1px solid var(--border2);border-radius:8px;padding:8px 12px;text-align:center;min-width:70px}
+.modal-data-item .dl{font-size:9px;color:var(--text3);text-transform:uppercase}
+.modal-data-item .dv{font-size:16px;font-weight:700;margin-top:2px}
+.modal-data-item .dv.accent{color:var(--accent)}
+.modal-data-item .dv.red{color:var(--red)}
+.modal-feel{background:var(--bg2);border-left:3px solid var(--accent2);border-radius:0 8px 8px 0;padding:12px 14px;font-size:13px;line-height:1.7;color:var(--text2)}
+.modal-empty{text-align:center;padding:40px 20px;color:var(--text3);font-size:14px}
+
+/* ===== Layout ===== */
+.container{max-width:1200px;margin:0 auto;padding:16px 20px 60px}
+.section-title{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1.5px;margin:28px 0 12px;display:flex;align-items:center;gap:8px}
+.section-title::before{content:"";width:3px;height:16px;background:var(--accent);border-radius:2px}
+
+/* ===== Dashboard Cards ===== */
+.dash-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:16px}
+.dash-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px 12px;text-align:center;transition:border-color .2s}
+.dash-card:hover{border-color:var(--accent)}
+.dash-card .label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px}
+.dash-card .value{font-size:22px;font-weight:700;margin:4px 0 2px}
+.dash-card .unit{font-size:11px;color:var(--text2)}
+.dash-card .sub{font-size:10px;color:var(--text3);margin-top:2px}
+.dash-card .value.accent{color:var(--accent)}
+.dash-card .value.green{color:var(--green)}
+
+/* ===== Quote Section ===== */
+.quote-section{background:linear-gradient(135deg,#1a1a1a 0%,#1e1a17 100%);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:16px}
+.quote-tabs{display:flex;gap:0;overflow-x:auto;border-bottom:1px solid var(--border);scrollbar-width:none}
+.quote-tabs::-webkit-scrollbar{display:none}
+.quote-tab{padding:10px 16px;font-size:12px;color:var(--text2);white-space:nowrap;cursor:pointer;border-bottom:2px solid transparent;transition:.2s}
+.quote-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.quote-tab:hover{color:var(--text)}
+.quote-body{padding:28px 24px;min-height:160px;display:flex;flex-direction:column;justify-content:center}
+.quote-text{font-size:18px;line-height:1.8;font-weight:500;letter-spacing:.3px}
+.quote-text::before{content:"\201C";font-size:40px;color:var(--accent);opacity:.3;line-height:0;vertical-align:-12px;margin-right:4px}
+.quote-author{margin-top:14px;font-size:13px;color:var(--text2)}
+.quote-author span{color:var(--accent)}
+.quote-nav{display:flex;justify-content:space-between;align-items:center;padding:0 24px 16px}
+.quote-nav button{background:var(--card2);border:1px solid var(--border2);color:var(--text2);padding:5px 14px;border-radius:8px;font-size:12px;cursor:pointer;transition:.2s}
+.quote-nav button:hover{border-color:var(--accent);color:var(--accent)}
+.quote-counter{font-size:11px;color:var(--text3)}
+
+/* ===== Two Column ===== */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+
+/* ===== Activity Timeline ===== */
+.act-list{display:flex;flex-direction:column;gap:8px}
+.act-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:12px;transition:.2s}
+.act-card:hover{border-color:var(--border2);transform:translateX(2px)}
+.act-card.alert{border-left:3px solid var(--red)}
+.act-card.warn{border-left:3px solid var(--yellow)}
+.act-card.ok{border-left:3px solid var(--green)}
+.act-date{text-align:center;min-width:44px}
+.act-date .d{font-size:18px;font-weight:700}
+.act-date .m{font-size:10px;color:var(--text3)}
+.act-info{flex:1}
+.act-info .title{font-size:13px;font-weight:600}
+.act-info .meta{font-size:11px;color:var(--text2);margin-top:2px}
+.act-info .meta span{margin-right:10px}
+.act-info .meta .hr{color:var(--red)}
+.act-info .meta .pace{color:var(--accent)}
+.act-stats{text-align:right;white-space:nowrap}
+.act-stats .dist{font-size:15px;font-weight:700}
+.act-stats .load{font-size:10px;color:var(--text3)}
+.tag{display:inline-block;font-size:9px;padding:1px 6px;border-radius:4px;margin-left:4px;font-weight:600}
+.tag.t{background:rgba(239,68,68,.15);color:var(--red)}
+.tag.e{background:rgba(96,165,250,.15);color:var(--blue)}
+.tag.r{background:rgba(74,222,128,.15);color:var(--green)}
+.tag.l{background:rgba(251,191,36,.15);color:var(--yellow)}
+
+/* ===== Recent Three Flip Cards ===== */
+.flip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.flip-card{height:235px;perspective:1000px;cursor:pointer}
+.flip-inner{position:relative;width:100%;height:100%}
+.flip-face{position:absolute;inset:0;border-radius:12px;border:1px solid var(--border);padding:16px;overflow:hidden;background:var(--card);transition:transform .65s cubic-bezier(.2,.7,.2,1),opacity .25s ease;transform-style:preserve-3d}
+.flip-front{z-index:2;background:linear-gradient(145deg,#1d1d1d,#151515);transform:rotateY(0deg);opacity:1}
+.flip-back{z-index:1;background:linear-gradient(145deg,#211b18,#181818);transform:rotateY(-180deg);opacity:0}
+.flip-card.flipped .flip-front{z-index:1;transform:rotateY(180deg);opacity:0}
+.flip-card.flipped .flip-back{z-index:2;transform:rotateY(0deg);opacity:1}
+.flip-date{font-size:11px;color:var(--text3);letter-spacing:1px}
+.flip-title{font-size:14px;font-weight:700;line-height:1.35;margin:7px 0;min-height:38px;overflow:hidden}
+.flip-route{font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:10px}
+.flip-dist{font-size:30px;font-weight:800;color:var(--accent);line-height:1.1}
+.flip-dist span{font-size:12px;color:var(--text2);font-weight:400}
+.flip-metrics{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:13px}
+.flip-metric{background:rgba(255,255,255,.035);border-radius:7px;padding:6px 7px}.flip-metric b{display:block;font-size:14px}.flip-metric small{font-size:9px;color:var(--text3)}
+.flip-hint{position:absolute;bottom:11px;right:13px;font-size:10px;color:var(--text3)}
+.flip-back-title{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px}.flip-back-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.flip-back-item{font-size:11px;color:var(--text2)}.flip-back-item b{display:block;color:var(--text);font-size:14px;margin-top:1px}.flip-shoe{font-size:11px;color:var(--accent2);margin-top:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.flip-detail-btn{position:absolute;bottom:12px;left:13px;border:1px solid rgba(255,91,58,.45);border-radius:7px;padding:5px 8px;color:var(--accent);font-size:10px;background:transparent;cursor:pointer}
+
+/* ===== Chart Cards ===== */
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.chart-card .ctitle{font-size:13px;font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.chart-card .ctitle .badge-sm{font-size:10px;color:var(--text3);font-weight:400}
+.chart-wrap{position:relative;height:200px}
+
+/* ===== Shoe Cabinet ===== */
+.shoe-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.shoe-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center}
+.shoe-img{width:100%;height:90px;background:var(--bg2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:36px;margin-bottom:10px;background-size:cover;background-position:center}
+.shoe-name{font-size:13px;font-weight:600}
+.shoe-km{font-size:11px;color:var(--text2);margin-top:4px}
+.shoe-bar{height:5px;background:var(--bg2);border-radius:3px;margin-top:8px;overflow:hidden}
+.shoe-bar-fill{height:100%;border-radius:3px}
+.shoe-runs{font-size:10px;color:var(--text3);margin-top:4px}
+
+/* ===== Race Table ===== */
+.race-table{width:100%;border-collapse:collapse;margin-top:8px}
+.race-table th{text-align:left;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;padding:8px 10px;border-bottom:1px solid var(--border)}
+.race-table td{padding:10px;font-size:13px;border-bottom:1px solid var(--border)}
+.race-table tr:hover{background:var(--card2)}
+.race-table .pb{color:var(--accent);font-weight:700}
+.race-table .goal{color:var(--yellow)}
+
+/* ===== Week Plan ===== */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
+.week-day{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 6px;text-align:center;font-size:11px}
+.week-day .wd{color:var(--text3);font-size:10px}
+.week-day .wk{font-size:12px;font-weight:600;margin:4px 0}
+.week-day .dist{font-size:14px;font-weight:700;color:var(--accent)}
+.week-day .type{font-size:9px;color:var(--text2);margin-top:2px}
+.week-day.rest{opacity:.5}
+.week-day.done .dist{color:var(--green)}
+.week-day .actual{font-size:9px;color:var(--text3);margin-top:2px}
+
+/* ===== Vitals ===== */
+.vitals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.vital-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
+.vital-card .vlabel{font-size:10px;color:var(--text3);text-transform:uppercase}
+.vital-card .vvalue{font-size:20px;font-weight:700;margin:4px 0}
+.vital-card .vsub{font-size:10px;color:var(--text2)}
+.vital-card .trend{font-size:10px;margin-top:4px}
+.vital-card .trend.up{color:var(--green)}
+.vital-card .trend.down{color:var(--red)}
+
+/* ===== Footer ===== */
+.footer{text-align:center;padding:30px 20px;color:var(--text3);font-size:11px;border-top:1px solid var(--border);margin-top:40px}
+
+/* ===== Responsive ===== */
+@media(max-width:768px){
+  .header{flex-wrap:wrap;gap:10px;padding:10px 14px}
+  .header>div:first-child{flex:0 0 auto}
+  .header-right{flex-direction:row;flex-wrap:wrap;justify-content:flex-end;gap:6px;width:100%}
+  .search-input{width:120px}
+  .search-input:focus{width:140px}
+  .dash-grid{grid-template-columns:repeat(3,1fr)}
+  .two-col{grid-template-columns:1fr;min-width:0}
+  .two-col>*{min-width:0}
+  .chart-card{min-width:0;overflow:hidden}
+  .chart-wrap,.chart-wrap canvas{max-width:100%!important}
+  .act-card{width:100%;min-width:0;overflow:hidden}
+  .act-info{min-width:0;overflow:hidden}
+  .act-info .title{white-space:normal;overflow-wrap:anywhere}
+  .act-info .meta{display:flex;flex-wrap:wrap;gap:2px 0}
+  .act-stats{flex:0 0 auto}
+  .flip-grid{grid-template-columns:repeat(3,1fr);gap:7px}.flip-card{height:260px}.flip-face{padding:10px}.flip-title{font-size:12px;min-height:34px}.flip-route{font-size:10px}.flip-dist{font-size:24px}.flip-metrics{gap:4px;margin-top:10px}.flip-metric{padding:5px}.flip-metric b{font-size:12px}.flip-back-grid{gap:5px}.flip-back-item{font-size:10px}.flip-back-item b{font-size:12px}.flip-shoe{font-size:10px}
+  .shoe-grid{grid-template-columns:repeat(2,1fr)}
+  .week-grid{grid-template-columns:repeat(7,1fr);gap:3px}
+  .week-day{padding:6px 2px;font-size:10px}
+  .quote-text{font-size:15px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<div class="header">
+  <div>
+    <h1>🏃 <span>小老虎</span> 训练中心</h1>
+    <div class="sub">Daniels + Hansons · 上海 · 目标 2:31:00</div>
+  </div>
+  <div class="header-right">
+    <div class="search-box">
+      <input class="search-input" id="searchInput" placeholder="查任意日期 如 2026-02-20" onkeydown="if(event.key==='Enter')doSearch()">
+      <button class="search-btn" onclick="doSearch()">🔍 查</button>
+    </div>
+    <span class="live-dot"></span>
+    <span class="badge">线上版</span>
+  </div>
+</div>
+
+<!-- Search Modal -->
+<div class="modal-overlay" id="searchModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>📅 <span class="date" id="modalDate"></span></h3>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ===== Dashboard ===== -->
+<div class="section-title">总览 Overview</div>
+<div class="dash-grid">
+  <div class="dash-card">
+    <div class="label">累计里程</div>
+    <div class="value accent" id="careerKm">44,932.08</div>
+    <div class="unit">km · 悦跑圈</div>
+    <div class="sub" id="careerSub">5,113次 · 3,686.1小时</div>
+  </div>
+  <div class="dash-card">
+    <div class="label">本周</div>
+    <div class="value" id="weekKm">82.3</div>
+    <div class="unit" id="weekSub">km · 5次</div>
+  </div>
+  <div class="dash-card">
+    <div class="label">全马PB</div>
+    <div class="value accent" id="pbValue">2:38:07</div>
+    <div class="unit" id="pbSub">2019北京马拉松</div>
+  </div>
+  <div class="dash-card">
+    <div class="label">目标</div>
+    <div class="value green">2:31:00</div>
+    <div class="unit">3:34/km · 一级</div>
+  </div>
+  <div class="dash-card">
+    <div class="label">VDOT</div>
+    <div class="value" id="vdotValue">64</div>
+    <div class="unit">Garmin VO₂ Max</div>
+  </div>
+  <div class="dash-card">
+    <div class="label">体重</div>
+    <div class="value" id="weightValue">53.4</div>
+    <div class="unit" id="weightSub">kg · 7/19</div>
+  </div>
+</div>
+
+<!-- ===== Quote of the Day ===== -->
+<div class="section-title">日赏一语 Quote of the Day</div>
+<div class="quote-section">
+  <div class="quote-body">
+    <div class="quote-text" id="quoteText"></div>
+    <div class="quote-author" id="quoteAuthor"></div>
+  </div>
+  <div class="quote-nav">
+    <button onclick="prevQuote()">‹ 再看上一句</button>
+    <span class="quote-counter" id="quoteCounter"></span>
+    <button onclick="nextQuote()">换一句 ›</button>
+  </div>
+</div>
+
+<!-- ===== Recent Three Flip Cards ===== -->
+<div class="section-title">最近三天 · 点卡翻面</div>
+<div class="flip-grid" id="flipGrid"></div>
+
+<!-- ===== Recent Activities + Heart Rate ===== -->
+<div class="section-title">最近 10 天训练</div>
+<div class="two-col">
+  <div>
+    <div class="act-list" id="actList"></div>
+  </div>
+  <div>
+    <div class="chart-card">
+      <div class="ctitle">最近跑步均心分布 <span class="badge-sm">真实活动统计</span></div>
+      <div class="chart-wrap"><canvas id="hrChart"></canvas></div>
+    </div>
+    <div class="chart-card" style="margin-top:12px">
+      <div class="ctitle">训练负荷趋势 <span class="badge-sm">7日滚动</span></div>
+      <div class="chart-wrap"><canvas id="loadChart"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Vitals ===== -->
+<div class="section-title">身体指标 Vitals</div>
+<div class="vital-card">
+  <div class="vlabel">Garmin VO₂ Max</div>
+  <div class="vvalue" style="color:var(--accent)" id="vitalVo2">63</div>
+  <div class="vsub" id="vitalVo2Sub">更新至 2026-07-19</div>
+</div>
+
+<div class="chart-card" style="margin-top:12px">
+  <div class="ctitle">体重趋势 <span class="badge-sm">真实手工记录</span></div>
+  <div class="chart-wrap" style="height:180px"><canvas id="weightChart"></canvas></div>
+  <table class="weight-table">
+    <thead><tr><th>日期</th><th>体重</th><th>称重条件</th></tr></thead>
+    <tbody id="weightTableBody"></tbody>
+  </table>
+</div>
+
+<!-- ===== Shoe Cabinet ===== -->
+<div class="section-title">鞋柜 Shoe Cabinet</div>
+<div class="shoe-grid" id="shoeGrid"></div>
+
+<!-- ===== Week Plan ===== -->
+<div class="section-title">本周计划 vs 实际</div>
+<div class="chart-card">
+  <div class="week-grid" id="weekGrid"></div>
+  <div style="margin-top:12px;font-size:12px;color:var(--text2);display:flex;justify-content:space-between">
+    <span>计划随身体状态动态调整</span>
+    <span id="weekActualText">实际：72.28 km</span>
+    <span style="color:var(--green)">6次跑步</span>
+  </div>
+</div>
+
+<!-- ===== Race Results ===== -->
+<div class="section-title">比赛成绩 Race Results</div>
+<div class="chart-card">
+  <table class="race-table">
+    <thead>
+      <tr><th>日期</th><th>赛事</th><th>项目</th><th>成绩</th><th>配速</th><th>备注</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>2019-11-03</td><td>北京马拉松</td><td>全马</td><td class="pb">2:38:07</td><td>3:45</td><td>🏆 职业生涯PB</td></tr>
+      <tr><td>2026-03-22</td><td>无锡马拉松</td><td>全马</td><td>2:42:17</td><td>3:51</td><td>当前周期基准赛</td></tr>
+      <tr><td>2026-01-25</td><td>待补赛事名</td><td>全马</td><td>2:47:43</td><td>3:59</td><td></td></tr>
+      <tr><td>2026-04-04</td><td>待补赛事名</td><td>半马</td><td class="pb">1:17:53</td><td>3:42</td><td>近期半马最好</td></tr>
+      <tr><td>2026-03-15</td><td>待补赛事名</td><td>半马</td><td>1:17:55</td><td>3:42</td><td></td></tr>
+      <tr><td>2026-09</td><td>目标赛季</td><td>全马</td><td class="goal">2:31:00</td><td>3:34</td><td>🏆 国家一级</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  小老虎训练中心 · 数据来源：Garmin + 手动记录 · Daniels/Hansons 框架<br>
+  线上版 — 框架确认后填入真实数据
+</div>
+
+</div>
+
+<script>
+// ===== Real merged data summary =====
+if(window.MERGED_DATA){
+  const D=window.MERGED_DATA, S=D.summary, C=D.career;
+  document.getElementById('careerKm').textContent=C.distance_km.toLocaleString('zh-CN',{minimumFractionDigits:2});
+  document.getElementById('careerSub').textContent=`${C.runs.toLocaleString()}次 · ${C.hours.toLocaleString()}小时`;
+  document.getElementById('pbValue').textContent=S.pb;
+  document.getElementById('pbSub').textContent=S.pb_race;
+  document.getElementById('weekKm').textContent=S.week_km.toFixed(2);
+  document.getElementById('weekSub').textContent=`km · ${S.week_runs}次`;
+  document.getElementById('vdotValue').textContent=S.vo2max||'—';
+  const w=S.latest_weight?S.latest_weight.value:'—';
+  document.getElementById('weightValue').textContent=w;
+  document.getElementById('weightSub').textContent=`kg · ${S.latest_date.slice(5).replace('-','/')}`;
+  document.getElementById('vitalVo2').textContent=S.vo2max||'—';
+  document.getElementById('vitalVo2Sub').textContent=`更新至 ${S.latest_date}`;
+}
+if(window.MERGED_DATA){
+  document.getElementById('weightTableBody').innerHTML=window.MERGED_DATA.weights.slice(-7).reverse().map(w=>`<tr><td>${w.date}</td><td>${w.value.toFixed(2)} kg</td><td>${formatWeightSource(w.source)}</td></tr>`).join('');
+}
+function formatWeightSource(s){
+  const m={manual_chat:'聊天记录',manual_chat_postrun:'跑后',manual_chat_postrun_hot_humid:'跑后·高温高湿',manual_chat_postrun_palpitations_high_hr_early_stop:'跑后·心率异常提前停',manual_chat_postrun_unplanned_16km:'跑后·非计划16km',manual_chat_postrun_heavy_rain:'跑后·暴雨',manual_chat_postrun_hot_humid_early_stop:'跑后·湿热提前停'};
+  return m[s]||String(s||'—').replaceAll('_',' ');
+}
+
+const quotes = [
+  // 村上春树
+  {text:"痛楚难以避免，而磨难可以选择。",author:"村上春树",book:"《当我谈跑步时我谈些什么》"},
+  {text:"但凡值得一做的事情，哪有轻松的。",author:"村上春树",book:"《当我谈跑步时我谈些什么》"},
+  {text:"我跑步时什么都不想，只想着跑步这件事本身。",author:"村上春树",book:"《当我谈跑步时我谈些什么》"},
+  {text:"身体以剧烈的痛苦告诉我，你不过是一个有限的肉身。但精神能越过这道墙。",author:"村上春树",book:"《当我谈跑步时我谈些什么》"},
+  // 跑步圣经
+  {text:"跑步是一种发现自我的方式。每一步都是与自己的对话。",author:"George Sheehan",book:"《跑步圣经》"},
+  {text:"我跑步不是为了赢得比赛，而是为了赢得我自己。",author:"George Sheehan",book:"《跑步圣经》"},
+  // 丹尼尔斯
+  {text:"每次训练都应该有一个明确的目的。不要只是去跑，要知道你为什么跑。",author:"Jack Daniels",book:"《丹尼尔斯经典跑步训练法》"},
+  {text:"T配速是舒适的艰苦——你能跑，但不轻松；坚持得住，但不该多跑一步。",author:"Jack Daniels",book:"《丹尼尔斯经典跑步训练法》"},
+  // 汉森
+  {text:"累计疲劳是汉森法的核心：不是在完全恢复的状态下跑长距离，而是带着疲劳去跑。",author:"Hanson Brothers",book:"《汉森马拉松训练法》"},
+  {text:"轻松跑不是垃圾跑量，它是你周跑量的基石，是你能承受强度课的前提。",author:"Hanson Brothers",book:"《汉森马拉松训练法》"},
+  // 天生就会跑
+  {text:"跑步不是对抗，而是回归。我们天生就会跑，只是忘了怎么跑。",author:"Christopher McDougall",book:"《天生就会跑》"},
+  // 雨中的3:58
+  {text:"3小时58分。在那场雨里，我跑完了自己以为是人生最后一程的距离。后来我才明白，那是一切的起点。",author:"佚名",book:"《雨中的3:58》"},
+  {text:"雨打在脸上的时候，世界安静了。你不再为了配速跑，不再为了名次跑，你跑，只是因为你的脚还在往前迈。",author:"佚名",book:"《雨中的3:58》"},
+  // 跑者格言
+  {text:"马拉松不是从起跑线开始的，是从你决定报名那一刻开始的。",author:"佚名",book:"跑者格言"},
+  {text:"你不需要跑得快，你只需要不停跑。",author:"佚名",book:"跑者格言"},
+];
+// 按今天日期轮换，每天翻开就是对应那一条
+function dayIndex(){const e=new Date();return Math.floor(e.getTime()/86400000);}
+let currentQuoteIdx = dayIndex() % quotes.length;
+let globalIdx=0;
+function renderQuote(){
+  const q=quotes[currentQuoteIdx];
+  document.getElementById('quoteText').textContent=q.text;
+  document.getElementById('quoteAuthor').innerHTML=`— <span>${q.author}</span> · ${q.book}`;
+  document.getElementById('quoteCounter').textContent=`${currentQuoteIdx+1} / ${quotes.length}`;
+}
+function nextQuote(){currentQuoteIdx=(currentQuoteIdx+1)%quotes.length;renderQuote();}
+function prevQuote(){currentQuoteIdx=(currentQuoteIdx-1+quotes.length)%quotes.length;renderQuote();}
+renderQuote();
+
+// ===== Recent Activities (mock data) =====
+let activities=[
+  {date:"07/19",day:19,month:"7月",title:"长距离24km",dist:"24.0",pace:"4'54",hr:143,maxhr:158,load:188,te:"4.1",type:"L",tags:["长距离"],status:"ok",note:"高温高湿，24km主动停止"},
+  {date:"07/18",day:18,month:"7月",title:"培训日休息",dist:"0",pace:"—",hr:0,maxhr:0,load:0,te:"—",type:"",tags:["休息"],status:"rest",note:""},
+  {date:"07/17",day:17,month:"7月",title:"恢复跑8km",dist:"8.0",pace:"5'14",hr:135,maxhr:146,load:69,te:"2.8",type:"E",tags:["恢复"],status:"ok",note:"心率恢复，跑得开心"},
+  {date:"07/15",day:15,month:"7月",title:"超计划16km",dist:"16.4",pace:"4'44",hr:146,maxhr:158,load:171,te:"3.8",type:"E",tags:["轻松"],status:"warn",note:"异常后超计划高负荷"},
+  {date:"07/14",day:14,month:"7月",title:"异常高心率提前停",dist:"7.5",pace:"5'15",hr:159,maxhr:171,load:159,te:"3.4",type:"E",tags:["恢复"],status:"alert",note:"晨起心悸，主动结束正确"},
+  {date:"07/13",day:13,month:"7月",title:"恢复重启8km",dist:"8.3",pace:"5'08",hr:138,maxhr:150,load:83,te:"3.0",type:"E",tags:["恢复"],status:"ok",note:"休息后重启"},
+  {date:"07/11",day:11,month:"7月",title:"湿热12km提前停",dist:"12.0",pace:"5'11",hr:138,maxhr:151,load:104,te:"3.2",type:"E",tags:["轻松"],status:"warn",note:"湿热提前停，不补长距离"},
+  {date:"07/10",day:10,month:"7月",title:"LSD前恢复8km",dist:"8.2",pace:"5'06",hr:136,maxhr:151,load:77,te:"2.9",type:"E",tags:["恢复"],status:"ok",note:"偏快偏硬"},
+  {date:"07/09",day:9,month:"7月",title:"T维护3×2km",dist:"13.5",pace:"4'39",hr:143,maxhr:178,load:192,te:"3.7",type:"T",tags:["T课","雷雨"],status:"warn",note:"负荷偏高，不加码"},
+  {date:"07/08",day:8,month:"7月",title:"中长E16km",dist:"16.0",pace:"4'58",hr:139,maxhr:150,load:119,te:"3.3",type:"E",tags:["中长E"],status:"ok",note:"后半程偏上沿"},
+];
+
+if(window.MERGED_DATA){
+  activities=window.MERGED_DATA.recent.map(r=>({
+    date:r.date.slice(5).replace('-','/'),day:Number(r.date.slice(8)),month:Number(r.date.slice(5,7))+'月',
+    title:r.title,dist:r.distance.toFixed(2),pace:r.pace,hr:r.avg_hr||0,maxhr:r.max_hr||0,
+    load:r.load?Math.round(r.load):0,te:r.te?Number(r.te).toFixed(1):'—',type:r.kind,tags:[],status:'ok',
+    fullDate:r.date,activityId:r.activity_id,shoe:(window.MERGED_DATA.days[r.date]||{}).shoe||''
+  }));
+}
+
+function typeTag(t){const m={T:'t',E:'e',R:'r',L:'l'};return m[t]||'';}
+
+function toggleFlip(card){
+  const on=!card.classList.contains('flipped');
+  const front=card.querySelector('.flip-front'),back=card.querySelector('.flip-back');
+  card.animate([{transform:'rotateY(0deg) scale(1)'},{transform:'rotateY(90deg) scale(.96)'},{transform:'rotateY(0deg) scale(1)'}],{duration:520,easing:'ease-in-out'});
+  if(on){
+    front.hidden=true; back.hidden=false;
+    front.style.display='none'; back.style.display='block'; back.style.transform='none'; back.style.opacity='1'; back.style.zIndex='3';
+  }else{
+    back.hidden=true; front.hidden=false;
+    back.style.display='none'; front.style.display='block'; front.style.transform='none'; front.style.opacity='1'; front.style.zIndex='3';
+  }
+  card.classList.toggle('flipped',on);
+}
+function renderFlipCards(){
+  if(!window.MERGED_DATA)return;
+  const three=window.MERGED_DATA.runs.slice(-3).reverse();
+  document.getElementById('flipGrid').innerHTML=three.map(r=>{
+    const d=window.MERGED_DATA.days[r.date]||{};
+    const short=r.title.replace(/^.*?-\s*/,'').replace(/ 自动切换/g,'');
+    return `<div class="flip-card" onclick="toggleFlip(this)"><div class="flip-inner">
+      <div class="flip-face flip-front">
+        <div class="flip-date">${r.date} · ${r.kind||'跑步'}</div>
+        <div class="flip-title">${esc(short)}</div>
+        <div class="flip-route">📍 ${esc(r.title.split(' - ')[0]||'上海')}</div>
+        <div class="flip-dist">${r.distance.toFixed(2)} <span>km</span></div>
+        <div class="flip-metrics"><div class="flip-metric"><small>配速</small><b>${r.pace}</b></div><div class="flip-metric"><small>均心</small><b style="color:var(--red)">${r.avg_hr||'—'}</b></div></div>
+        <div class="flip-hint">点一下翻面 ↻</div>
+      </div>
+      <div class="flip-face flip-back">
+        <div class="flip-back-title">训练详情</div>
+        <div class="flip-back-grid">
+          <div class="flip-back-item">时长<b>${r.duration_min.toFixed(1)}m</b></div><div class="flip-back-item">TE<b>${r.te?Number(r.te).toFixed(1):'—'}</b></div>
+          <div class="flip-back-item">负荷<b>${r.load?Math.round(r.load):'—'}</b></div><div class="flip-back-item">功率<b>${r.avg_power?Math.round(r.avg_power)+'W':'—'}</b></div>
+          <div class="flip-back-item">步频<b>${r.cadence?Math.round(r.cadence):'—'}</b></div><div class="flip-back-item">失水<b>${r.water_ml?Math.round(r.water_ml)+'ml':'—'}</b></div>
+        </div>
+        ${d.shoe?`<div class="flip-shoe">👟 ${esc(d.shoe)}</div>`:''}
+        <button class="flip-detail-btn" onclick="event.stopPropagation();openTrainingDetail('${r.date}','${r.activity_id}')">完整记录 ›</button>
+        <div class="flip-hint">再点翻回 ↻</div>
+      </div>
+    </div></div>`;
+  }).join('');
+}
+renderFlipCards();
+const actList=document.getElementById('actList');
+actList.innerHTML=activities.map(a=>{
+  if(a.status==='rest')return `<div class="act-card" style="opacity:.4">
+    <div class="act-date"><div class="d">${a.day}</div><div class="m">${a.month}</div></div>
+    <div class="act-info"><div class="title">${a.title}</div></div>
+    <div class="act-stats"><div class="dist" style="color:var(--text3)">休息</div></div>
+  </div>`;
+  return `<div class="act-card ${a.status}" onclick="openTrainingDetail('${a.fullDate||'2026-'+a.date.replace('/','-')}','${a.activityId||''}')" style="cursor:pointer">
+    <div class="act-date"><div class="d">${a.day}</div><div class="m">${a.month}</div></div>
+    <div class="act-info">
+      <div class="title">${a.title} ${a.type?`<span class="tag ${typeTag(a.type)}">${a.type}</span>`:''}${a.tags.map(t=>`<span class="tag e">${t}</span>`).join('')}</div>
+      <div class="meta">
+        <span class="pace">${a.pace}/km</span>
+        <span class="hr">♥ ${a.hr}${a.maxhr?`~${a.maxhr}`:''}</span>
+        <span>TE ${a.te}</span>
+        <span>负荷 ${a.load}</span>
+      </div>
+      ${a.shoe?`<div style="font-size:10px;color:var(--accent2);margin-top:4px">👟 ${a.shoe}</div>`:''}
+      <div class="detail-hint">点击查看逐公里、当天感受与训练评价 ›</div>
+    </div>
+    <div class="act-stats"><div class="dist">${a.dist}</div><div class="load">km</div></div>
+  </div>`;
+}).join('');
+
+// ===== Heart Rate Zone Chart =====
+new Chart(document.getElementById('hrChart'),{
+  type:'bar',
+  data:{
+    labels:['<120','120-134','135-149','150-164','≥165'],
+    datasets:[{
+      label:'活动次数',
+      data:(window.MERGED_DATA?(()=>{let z=[0,0,0,0,0];window.MERGED_DATA.runs.slice(-30).forEach(r=>{let h=r.avg_hr||0;z[h<120?0:h<135?1:h<150?2:h<165?3:4]++});return z})():[0,0,0,0,0]),
+      backgroundColor:['#60a5fa','#4ade80','#fbbf24','#ff8c42','#ef4444'],
+      borderRadius:6,
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      y:{ticks:{color:'#666',font:{size:10}},grid:{color:'#222'}},
+      x:{ticks:{color:'#999',font:{size:9}},grid:{display:false}}
+    }
+  }
+});
+
+// ===== Training Load Chart =====
+new Chart(document.getElementById('loadChart'),{
+  type:'line',
+  data:{
+    labels:(window.MERGED_DATA?window.MERGED_DATA.runs.slice(-9).map(r=>r.date.slice(5).replace('-','/')):['7/8','7/9','7/10','7/11','7/13','7/14','7/15','7/17','7/19']),
+    datasets:[{
+      label:'训练负荷',
+      data:(window.MERGED_DATA?window.MERGED_DATA.runs.slice(-9).map(r=>r.load||0):[119,192,77,104,83,159,171,69,188]),
+      borderColor:'#ff5b3a',
+      backgroundColor:'rgba(255,91,58,.1)',
+      fill:true,tension:.35,pointRadius:4,pointBackgroundColor:'#ff5b3a',
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false}},
+    scales:{
+      y:{ticks:{color:'#666',font:{size:10}},grid:{color:'#222'}},
+      x:{ticks:{color:'#999',font:{size:10}},grid:{display:false}}
+    }
+  }
+});
+
+// ===== Weight Chart =====
+new Chart(document.getElementById('weightChart'),{
+  type:'line',
+  data:{
+    labels:(window.MERGED_DATA?window.MERGED_DATA.weights.slice(-30).map(r=>r.date.slice(5).replace('-','/')):[]),
+    datasets:[
+      {
+        label:'体重(kg)',
+        data:(window.MERGED_DATA?window.MERGED_DATA.weights.slice(-30).map(r=>r.value):[]),
+        borderColor:'#60a5fa',
+        backgroundColor:'rgba(96,165,250,.08)',
+        fill:true,tension:.3,pointRadius:2,borderWidth:2,yAxisID:'y',
+      }
+    ]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#999',font:{size:10}},position:'top'}},
+    scales:{
+      y:{position:'left',ticks:{color:'#666',font:{size:9}},grid:{color:'#222'},min:51,max:55},
+      x:{ticks:{color:'#666',font:{size:8},maxTicksLimit:8},grid:{display:false}}
+    }
+  }
+});
+
+// ===== Shoe Cabinet =====
+const shoes=(window.MERGED_DATA&&window.MERGED_DATA.shoes.length)?window.MERGED_DATA.shoes.map(s=>({...s,limit:800,emoji:"👟",color:"#ff5b3a",note:"从2026-07-19精确起算"})):[
+  {name:"特步 7.0 Pro",km:24.00817,runs:1,limit:800,emoji:"👟",color:"#ff5b3a",note:"从2026-07-19精确起算"},
+];
+document.getElementById('shoeGrid').innerHTML=shoes.map(s=>{
+  const pct=Math.min(s.km/s.limit*100,100);
+  const barColor=pct>85?'var(--red)':pct>60?'var(--yellow)':'var(--green)';
+  return `<div class="shoe-card">
+    <div class="shoe-img" style="background:linear-gradient(135deg,${s.color}22,${s.color}11);font-size:40px">${s.emoji}</div>
+    <div class="shoe-name">${s.name}</div>
+    ${s.note?`<div style="font-size:10px;color:var(--text3)">${s.note}</div>`:''}
+    <div class="shoe-km">${s.km} / ${s.limit} km</div>
+    <div class="shoe-bar"><div class="shoe-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>
+    <div class="shoe-runs">${s.runs} 次使用 · ${pct.toFixed(0)}% 磨损</div>
+  </div>`;
+}).join('');
+
+// ===== Week Plan =====
+const weekPlan=[
+  {wd:"周一",wk:"7/13",plan:8,actual:8.3,type:"恢复",done:true},
+  {wd:"周二",wk:"7/14",plan:16,actual:7.5,type:"轻松",done:true,note:"异常停"},
+  {wd:"周三",wk:"7/15",plan:0,actual:16.4,type:"休息",done:true,note:"超计划"},
+  {wd:"周四",wk:"7/16",plan:0,actual:0,type:"休息",done:true},
+  {wd:"周五",wk:"7/17",plan:8,actual:8.0,type:"恢复",done:true},
+  {wd:"周六",wk:"7/18",plan:8,actual:8.01,type:"恢复",done:true},
+  {wd:"周日",wk:"7/19",plan:24,actual:24.0,type:"长距离",done:true},
+];
+document.getElementById('weekGrid').innerHTML=weekPlan.map(d=>`
+  <div class="week-day ${d.done?'done':''} ${d.actual===0?'rest':''}">
+    <div class="wd">${d.wd}</div>
+    <div class="wk">${d.wk}</div>
+    <div class="dist">${d.plan}</div>
+    <div class="type">${d.type}</div>
+    ${d.done?`<div class="actual">实际 ${d.actual}${d.note?` ⚠`:''}</div>`:'<div class="actual">待执行</div>'}
+  </div>
+`).join('');
+
+// ===== Day Search Database =====
+// 示例数据：你两个窗口导出后，我把每天的"训练数据+感受+评价"对照入库
+// 搜索任意日期 → 弹出当天详情
+const dayDB = {
+  "2026-07-19":{
+    train:{title:"长距离24km",dist:"24.0",pace:"4'54",hr:143,maxhr:158,te:"4.1",load:188,type:"L",tags:["长距离","高温高湿"]},
+    weight:"53.4",shoe:"特步 7.0 Pro",
+    feel:"太热，跑到24km主动停止，不续26。高温下心率前12km HR139.6，后12km HR147.0，明显上漂。24km停止正确。",
+    coach:"24km停止是正确的判断。高温下心率上漂正常，不续26是基于心率安全决策，不是偷懒。注意补水：估算失水1959ml。",
+  },
+  "2026-07-14":{
+    train:{title:"7.5km异常高心率",dist:"7.5",pace:"5'15",hr:159,maxhr:171,te:"3.4",load:159,type:"E",tags:["恢复","晨起心悸"]},
+    weight:"52.4",
+    feel:"主观睡眠差，虽手表7小时但翻来覆去半夜玩手机。晨起有心口心悸感。前一晚只吃4个肉包。跑到第3km心率168就明显异常。",
+    coach:"提前结束完全正确，是身体异常信号，不是意志不足。可能为恢复不足+脱水/电解质/高温热应激叠加。若静息心悸/气促不在10-15分钟明显缓解，或伴胸痛、胸闷，应立即就医。",
+  },
+  "2026-07-09":{
+    train:{title:"T维护3×2km 雷雨中跑",dist:"13.5",pace:"4'39",hr:143,maxhr:178,te:"3.7",load:192,type:"T",tags:["T课","雷雨台风"]},
+    feel:"早上刮风下雨打雷闪电。G1心率175/172异常高，可能受雷雨紧张/光电异常/真实热湿压力影响。整体完成但负荷偏高。",
+    coach:"完成但负荷偏高，不能加码。异常高心率第1组要谨慎，雷雨环境对心率影响大，不算真实能力下降。",
+  },
+  "2026-06-01":{
+    train:null,weight:"53.45",
+    feel:"（示例占位）当天数据待两个窗口导出后填入。",
+    coach:"—",
+  },
+};
+// 把最近10条活动也并入dayDB作为兜底
+activities.forEach(a=>{
+  const key=`2026-${a.month.replace('月','')}-${String(a.day).padStart(2,'0')}`;
+  if(!dayDB[key] && a.dist!=="0"){
+    dayDB[key]={
+      train:{title:a.title,dist:a.dist,pace:a.pace,hr:a.hr,maxhr:a.maxhr,te:a.te,load:a.load,type:a.type,tags:a.tags},
+      weight:"—",shoe:"—",
+      feel:a.note||"（当天感受待导入）",
+      coach:"（当天评价待导入）",
+    };
+  }
+});
+
+function doSearch(){
+  let q=document.getElementById('searchInput').value.trim();
+  if(!q){alert('请输入日期，如 2026-07-19 或 07-19');return;}
+  // 支持 2026-07-19 / 07-19 / 7-19
+  q=q.replace(/\//g,'-').replace(/年|月/g,'-').replace(/日/g,'');
+  let key;
+  if(/^\d{4}-\d{1,2}-\d{1,2}$/.test(q)){const[y,m,d]=q.split('-');key=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
+  else if(/^\d{1,2}-\d{1,2}$/.test(q)){const[m,d]=q.split('-');key=`2026-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;}
+  else{alert('日期格式：2026-07-19 或 07-19');return;}
+
+  const mergedDay=(window.MERGED_DATA&&window.MERGED_DATA.days)?window.MERGED_DATA.days[key]:null;
+  showModal(key,mergedDay?convertMergedDay(mergedDay):dayDB[key]||null);
+}
+
+function convertMergedDay(d,activityId){
+  const runs=d.runs||[];
+  let r=activityId?runs.find(x=>String(x.activity_id)===String(activityId)):null;
+  if(!r&&runs.length)r=[...runs].sort((a,b)=>b.distance-a.distance)[0];
+  return {
+    train:r?{title:r.title,dist:r.distance,pace:r.pace,hr:r.avg_hr,maxhr:r.max_hr,te:r.te?Number(r.te).toFixed(1):'—',load:r.load?Math.round(r.load):'—',type:r.kind,duration:r.duration_min,power:r.avg_power,cadence:r.cadence,water:r.water_ml,calories:r.calories,tags:[]}:null,
+    run:r,otherRuns:runs.filter(x=>!r||x.activity_id!==r.activity_id),laps:r?.laps||[],
+    weight:d.weight?String(d.weight.value):'—',shoe:d.shoe||'—',
+    feel:d.feel||'无',coach:d.coach||'无'
+  };
+}
+function openTrainingDetail(date,activityId){
+  const d=window.MERGED_DATA?.days?.[date];
+  showModal(date,d?convertMergedDay(d,activityId):null);
+}
+function esc(s){return String(s??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function lapTable(laps){
+  if(!laps?.length)return '<div class="modal-feel">该活动暂无逐圈数据</div>';
+  return `<div class="lap-table-wrap"><table class="lap-table"><thead><tr><th>圈</th><th>距离</th><th>配速</th><th>均心</th><th>最高心</th><th>功率</th><th>步频</th></tr></thead><tbody>${laps.map(l=>`<tr><td>${l.index}</td><td>${Number(l.distance).toFixed(l.distance<1?3:2)} km</td><td>${l.pace}/km</td><td>${l.avg_hr??'—'}</td><td>${l.max_hr??'—'}</td><td>${l.power?Math.round(l.power)+'W':'—'}</td><td>${l.cadence?Math.round(l.cadence):'—'}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+function showModal(date,data){
+  document.getElementById('modalDate').textContent=date;
+  const body=document.getElementById('modalBody');
+  if(!data){
+    body.innerHTML=`<div class="modal-empty">📅 这天没有记录<br><span style="font-size:12px">可能是休息日，或数据尚未导入</span></div>`;
+  }else{
+    const t=data.train;
+    let html='';
+    if(t){
+      html+=`<div class="modal-sec">
+        <div class="modal-sec-title">🏃 训练</div>
+        <div style="font-size:14px;font-weight:600;margin-bottom:8px">${t.title} ${t.type?`<span class="tag ${typeTag(t.type)}">${t.type}</span>`:''}</div>
+        <div class="modal-data-row">
+          <div class="modal-data-item"><div class="dl">距离</div><div class="dv accent">${t.dist}</div></div>
+          <div class="modal-data-item"><div class="dl">配速</div><div class="dv">${t.pace}</div></div>
+          <div class="modal-data-item"><div class="dl">均心</div><div class="dv red">${t.hr}</div></div>
+          ${t.maxhr?`<div class="modal-data-item"><div class="dl">最高心</div><div class="dv red">${t.maxhr}</div></div>`:''}
+          <div class="modal-data-item"><div class="dl">TE</div><div class="dv">${t.te}</div></div>
+          <div class="modal-data-item"><div class="dl">负荷</div><div class="dv">${t.load}</div></div>
+          ${t.duration?`<div class="modal-data-item"><div class="dl">时长</div><div class="dv">${Number(t.duration).toFixed(1)}m</div></div>`:''}
+          ${t.power?`<div class="modal-data-item"><div class="dl">均功率</div><div class="dv">${Math.round(t.power)}W</div></div>`:''}
+          ${t.cadence?`<div class="modal-data-item"><div class="dl">步频</div><div class="dv">${Math.round(t.cadence)}</div></div>`:''}
+          ${t.water?`<div class="modal-data-item"><div class="dl">估算失水</div><div class="dv">${Math.round(t.water)}ml</div></div>`:''}
+        </div>
+      </div>`;
+    }
+    html+=`<div class="modal-sec">
+      <div class="modal-sec-title">⚖️ 体重 · 鞋</div>
+      <div class="modal-data-row">
+        <div class="modal-data-item"><div class="dl">体重</div><div class="dv">${data.weight||'—'}</div></div>
+        ${data.shoe?`<div class="modal-data-item"><div class="dl">鞋</div><div class="dv" style="font-size:12px">${data.shoe}</div></div>`:''}
+      </div>
+    </div>`;
+    if(data.laps){
+      html+=`<div class="modal-sec"><div class="modal-sec-title">📍 每一公里 / 逐圈</div>${lapTable(data.laps)}</div>`;
+    }
+    if(data.otherRuns?.length){
+      html+=`<div class="modal-sec"><div class="modal-sec-title">同日其他跑步</div><div class="modal-feel">${data.otherRuns.map(r=>`${esc(r.title)} · ${r.distance.toFixed(2)}km · ${r.pace}/km`).join('<br>')}</div></div>`;
+    }
+    if(data.feel&&data.feel!=='—'&&data.feel!=='无'){
+      html+=`<div class="modal-sec"><div class="modal-sec-title">💭 当天感受</div><div class="modal-feel">${esc(data.feel)}</div></div>`;
+    }
+    if(data.coach&&data.coach!=='—'&&data.coach!=='无'){
+      html+=`<div class="modal-sec"><div class="modal-sec-title">📋 当时的训练评价</div><div class="modal-feel" style="border-left-color:var(--green)">${esc(data.coach)}</div></div>`;
+    }
+    body.innerHTML=html;
+  }
+  document.getElementById('searchModal').classList.add('show');
+}
+function closeModal(){document.getElementById('searchModal').classList.remove('show');}
+
+</script>
+</body>
+</html>
