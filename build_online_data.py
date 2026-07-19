@@ -120,8 +120,30 @@ for r in runs:
 # Sort days
 days = {k: days[k] for k in sorted(days)}
 
-# Weights from existing
+# Weights: preserve existing + reload from CSV if available
 weights = existing.get('weights', [])
+csv_path = Path(os.environ.get('BODY_CSV', 'data/body/body_metrics_manual.csv'))
+if csv_path.exists():
+    import csv
+    csv_weights = []
+    with open(csv_path, encoding='utf-8') as f:
+        for row in csv.DictReader(f):
+            try:
+                v = float(row.get('weight_kg') or row.get('weight') or 0)
+                if v > 0:
+                    csv_weights.append({
+                        'date': row.get('date',''),
+                        'value': v,
+                        'source': row.get('source','manual_csv')
+                    })
+            except: pass
+    if len(csv_weights) > len(weights):
+        weights = csv_weights
+        print(f"⚖️ Loaded {len(weights)} weights from CSV")
+    else:
+        print(f"⚖️ Kept {len(weights)} existing weights")
+else:
+    print(f"⚖️ Kept {len(weights)} existing weights (no CSV)")
 # Shoes from existing
 shoes = existing.get('shoes', [])
 # Career total (from悦跑圈)
@@ -147,7 +169,7 @@ out = {
         'week_runs': len(week_runs),
         'month_km': round(sum(r['distance'] for r in month_runs), 2),
         'month_runs': len(month_runs),
-        'latest_weight': existing.get('summary',{}).get('latest_weight'),
+        'latest_weight': {'value': weights[-1]['value'], 'source': weights[-1].get('source','manual')} if weights else None,
         'vo2max': latest_vo2,
         'pb': '2:38:07',
         'pb_race': '2019北京马拉松',
