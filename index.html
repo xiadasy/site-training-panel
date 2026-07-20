@@ -812,7 +812,7 @@ const planRows=(window.WEEKLY_PLANS&&window.WEEKLY_PLANS[weekKey])||[];
 const weekPlan=Array.from({length:7},(_,i)=>{
   const d=new Date(monday); d.setDate(monday.getDate()+i);
   const date=iso(d), p=planRows[i]||{type:'待排',plan:0};
-  const actual=allRuns.filter(r=>r.date===date).reduce((s,r)=>s+Number(r.distance||0),0);
+  const actual=((window.MERGED_DATA&&window.MERGED_DATA.runs)||[]).filter(r=>r.date===date).reduce((s,r)=>s+Number(r.distance||0),0);
   return {wd:['周一','周二','周三','周四','周五','周六','周日'][i],wk:`${d.getMonth()+1}/${d.getDate()}`,plan:p.plan,type:p.type,actual:+actual.toFixed(2),done:date<=iso(today)};
 });
 document.getElementById('weekGrid').innerHTML=weekPlan.map(d=>`
