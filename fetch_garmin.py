@@ -4,7 +4,7 @@ Garmin Connect data fetcher for GitHub Actions.
 Fetches recent running activities + laps and merges with existing data.
 Uses garminconnect library with stored token.
 """
-import json, os, sys, datetime
+import json, os, sys, datetime, re
 from pathlib import Path
 
 def main():
@@ -67,6 +67,40 @@ def main():
             a["_laps"] = []
             print(f"  ⚠️ laps failed for {aid}: {e}")
         runs.append(a)
+
+    # Fetch Garmin calendar workouts and build weekly plan data
+    try:
+        months = {(today.year, today.month)}
+        end_day = today + datetime.timedelta(days=14)
+        months.add((end_day.year, end_day.month))
+        items = []
+        for y, m in months:
+            cal = client.get_scheduled_workouts(y, m)
+            items.extend(cal.get('calendarItems', []))
+        plans = {}
+        for item in items:
+            if item.get('itemType') != 'workout' or item.get('sportTypeKey') != 'running': continue
+            ds, title = item.get('date',''), item.get('title','')
+            if not ds: continue
+            d = datetime.date.fromisoformat(ds)
+            monday = d - datetime.timedelta(days=d.weekday())
+            rows = plans.setdefault(monday.isoformat(), [None] * 7)
+            nums = re.findall(r'(\d+(?:\.\d+)?)\s*(?:km|公里)', title, re.I)
+            distance = float(nums[-1]) if nums else 0
+            # Quality workouts encode repetitions (e.g. 3x2km), so read the workout's total target distance.
+            if re.search(r'\d+\s*[x×]\s*\d+(?:\.\d+)?\s*km', title, re.I) and item.get('workoutId'):
+                try:
+                    detail = client.get_workout_by_id(item['workoutId'])
+                    distance = round(float(detail.get('estimatedDistanceInMeters') or 0) / 1000, 2) or distance
+                except Exception: pass
+            clean = re.sub(r'^\d{1,2}/\d{1,2}\s*', '', title)
+            clean = re.sub(r'\s*\d+(?:\.\d+)?\s*(?:km|公里).*$', '', clean, flags=re.I).strip()
+            rows[d.weekday()] = {'type': clean or title, 'plan': distance, 'title': title, 'workout_id': item.get('workoutId')}
+        Path('weekly_plans.json').write_text(json.dumps(plans, ensure_ascii=False, indent=2), encoding='utf-8')
+        Path('weekly_plans.js').write_text('window.WEEKLY_PLANS=' + json.dumps(plans, ensure_ascii=False, separators=(',',':')) + ';\n', encoding='utf-8')
+        print(f"📅 Saved {len(plans)} Garmin calendar weeks")
+    except Exception as e:
+        print(f"⚠️ Calendar fetch failed, keeping existing plan: {e}")
 
     # Save to data file
     out_file = Path('garmin_data.json')

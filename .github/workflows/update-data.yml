@@ -2,31 +2,34 @@ name: Update Training Data
 
 on:
   schedule:
-    # 每天北京时间 09:00 (UTC 01:00) 自动执行
-    - cron: '0 1 * * *'
-  workflow_dispatch: # 也支持手动触发
+    # 北京时间 06:00、10:00、14:00、20:00（GitHub cron 使用 UTC）
+    - cron: '0 22,2,6,12 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: write
   pages: write
+  id-token: write
+  actions: write
+
+concurrency:
+  group: training-data-update
+  cancel-in-progress: false
 
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: |
-          pip install garminconnect -q
+        run: pip install garminconnect -q
 
-      - name: Fetch Garmin data
+      - name: Fetch Garmin activities and calendar
         env:
           GARMIN_TOKEN: ${{ secrets.GARMIN_TOKEN }}
           GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
@@ -34,20 +37,43 @@ jobs:
         run: python3 fetch_garmin.py
 
       - name: Merge and build
-        run: |
-          # 把抓取的 Garmin 数据合并到 merged_data.js
-          # 这里用在线版 build_merged_data.py 的轻量版
-          python3 build_online_data.py
+        run: python3 build_online_data.py
 
-      - name: Commit and push
+      - name: Commit and push when changed
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add merged_data.js garmin_data.json
+          git add merged_data.js garmin_data.json weekly_plans.json weekly_plans.js
           if git diff --staged --quiet; then
-            echo "No changes to commit"
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No data changes"
           else
-            git commit -m "🤖 auto-update: $(date -u '+%Y-%m-%d %H:%M') UTC"
+            git commit -m "🤖 auto-update: $(TZ=Asia/Shanghai date '+%Y-%m-%d %H:%M') CST"
             git push
-            echo "✅ Pushed updates"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Wait for Pages deployment with automatic retry
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          SHA=$(git rev-parse HEAD)
+          for attempt in 1 2 3; do
+            echo "Pages check attempt $attempt/3 for $SHA"
+            for i in $(seq 1 30); do
+              RUN=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs?event=push&per_page=20" --jq ".workflow_runs[] | select(.name == \"pages build and deployment\" and .head_sha == \"$SHA\") | [.id,.status,.conclusion] | @tsv" | head -1)
+              if [ -n "$RUN" ]; then
+                ID=$(echo "$RUN" | cut -f1); STATUS=$(echo "$RUN" | cut -f2); RESULT=$(echo "$RUN" | cut -f3)
+                echo "Pages run $ID: $STATUS $RESULT"
+                if [ "$STATUS" = completed ] && [ "$RESULT" = success ]; then exit 0; fi
+                if [ "$STATUS" = completed ] && [ "$RESULT" != success ]; then break; fi
+              fi
+              sleep 10
+            done
+            [ -n "${ID:-}" ] && gh api -X POST "repos/${GITHUB_REPOSITORY}/actions/runs/$ID/rerun-failed-jobs" || true
+            sleep 15
+          done
+          echo "Pages deployment failed after 3 attempts"
+          exit 1
