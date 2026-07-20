@@ -525,9 +525,10 @@ if(window.MERGED_DATA){
   document.getElementById('weekKm').textContent=S.week_km.toFixed(2);
   document.getElementById('weekSub').textContent=`km · ${S.week_runs}次`;
   document.getElementById('vdotValue').textContent=S.vo2max||'—';
-  const w=S.latest_weight?S.latest_weight.value:'—';
+  const latestWeight=window.MERGED_DATA.weights.length?window.MERGED_DATA.weights[window.MERGED_DATA.weights.length-1]:null;
+  const w=latestWeight?latestWeight.value:'—';
   document.getElementById('weightValue').textContent=w;
-  document.getElementById('weightSub').textContent=`kg · ${S.latest_date.slice(5).replace('-','/')}`;
+  document.getElementById('weightSub').textContent=latestWeight?`kg · ${latestWeight.date.slice(5,10).replace('-','/')}`:'kg · 暂无';
   document.getElementById('vitalVo2').textContent=S.vo2max||'—';
   document.getElementById('vitalVo2Sub').textContent=`更新至 ${S.latest_date}`;
 }
