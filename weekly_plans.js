@@ -1,0 +1,6 @@
+window.WEEKLY_PLANS={
+  "2026-07-20":[
+    {type:"恢复",plan:8},{type:"轻松",plan:16},{type:"中长E",plan:16},
+    {type:"T维护 3×2km",plan:13.5},{type:"恢复",plan:8},{type:"长距离",plan:24},{type:"恢复",plan:8}
+  ]
+};

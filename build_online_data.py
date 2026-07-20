@@ -23,9 +23,8 @@ existing = {}
 if Path('merged_data.js').exists():
     raw = Path('merged_data.js').read_text(encoding='utf-8')
     if raw.startswith('window.MERGED_DATA='):
-        payload = raw[len('window.MERGED_DATA='):]
+        payload = raw[len('window.MERGED_DATA='):].strip()
         if payload.endswith(';'): payload = payload[:-1]
-        if payload.endswith('\n'): payload = payload.strip()
         try:
             existing = json.loads(payload)
         except:
@@ -113,6 +112,7 @@ for r in runs:
     d = r['date']
     if d not in days:
         days[d] = {'runs': [], 'weight': None, 'shoe': None, 'feel': '无', 'coach': '无', 'user_messages': 0, 'assistant_messages': 0}
+    days[d].setdefault('runs', [])
     day_runs = [x for x in days[d]['runs'] if x['activity_id'] != r['activity_id']]
     day_runs.append(r)
     days[d]['runs'] = day_runs
@@ -146,11 +146,18 @@ else:
     print(f"⚖️ Kept {len(weights)} existing weights (no CSV)")
 # Shoes from existing
 shoes = existing.get('shoes', [])
-# Career total (from悦跑圈)
+# Career total: 悦跑圈 confirmed baseline + Garmin runs after baseline date
 career = existing.get('career', {
     'distance_km': 44932.08, 'runs': 5113, 'hours': 3686.1,
     'calories': 2455194, 'avg_distance': 8.78, 'avg_pace': "4'55", 'streak_weeks': 125
 })
+baseline_date = career.get('baseline_date', '2026-07-19')
+career.setdefault('baseline_distance_km', career.get('distance_km', 44932.08))
+career.setdefault('baseline_runs', career.get('runs', 5113))
+post_baseline = [r for r in runs if r.get('date','') > baseline_date]
+career['baseline_date'] = baseline_date
+career['distance_km'] = round(career['baseline_distance_km'] + sum(r.get('distance',0) for r in post_baseline), 2)
+career['runs'] = career['baseline_runs'] + len(post_baseline)
 
 out = {
     'meta': {

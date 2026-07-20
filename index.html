@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>小老虎训练中心 · Training Panel</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script src="merged_data.js?v=20260719-1205"></script>
+<script src="merged_data.js?v=20260720-0830"></script>
+<script src="weekly_plans.js?v=20260720-0830"></script>
 <script src="routes_data.js?v=20260719b"></script>
 <style>
 :root{
@@ -802,16 +803,18 @@ document.getElementById('shoeGrid').innerHTML=shoes.map(s=>{
   </div>`;
 }).join('');
 
-// ===== Week Plan =====
-const weekPlan=[
-  {wd:"周一",wk:"7/13",plan:8,actual:8.3,type:"恢复",done:true},
-  {wd:"周二",wk:"7/14",plan:16,actual:7.5,type:"轻松",done:true,note:"异常停"},
-  {wd:"周三",wk:"7/15",plan:0,actual:16.4,type:"休息",done:true,note:"超计划"},
-  {wd:"周四",wk:"7/16",plan:0,actual:0,type:"休息",done:true},
-  {wd:"周五",wk:"7/17",plan:8,actual:8.0,type:"恢复",done:true},
-  {wd:"周六",wk:"7/18",plan:8,actual:8.01,type:"恢复",done:true},
-  {wd:"周日",wk:"7/19",plan:24,actual:24.0,type:"长距离",done:true},
-];
+// ===== Week Plan (current calendar week + Garmin actuals) =====
+const today=new Date();
+const monday=new Date(today); monday.setDate(today.getDate()-((today.getDay()+6)%7));
+const iso=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const weekKey=iso(monday);
+const planRows=(window.WEEKLY_PLANS&&window.WEEKLY_PLANS[weekKey])||[];
+const weekPlan=Array.from({length:7},(_,i)=>{
+  const d=new Date(monday); d.setDate(monday.getDate()+i);
+  const date=iso(d), p=planRows[i]||{type:'待排',plan:0};
+  const actual=allRuns.filter(r=>r.date===date).reduce((s,r)=>s+Number(r.distance||0),0);
+  return {wd:['周一','周二','周三','周四','周五','周六','周日'][i],wk:`${d.getMonth()+1}/${d.getDate()}`,plan:p.plan,type:p.type,actual:+actual.toFixed(2),done:date<=iso(today)};
+});
 document.getElementById('weekGrid').innerHTML=weekPlan.map(d=>`
   <div class="week-day ${d.done?'done':''} ${d.actual===0?'rest':''}">
     <div class="wd">${d.wd}</div>
