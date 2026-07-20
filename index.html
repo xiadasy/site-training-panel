@@ -777,9 +777,18 @@ new Chart(document.getElementById('weightChart'),{
 });
 
 // ===== Shoe Cabinet =====
-const shoes=(window.MERGED_DATA&&window.MERGED_DATA.shoes.length)?window.MERGED_DATA.shoes.map(s=>({...s,name:'特步 160X 7.0 Pro',limit:800,img:'xtep-160x-7-pro.png'})):[
-  {name:"特步 160X 7.0 Pro",km:24.00817,runs:1,limit:800,img:'xtep-160x-7-pro.png'},
+const SHOE_META={
+  '特步 7.0 Pro':   {display:'特步 160X 7.0 Pro',img:'xtep-160x-7-pro.png',limit:800},
+  '李宁飞电 5E':    {display:'李宁飞电 5 Elite',img:'li-ning-feidian-5e.png',limit:800},
+};
+const shoeSource=(window.MERGED_DATA&&window.MERGED_DATA.shoes.length)?window.MERGED_DATA.shoes:[
+  {name:"特步 7.0 Pro",km:24.00817,runs:1},
+  {name:"李宁飞电 5E",km:8.00987,runs:1},
 ];
+const shoes=shoeSource.map(s=>{
+  const m=SHOE_META[s.name]||{display:s.name,img:'',limit:800};
+  return {...s,name:m.display,img:m.img,limit:m.limit};
+});
 document.getElementById('shoeGrid').innerHTML=shoes.map(s=>{
   const pct=Math.min(s.km/s.limit*100,100);
   const barColor=pct>85?'var(--red)':pct>60?'var(--yellow)':'var(--green)';
