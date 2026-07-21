@@ -9,7 +9,7 @@
       "workout_id": 1606440043
     },
     {
-      "type": "T维护 3x",
+      "type": "T维护",
       "plan": 13.0,
       "title": "6/25 T维护 3x2km",
       "workout_id": 1606440054
@@ -53,7 +53,7 @@
       "workout_id": 1613948072
     },
     {
-      "type": "T阈值控制4x",
+      "type": "T阈值控制",
       "plan": 2.0,
       "title": "7/2 T阈值控制4x2km",
       "workout_id": 1613948091
@@ -97,7 +97,7 @@
       "workout_id": 1621388638
     },
     {
-      "type": "T维护3x",
+      "type": "T维护",
       "plan": 13.5,
       "title": "7/9 T维护3x2km 自动切换",
       "workout_id": 1621388668
@@ -180,7 +180,7 @@
       "workout_id": 1635649291
     },
     {
-      "type": "T维护3x",
+      "type": "T维护",
       "plan": 13.5,
       "title": "7/23 T维护3x2km",
       "workout_id": 1635649323

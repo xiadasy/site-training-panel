@@ -780,6 +780,7 @@ const SHOE_META={
   'Brooks Hyperion Elite 5': {display:'Brooks Hyperion Elite 5 · 布鲁克斯龙卷风5',img:'brooks-hyperion-elite-5.png',limit:800},
   '李宁飞电 6 Elite 白蓝': {display:'李宁飞电 6 Elite · 白蓝配色',img:'lining-feidian-6-elite-white-blue.png',limit:800},
   '李宁飞电 6 Elite 白红': {display:'李宁飞电 6 Elite · 白红配色',img:'lining-feidian-6-elite-white-red.png',limit:800},
+  '布鲁克斯 飓风5': {display:'Brooks Hurricane 5 · 布鲁克斯飓风5',img:'',limit:800},
 };
 const shoeSource=(window.MERGED_DATA&&window.MERGED_DATA.shoes.length)?window.MERGED_DATA.shoes:[
   {name:"特步 7.0 Pro",km:24.00817,runs:1},
@@ -812,7 +813,7 @@ const weekPlan=Array.from({length:7},(_,i)=>{
   const d=new Date(monday); d.setDate(monday.getDate()+i);
   const date=iso(d), p=planRows[i]||{type:'待排',plan:0};
   const actual=((window.MERGED_DATA&&window.MERGED_DATA.runs)||[]).filter(r=>r.date===date).reduce((s,r)=>s+Number(r.distance||0),0);
-  return {wd:['周一','周二','周三','周四','周五','周六','周日'][i],wk:`${d.getMonth()+1}/${d.getDate()}`,plan:p.plan,type:p.type,actual:+actual.toFixed(2),done:date<=iso(today)};
+  return {wd:['周一','周二','周三','周四','周五','周六','周日'][i],wk:`${d.getMonth()+1}/${d.getDate()}`,plan:p.plan,type:({T维护3x:'T维护',LSD前恢复:'恢复',长距后恢复:'恢复'})[p.type]||p.type,actual:+actual.toFixed(2),done:date<=iso(today)};
 });
 document.getElementById('weekGrid').innerHTML=weekPlan.map(d=>`
   <div class="week-day ${d.done?'done':''} ${d.actual===0?'rest':''}">

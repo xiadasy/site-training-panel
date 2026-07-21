@@ -85,6 +85,7 @@ def main():
             d = datetime.date.fromisoformat(ds)
             monday = d - datetime.timedelta(days=d.weekday())
             rows = plans.setdefault(monday.isoformat(), [None] * 7)
+            # Extract numeric distance for plan target
             nums = re.findall(r'(\d+(?:\.\d+)?)\s*(?:km|公里)', title, re.I)
             distance = float(nums[-1]) if nums else 0
             # Quality workouts encode repetitions (e.g. 3x2km), so read the workout's total target distance.
@@ -95,6 +96,8 @@ def main():
                 except Exception: pass
             clean = re.sub(r'^\d{1,2}/\d{1,2}\s*', '', title)
             clean = re.sub(r'\s*\d+(?:\.\d+)?\s*(?:km|公里).*$', '', clean, flags=re.I).strip()
+            # Clean up residual patterns like "3x" from quality workouts
+            clean = re.sub(r'\s*\d+\s*[x×]\s*$', '', clean).strip()
             rows[d.weekday()] = {'type': clean or title, 'plan': distance, 'title': title, 'workout_id': item.get('workoutId')}
         Path('weekly_plans.json').write_text(json.dumps(plans, ensure_ascii=False, indent=2), encoding='utf-8')
         Path('weekly_plans.js').write_text('window.WEEKLY_PLANS=' + json.dumps(plans, ensure_ascii=False, separators=(',',':')) + ';\n', encoding='utf-8')
