@@ -1,0 +1,4 @@
+date,activity_id,shoe,distance_km,duration_min,avg_pace,avg_hr,max_hr,training_effect,training_load,weight_kg,conditions,subjective_notes,source
+2026-07-19,23647877661,特步 7.0 Pro,24.00817,117.6,4'54/km,143,158,4.1,187.85,53.4,高温高湿,"太热，跑到24km主动停止",garmin+manual_chat
+2026-07-20,23659268793,李宁飞电 5E,8.0151,41.65,5'12/km,135,148,2.9,74.67,54.0,高温/长距离次日恢复,,garmin+manual_chat
+2026-07-21,23671210188,Brooks Hyperion Elite 5,16.0151,78.63,4'55/km,142,155,3.6,,54.0,闷热有风,,garmin+manual_chat
