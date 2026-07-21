@@ -7,7 +7,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="merged_data.js?v=20260720-0830"></script>
 <script src="weekly_plans.js?v=20260720-0830"></script>
-<script src="routes_data.js?v=20260719b"></script>
+<script src="routes_data.js?v=20260721gps"></script>
 <style>
 :root{
   --bg:#0a0a0a; --bg2:#141414; --card:#1a1a1a; --card2:#222;
@@ -153,8 +153,8 @@ a{color:var(--accent);text-decoration:none}
 .chart-wrap{position:relative;height:200px}
 
 /* ===== Shoe Cabinet ===== */
-.shoe-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.shoe-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center}
+.shoe-grid{display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;padding:2px 2px 14px;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:none}.shoe-grid::-webkit-scrollbar{display:none}
+.shoe-card{flex:0 0 min(330px,82vw);scroll-snap-align:start;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;text-align:center}
 .shoe-img{width:100%;height:170px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:36px;margin-bottom:10px;background-color:transparent;background-size:contain;background-position:center;background-repeat:no-repeat;filter:drop-shadow(0 16px 14px rgba(0,0,0,.42))}
 .shoe-name{font-size:13px;font-weight:600}
 .shoe-km{font-size:11px;color:var(--text2);margin-top:4px}
@@ -213,7 +213,8 @@ a{color:var(--accent);text-decoration:none}
   .act-stats{flex:0 0 auto}
   .flip-grid{display:flex;grid-template-columns:none;gap:12px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding:0 2px;padding:2px 2px 12px;margin-left:-2px;margin-right:-2px;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:none}.flip-grid::-webkit-scrollbar{display:none}.flip-card{flex:0 0 calc(100% - 28px);height:286px;scroll-snap-align:start;scroll-snap-stop:always}.flip-face{padding:13px}.flip-map{height:150px;margin-top:0}.flip-core{gap:7px}.flip-core-item{padding:6px 8px}.flip-core-item b{font-size:18px}.flip-back-grid{gap:8px}.flip-back-item{font-size:11px}.flip-back-item b{font-size:14px}.flip-shoe{font-size:11px}
   .flip-dots{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:-3px;margin-bottom:4px}.flip-dot{width:6px;height:6px;border:0;border-radius:50%;padding:0;background:#464646;transition:.25s;cursor:pointer}.flip-dot.on{width:18px;border-radius:5px;background:var(--accent)}
-  .shoe-grid{grid-template-columns:repeat(2,1fr)}
+  .shoe-grid{display:flex;grid-template-columns:none}
+  .shoe-card{flex-basis:calc(100% - 28px)}
   .week-grid{grid-template-columns:repeat(7,1fr);gap:3px}
   .week-day{padding:6px 2px;font-size:10px}
   .quote-text{font-size:15px}
@@ -780,7 +781,7 @@ const SHOE_META={
   'Brooks Hyperion Elite 5': {display:'Brooks Hyperion Elite 5 · 布鲁克斯龙卷风5',img:'brooks-hyperion-elite-5.png',limit:800},
   '李宁飞电 6 Elite 白蓝': {display:'李宁飞电 6 Elite · 白蓝配色',img:'lining-feidian-6-elite-white-blue.png',limit:800},
   '李宁飞电 6 Elite 白红': {display:'李宁飞电 6 Elite · 白红配色',img:'lining-feidian-6-elite-white-red.png',limit:800},
-  '布鲁克斯 飓风5': {display:'Brooks Hurricane 5 · 布鲁克斯飓风5',img:'',limit:800},
+  '布鲁克斯 飓风5': {display:'Brooks Hurricane 5 · 布鲁克斯飓风 5',img:'',limit:800},
 };
 const shoeSource=(window.MERGED_DATA&&window.MERGED_DATA.shoes.length)?window.MERGED_DATA.shoes:[
   {name:"特步 7.0 Pro",km:24.00817,runs:1},
