@@ -972,7 +972,7 @@ function showModal(date,data){
       html+=`<div class="modal-sec"><div class="modal-sec-title">💭 当天感受</div><div class="modal-feel">${esc(data.feel)}</div></div>`;
     }
     if(data.coach&&data.coach!=='—'&&data.coach!=='无'){
-      html+=`<div class="modal-sec"><div class="modal-sec-title">📋 当时的训练评价</div><div class="modal-feel" style="border-left-color:var(--green)">${esc(data.coach)}</div></div>`;
+      html+=`<div class="modal-sec"><div class="modal-sec-title">📋 丹尼尔斯点评</div><div class="modal-feel" style="border-left-color:var(--green)">${esc(data.coach)}</div></div>`;
     }
     body.innerHTML=html;
   }
