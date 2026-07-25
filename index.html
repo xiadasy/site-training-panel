@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>小老虎训练中心 · Training Panel</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-<script src="merged_data.js?v=20260724-online1"></script>
-<script src="weekly_plans.js?v=20260724-online1"></script>
-<script src="routes_data.js?v=20260724-online1"></script>
+<script src="merged_data.js?v=20260725-long24"></script>
+<script src="weekly_plans.js?v=20260720-0830"></script>
+<script src="routes_data.js?v=20260725-long24"></script>
 <style>
 :root{
   --bg:#0a0a0a; --bg2:#141414; --card:#1a1a1a; --card2:#222;
@@ -292,7 +292,6 @@ a{color:var(--accent);text-decoration:none}
   .races-view button{flex:1}
 }
 </style>
-<link rel="stylesheet" href="redesign.css?v=20260724-online1">
 </head>
 <body>
 
@@ -334,66 +333,66 @@ a{color:var(--accent);text-decoration:none}
   </div>
 </div>
 
-<!-- Personal archive media viewer -->
-<div class="media-overlay" id="mediaOverlay" onclick="if(event.target===this)closeMedia()">
-  <div class="media-viewer">
-    <div class="media-viewer-head"><b id="mediaTitle">图片预览</b><button type="button" onclick="closeMedia()" aria-label="关闭图片">×</button></div>
-    <div class="media-viewer-body"><img id="mediaImage" alt="个人跑步档案大图"></div>
-  </div>
-</div>
-
 <div class="container">
 
-<nav class="quick-nav" aria-label="页面快捷导航">
-  <a href="#training">训练数据</a>
-  <a href="#shoes">鞋柜</a>
-  <a href="#honors">荣誉档案</a>
-  <a class="accent" href="#race-center">比赛倒计时</a>
-  <a href="#race-search">赛事查询</a>
-</nav>
-
-<!-- ===== Data-first Hero ===== -->
-<div class="hero-grid" id="overview" aria-label="超级跑者阿伟训练总览">
-  <div class="profile-stack">
-    <section class="weather-mini" id="weatherBar">
-      <div class="weather-head"><div><div class="weather-city">上海</div><div class="weather-date"><span id="wbDate">—月—日</span> · <span id="wbWeek">周—</span></div></div><div class="wb-icon" id="wbIcon">⏳</div></div>
-      <div class="weather-core"><div class="wb-temp" id="wbTemp">—°</div><div><div class="weather-desc" id="wbDesc">天气加载中</div><div class="wb-feel" id="wbFeel">体感 —°</div></div></div>
-      <div class="weather-limits">最高 <b id="wbHi">—</b> · 最低 <b id="wbLo">—</b></div>
-      <div class="weather-details"><b id="wbHum">—</b><b id="wbWind">—</b><b id="wbRain">—</b></div>
-      <div class="wb-train" id="wbTrain">训练建议加载中…</div>
-    </section>
-    <section class="hero-card profile-card">
-      <img class="runner-achievement-img" src="assets/redesign/badge-45000-black.webp" alt="黑银大鹏展翅45000公里里程徽章">
-      <img class="runner-avatar" src="assets/redesign/awei-runner-cartoon-clean.png" alt="透明背景黑色跑步装备漫画阿伟形象">
-      <div class="runner-identity">
-        <div class="runner-title">超级跑者 · <span>阿伟</span></div>
-        <div class="runner-meta">全马 PB <b id="profilePb">2:38:07</b><br>累计 <b id="profileCareerKm">44,993</b> km · 连续 <b id="profileStreak">125</b> 周<br>向 <span class="runner-goal">2:31:00</span> 继续前进</div>
-      </div>
-    </section>
+<!-- ===== Weather Bar ===== -->
+<div class="weather-bar" id="weatherBar">
+  <div class="wb-left">
+    <div class="wb-date" id="wbDate">— 月 — 日</div>
+    <div class="wb-week" id="wbWeek">星期—</div>
   </div>
+  <div class="wb-main">
+    <div class="wb-icon" id="wbIcon">⏳</div>
+    <div>
+      <div class="wb-temp" id="wbTemp">—°</div>
+      <div class="wb-desc" id="wbDesc">天气加载中</div>
+      <div class="wb-feel" id="wbFeel">体感 —°</div>
+    </div>
+  </div>
+  <div class="wb-metrics">
+    <div class="wb-metric"><b id="wbHi">—</b>最高</div>
+    <div class="wb-metric"><b id="wbLo">—</b>最低</div>
+    <div class="wb-metric"><b id="wbHum">—</b>湿度%</div>
+    <div class="wb-metric"><b id="wbWind">—</b>风速</div>
+    <div class="wb-metric"><b id="wbRain">—</b>降水mm</div>
+  </div>
+  <div class="wb-train" id="wbTrain">上海 · 训练建议加载中…</div>
+</div>
 
-  <section class="hero-card metric-panel" aria-label="核心训练数据">
-    <article class="metric-card"><div class="metric-label">累计跑量</div><div class="metric-value accent" id="careerKm">44,993.73</div><div class="metric-unit">km</div><div id="careerSub" hidden></div></article>
-    <article class="metric-card"><div class="metric-label">本周跑量</div><div class="metric-value" id="weekKm">61.65</div><div class="metric-unit" id="weekSub">km · 5次</div></article>
-    <article class="metric-card"><div class="metric-label">本月跑量</div><div class="metric-value" id="monthKm">284.74</div><div class="metric-unit" id="monthSub">km · 22次</div></article>
-    <article class="metric-card"><div class="metric-label">全马 PB</div><div class="metric-value" id="pbValue">2:38:07</div><div class="metric-unit" id="pbSub">2019北京马拉松</div></article>
-    <article class="metric-card"><div class="metric-label">VDOT</div><div class="metric-value" id="vdotValue">63</div><div class="metric-unit">Garmin VO₂ Max</div></article>
-    <article class="metric-card"><div class="metric-label">当前体重</div><div class="metric-value" id="weightValue">54.5</div><div class="metric-unit" id="weightSub">kg · 07/24</div></article>
-  </section>
-
-  <aside class="hero-side">
-    <section class="today-mini">
-      <div class="today-head"><div class="mini-title">今日训练</div><span class="status-done" id="todayStatus">已完成</span></div>
-      <div class="today-name" id="todayName">读取今日训练…</div>
-      <div class="today-detail" id="todayDetail">正在关联真实 Garmin 数据</div>
-    </section>
-    <section class="week-mini">
-      <div class="mini-title">本周进度</div>
-      <div class="week-value"><span id="weekProgressKm">61.65</span> / <span id="weekPlanKm">85.5</span> km</div>
-      <div class="week-caption" id="weekProgressText">已完成 5 次</div>
-      <div class="progress-track"><div class="progress-fill" id="weekProgressFill"></div></div>
-    </section>
-  </aside>
+<!-- ===== Dashboard ===== -->
+<div class="section-title">总览 Overview</div>
+<div class="dash-grid">
+  <div class="dash-card">
+    <div class="label">累计里程</div>
+    <div class="value accent" id="careerKm">44,932.08</div>
+    <div class="unit">km · 悦跑圈</div>
+    <div class="sub" id="careerSub">5,113次 · 3,686.1小时</div>
+  </div>
+  <div class="dash-card">
+    <div class="label">本周</div>
+    <div class="value" id="weekKm">82.3</div>
+    <div class="unit" id="weekSub">km · 5次</div>
+  </div>
+  <div class="dash-card">
+    <div class="label">全马PB</div>
+    <div class="value accent" id="pbValue">2:38:07</div>
+    <div class="unit" id="pbSub">2019北京马拉松</div>
+  </div>
+  <div class="dash-card">
+    <div class="label">目标</div>
+    <div class="value green">2:31:00</div>
+    <div class="unit">3:34/km · 一级</div>
+  </div>
+  <div class="dash-card">
+    <div class="label">VDOT</div>
+    <div class="value" id="vdotValue">64</div>
+    <div class="unit">Garmin VO₂ Max</div>
+  </div>
+  <div class="dash-card">
+    <div class="label">体重</div>
+    <div class="value" id="weightValue">53.4</div>
+    <div class="unit" id="weightSub">kg · 7/19</div>
+  </div>
 </div>
 
 <!-- ===== Quote of the Day ===== -->
@@ -411,7 +410,7 @@ a{color:var(--accent);text-decoration:none}
 </div>
 
 <!-- ===== Recent Three Flip Cards ===== -->
-<div class="section-title" id="training">最近三天 · 点卡翻面</div>
+<div class="section-title">最近三天 · 点卡翻面</div>
 <div class="flip-grid" id="flipGrid"></div>
 <div class="flip-dots" id="flipDots" aria-label="最近三天分页"></div>
 
@@ -451,34 +450,11 @@ a{color:var(--accent);text-decoration:none}
 </div>
 
 <!-- ===== Shoe Cabinet ===== -->
-<div class="section-title" id="shoes">鞋柜 Shoe Cabinet</div>
+<div class="section-title">鞋柜 Shoe Cabinet</div>
 <div class="shoe-nav-wrap">
   <button class="shoe-nav prev" id="shoePrev" aria-label="上一双">‹</button>
   <div class="shoe-grid" id="shoeGrid"></div>
   <button class="shoe-nav next" id="shoeNext" aria-label="下一双">›</button>
-</div>
-
-<!-- ===== Lightweight personal archive rails ===== -->
-<div class="rail-head"><div class="rail-title">跑步装备 <small>Running kit</small></div><span class="rail-more">横向滑动 ›</span></div>
-<div class="archive-rail" aria-label="跑步装备横向列表">
-  <article class="archive-card media-card" onclick="openMedia('assets/redesign/kit-white-singlet.webp','白色竞速背心')"><img class="archive-media contain" src="assets/redesign/kit-white-singlet.webp" alt="白色竞速背心"><div><div class="archive-type">上衣</div><div class="archive-name">白色竞速背心</div><div class="archive-meta">2019北京马拉松比赛装备 · 品牌型号待补</div></div></article>
-  <article class="archive-card media-card" onclick="openMedia('assets/redesign/kit-black-shorts.webp','黑色压缩短裤')"><img class="archive-media contain" src="assets/redesign/kit-black-shorts.webp" alt="黑色压缩短裤"><div><div class="archive-type">短裤</div><div class="archive-name">黑色压缩短裤</div><div class="archive-meta">比赛/训练装备 · 品牌型号待补</div></div></article>
-  <article class="archive-card media-card" onclick="openMedia('assets/redesign/kit-beijing-2019-photo.webp','2019北京马拉松赛前装备定妆照')"><img class="archive-media photo portrait" src="assets/redesign/kit-beijing-2019-photo.webp" alt="2019北京马拉松赛前装备定妆照"><div><div class="archive-type">比赛定妆照</div><div class="archive-name">2019 北京马拉松</div><div class="archive-meta">白色竞速背心 · T0434 · 比赛前留档</div></div></article>
-</div>
-
-<div class="rail-head" id="honors"><div class="rail-title">荣誉档案 <small>Honors</small></div><span class="rail-more">点击查看大图 ›</span></div>
-<div class="archive-rail" aria-label="荣誉档案横向列表">
-  <article class="archive-card wide media-card" onclick="openMedia('assets/redesign/cert-beijing-2019.webp','2019华夏幸福北京马拉松成绩证书')"><img class="archive-media certificate" src="assets/redesign/cert-beijing-2019.webp" alt="2019北京马拉松成绩证书"><div><div class="archive-type">全马 PB · 净成绩</div><div class="archive-name">2019 北京马拉松</div><div class="archive-pb">2:38:07</div><div class="archive-meta">2019-11-03 · 男子全程 · T0434</div></div></article>
-  <article class="archive-card wide media-card" onclick="openMedia('assets/redesign/medal-beijing-2019.webp','2019北京马拉松完赛奖牌')"><img class="archive-media contain" src="assets/redesign/medal-beijing-2019.webp" alt="2019北京马拉松完赛奖牌"><div><div class="archive-type">完赛奖牌</div><div class="archive-name">北京马拉松 · 第39届</div><div class="archive-meta">华夏幸福北京马拉松 · 真实奖牌存档</div></div></article>
-  <article class="archive-card wide media-card" onclick="openMedia('assets/redesign/cert-wuxi-2026.webp','2026无锡马拉松成绩证书')"><img class="archive-media certificate" src="assets/redesign/cert-wuxi-2026.webp" alt="2026无锡马拉松成绩证书"><div><div class="archive-type">当前周期基准赛 · 官方净计时</div><div class="archive-name">2026 无锡马拉松</div><div class="archive-pb">2:42:36</div><div class="archive-meta">2026-03-22 · A+10942 · 净排名630</div></div></article>
-  <article class="archive-card wide media-card" onclick="openMedia('assets/redesign/medal-wuxi-2026.webp','2026无锡马拉松完赛奖牌')"><img class="archive-media contain" src="assets/redesign/medal-wuxi-2026.webp" alt="2026无锡马拉松完赛奖牌"><div><div class="archive-type">完赛奖牌</div><div class="archive-name">无锡马拉松 · 樱花奖牌</div><div class="archive-meta">42.195km · 真实奖牌存档</div></div></article>
-</div>
-
-<div class="rail-head"><div class="rail-title">比赛记忆 <small>Race memories</small></div><span class="rail-more">点击查看大图 ›</span></div>
-<div class="archive-rail" aria-label="比赛记忆横向列表">
-  <article class="archive-card wide media-card memory-card" onclick="openMedia('assets/redesign/race-beijing-2019.webp','2019北京马拉松比赛照片')"><img class="archive-media photo" src="assets/redesign/race-beijing-2019.webp" alt="2019北京马拉松比赛照片"><div><div class="archive-type">2019 北京马拉松</div><div class="archive-name">PB 时刻</div><div class="archive-meta">T0434 · 全马PB 2:38:07</div></div></article>
-  <article class="archive-card wide media-card memory-card" onclick="openMedia('assets/redesign/joyrun-pb-2019.webp','2019北京马拉松悦跑圈轨迹')"><img class="archive-media photo" src="assets/redesign/joyrun-pb-2019.webp" alt="悦跑圈43.13公里成绩轨迹"><div><div class="archive-type">悦跑圈记录</div><div class="archive-name">43.13 km · 3'41''/km</div><div class="archive-meta">用时 02:39:22 · 轨迹存档</div></div></article>
-  <article class="archive-card wide media-card memory-card" onclick="openMedia('assets/redesign/race-wuxi-2026.webp','2026无锡马拉松比赛照片')"><img class="archive-media photo portrait" src="assets/redesign/race-wuxi-2026.webp" alt="2026无锡马拉松比赛照片"><div><div class="archive-type">2026 无锡马拉松</div><div class="archive-name">当前周期基准赛</div><div class="archive-meta">A+10942 · 官方净计时 2:42:36</div></div></article>
 </div>
 
 <!-- ===== Week Plan ===== -->
@@ -509,30 +485,14 @@ a{color:var(--accent);text-decoration:none}
 </div>
 
 <!-- ===== 2026 Marathon Races ===== -->
-<div class="section-title" id="race-center">2026 马拉松赛事 Calendar</div>
-<div class="race-top-grid">
-  <section class="countdown-card" aria-label="下一场比赛倒计时">
-    <div class="countdown-kicker">下一场比赛</div>
-    <div class="countdown-name" id="goalRaceName">尚未设置目标赛事</div>
-    <div class="countdown-days"><b id="goalRaceDays">—</b>天</div>
-    <div class="countdown-meta" id="goalRaceMeta">从赛事列表选择目标后，这里显示比赛日、目标成绩和倒计时。</div>
-    <div class="progress-track"><div class="progress-fill" id="raceCycleProgress"></div></div>
-    <div class="countdown-controls">
-      <select id="goalRaceSelect" aria-label="选择目标赛事"><option value="">选择目标赛事</option></select>
-      <input id="goalTimeInput" value="2:35:00" aria-label="目标成绩">
-      <button id="saveGoalRace" type="button">保存</button>
-    </div>
-  </section>
-  <section class="race-overview">
-    <div class="races-stat" id="racesStat"></div>
-    <div style="font-size:10px;color:var(--text3);margin-top:8px">数据来源：中国田协 · nowrun.cn · 点击卡片查看详情与报名费</div>
-  </section>
-</div>
+<div class="section-title">2026 马拉松赛事 Calendar</div>
+<div class="races-stat" id="racesStat"></div>
+<div style="font-size:11px;color:var(--text3);margin-top:8px">数据来源：中国田协 · nowrun.cn · 492 场赛事 · 点击卡片查看详情与报名费</div>
 
 <div class="section-title" style="margin-top:20px;font-size:12px">近期开赛 ⏰（未来30天）</div>
 <div class="races-soon" id="racesSoon"></div>
 
-<div class="races-toolbar" id="race-search">
+<div class="races-toolbar">
   <input id="racesSearch" placeholder="🔍 搜索赛事名 / 城市 / 省份">
   <select id="filterProv"><option value="">全部省份</option></select>
   <select id="filterEvent"><option value="">全部项目</option><option value="全程">全程</option><option value="半程">半程</option></select>
@@ -561,17 +521,10 @@ if(window.MERGED_DATA){
   const D=window.MERGED_DATA, S=D.summary, C=D.career;
   document.getElementById('careerKm').textContent=C.distance_km.toLocaleString('zh-CN',{minimumFractionDigits:2});
   document.getElementById('careerSub').textContent=`${C.runs.toLocaleString()}次 · ${C.hours.toLocaleString()}小时`;
-  document.getElementById('profileCareerKm').textContent=Math.floor(C.distance_km).toLocaleString('zh-CN');
-  document.getElementById('profileStreak').textContent=C.streak_weeks||'—';
   document.getElementById('pbValue').textContent=S.pb;
   document.getElementById('pbSub').textContent=S.pb_race;
-  document.getElementById('profilePb').textContent=S.pb;
   document.getElementById('weekKm').textContent=S.week_km.toFixed(2);
   document.getElementById('weekSub').textContent=`km · ${S.week_runs}次`;
-  document.getElementById('monthKm').textContent=S.month_km.toFixed(2);
-  document.getElementById('monthSub').textContent=`km · ${S.month_runs}次`;
-  document.getElementById('weekProgressKm').textContent=S.week_km.toFixed(2);
-  document.getElementById('weekProgressText').textContent=`已完成 ${S.week_runs} 次`;
   document.getElementById('vdotValue').textContent=S.vo2max||'—';
   const latestWeight=window.MERGED_DATA.weights.length?window.MERGED_DATA.weights[window.MERGED_DATA.weights.length-1]:null;
   const w=latestWeight?latestWeight.value:'—';
@@ -579,17 +532,6 @@ if(window.MERGED_DATA){
   document.getElementById('weightSub').textContent=latestWeight?`kg · ${latestWeight.date.slice(5,10).replace('-','/')}`:'kg · 暂无';
   document.getElementById('vitalVo2').textContent=S.vo2max||'—';
   document.getElementById('vitalVo2Sub').textContent=`更新至 ${S.latest_date}`;
-  const latestRuns=(D.days?.[S.latest_date]?.runs)||[];
-  const latestRun=latestRuns.length?[...latestRuns].sort((a,b)=>Number(b.distance)-Number(a.distance))[0]:null;
-  if(latestRun){
-    document.getElementById('todayName').textContent=`${latestRun.title} · ${Number(latestRun.distance).toFixed(2)} km`;
-    document.getElementById('todayDetail').textContent=`配速 ${latestRun.pace}/km · 均心 ${Math.round(latestRun.avg_hr||0)} · TE ${Number(latestRun.te||0).toFixed(1)}`;
-    document.getElementById('todayStatus').textContent='已完成';
-  }else{
-    document.getElementById('todayName').textContent='今日暂无跑步记录';
-    document.getElementById('todayDetail').textContent='休息日或 Garmin 数据尚未同步';
-    document.getElementById('todayStatus').textContent='待同步';
-  }
 }
 if(window.MERGED_DATA){
   document.getElementById('weightTableBody').innerHTML=window.MERGED_DATA.weights.slice(-7).reverse().map(w=>`<tr><td>${w.date}</td><td>${w.value.toFixed(2)} kg</td><td>${formatWeightSource(w.source)}</td></tr>`).join('');
@@ -911,13 +853,6 @@ document.getElementById('weekGrid').innerHTML=weekPlan.map(d=>`
     ${d.done?`<div class="actual">实际 ${d.actual}${d.note?` ⚠`:''}</div>`:'<div class="actual">待执行</div>'}
   </div>
 `).join('');
-const plannedWeekKm=weekPlan.reduce((sum,d)=>sum+Number(d.plan||0),0);
-const actualWeekKm=Number(window.MERGED_DATA?.summary?.week_km||weekPlan.reduce((sum,d)=>sum+d.actual,0));
-document.getElementById('weekPlanKm').textContent=plannedWeekKm.toFixed(plannedWeekKm%1?1:0);
-document.getElementById('weekProgressFill').style.width=`${Math.min(100,plannedWeekKm?actualWeekKm/plannedWeekKm*100:0)}%`;
-document.getElementById('weekActualText').textContent=`实际：${actualWeekKm.toFixed(2)} km`;
-const completedRuns=Number(window.MERGED_DATA?.summary?.week_runs||0);
-document.getElementById('weekProgressText').textContent=`已完成 ${completedRuns} 次 · ${Math.round(plannedWeekKm?actualWeekKm/plannedWeekKm*100:0)}%`;
 
 // ===== Day Search Database =====
 // 示例数据：你两个窗口导出后，我把每天的"训练数据+感受+评价"对照入库
@@ -1044,19 +979,6 @@ function showModal(date,data){
   document.getElementById('searchModal').classList.add('show');
 }
 function closeModal(){document.getElementById('searchModal').classList.remove('show');}
-function openMedia(src,title){
-  const overlay=document.getElementById('mediaOverlay');
-  document.getElementById('mediaImage').src=src;
-  document.getElementById('mediaImage').alt=title||'个人跑步档案大图';
-  document.getElementById('mediaTitle').textContent=title||'图片预览';
-  overlay.classList.add('show');
-  document.body.style.overflow='hidden';
-}
-function closeMedia(){
-  document.getElementById('mediaOverlay').classList.remove('show');
-  document.body.style.overflow='';
-}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMedia();});
 
 // ===== Weather (Open-Meteo, 上海) =====
 (function(){
@@ -1097,7 +1019,6 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMedia();});
 })();
 </script>
 <script src="races_data.js?v=20260719a"></script>
-<script src="goal-race.js?v=20260724-online1"></script>
 <script src="races.js?v=20260719a"></script>
 </body>
 </html>
