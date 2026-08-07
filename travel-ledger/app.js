@@ -26,7 +26,7 @@ if(!state.entries.some(x=>x.id==='taxi4326')){state.entries.push({id:'taxi4326',
 if(!state.entries.some(x=>x.id==='gebi7960')){state.entries.push({id:'gebi7960',date:'2026-08-02',time:'10:40',cat:'餐饮',note:'隔壁妈妈（美团）·刘伟与张艳平分·张倩未吃',payer:'刘伟',amount:79.60,status:'paid',splitType:'custom',shares:{刘伟:39.80,张倩:0,张艳:39.80}})}
 if(!state.entries.some(x=>x.id==='hotel40880')){state.entries.push({id:'hotel40880',date:'2026-08-02',time:'15:55',cat:'住宿',note:'上海松江体育中心亚朵酒店·高级双·1晚·支付宝担保',payer:'刘伟',amount:408.80,status:'paid',splitType:'equal',shares:{刘伟:272.53,张倩:0,张艳:136.27},orderNo:'3315854964356024895'})}
 localStorage.setItem(KEY,JSON.stringify(state));
-const cats={餐饮:'🍜',交通:'🚄',住宿:'🏨',酒店:'🏨',游玩:'🎫',购物:'🛍️',其他:'✨'};
+const cats={餐饮:'<img class="catIconImg" src="icons/category-food.svg?v=20260807-icons1" alt="餐饮">',交通:'<img class="catIconImg" src="icons/category-transport.svg?v=20260807-icons1" alt="交通">',住宿:'<img class="catIconImg" src="icons/category-stay.svg?v=20260807-icons1" alt="住宿">',酒店:'<img class="catIconImg" src="icons/category-stay.svg?v=20260807-icons1" alt="住宿">',游玩:'<img class="catIconImg" src="icons/category-play.svg?v=20260807-icons1" alt="游玩">',购物:'<img class="catIconImg" src="icons/category-shop.svg?v=20260807-icons1" alt="购物">',其他:'<img class="catIconImg" src="icons/category-other.svg?v=20260807-icons1" alt="其他">'};
 const money=n=>'¥'+Number(n||0).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
 const members=()=>state.members.split(/[,，、]/).map(x=>x.trim()).filter(Boolean);
 function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
