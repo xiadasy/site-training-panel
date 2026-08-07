@@ -1150,6 +1150,57 @@
         "张艳": 208.0
       },
       "receipt": "receipts/ursidehotel41600_20260807.png"
+    },
+    {
+      "id": "20260807234814",
+      "date": "2026-08-07",
+      "time": "19:00",
+      "cat": "餐饮",
+      "note": "柳州肥姨妈大骨螺蛳粉（斜土东路店）",
+      "payer": "刘伟",
+      "amount": 88.0,
+      "status": "paid",
+      "splitType": "common",
+      "shares": {
+        "刘伟": 58.67,
+        "张倩": 0,
+        "张艳": 29.33
+      },
+      "receipt": "receipts/20260807234814.png"
+    },
+    {
+      "id": "20260807234815",
+      "date": "2026-08-07",
+      "time": "20:02",
+      "cat": "餐饮",
+      "note": "全家便利店",
+      "payer": "刘伟",
+      "amount": 11.0,
+      "status": "paid",
+      "splitType": "common",
+      "shares": {
+        "刘伟": 7.33,
+        "张倩": 0,
+        "张艳": 3.67
+      },
+      "receipt": "receipts/20260807234815.png"
+    },
+    {
+      "id": "20260807234816",
+      "date": "2026-08-07",
+      "time": "23:44",
+      "cat": "交通",
+      "note": "美团打车·阳光舒适型",
+      "payer": "刘伟",
+      "amount": 27.39,
+      "status": "paid",
+      "splitType": "common",
+      "shares": {
+        "刘伟": 18.26,
+        "张倩": 0,
+        "张艳": 9.13
+      },
+      "receipt": "receipts/20260807234816.png"
     }
   ]
 }
