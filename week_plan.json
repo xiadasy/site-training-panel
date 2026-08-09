@@ -1,0 +1,112 @@
+{
+  "updated_at": "2026-08-09T17:30:00+08:00",
+  "week_start": "2026-08-10",
+  "week_end": "2026-08-16",
+  "title": "恢复结构周",
+  "phase": "结构恢复",
+  "goal_race": {
+    "name": "2026上海马拉松",
+    "date": "2026-12-06",
+    "target": "2:38:00"
+  },
+  "target_km": 74.6,
+  "range_km": [68, 80],
+  "principles": [
+    "先恢复规律，再恢复跑量",
+    "E跑回纪律区，不连续进5'00",
+    "T只做2×2km维护",
+    "LSD默认18，可续20"
+  ],
+  "pace_anchor": {
+    "R": "5'40–6'20 HR<130–135",
+    "E": "5'15–5'45 HR<145",
+    "T": "4'02–4'10",
+    "LSD": "5'10–5'35"
+  },
+  "days": [
+    {
+      "date": "2026-08-10",
+      "weekday": "一",
+      "type": "R",
+      "name": "旅游后吸收",
+      "plan_km": 8,
+      "plan_km_max": 10,
+      "pace": "5'40–6'20",
+      "hr": "<130–135",
+      "note": "雷暴雨：跑步机45–55分钟或休",
+      "quality": false
+    },
+    {
+      "date": "2026-08-11",
+      "weekday": "二",
+      "type": "E",
+      "name": "有氧主量",
+      "plan_km": 12,
+      "plan_km_max": 14,
+      "pace": "5'15–5'45",
+      "hr": "<145",
+      "note": "前3km慢，后段不连续进5'00",
+      "quality": false
+    },
+    {
+      "date": "2026-08-12",
+      "weekday": "三",
+      "type": "T",
+      "name": "T维护 2×2km",
+      "plan_km": 10.6,
+      "plan_km_max": 10.6,
+      "pace": "4'02–4'10",
+      "hr": "质量课",
+      "note": "4热身+2×2T+600恢复+2放松；异常改E",
+      "quality": true
+    },
+    {
+      "date": "2026-08-13",
+      "weekday": "四",
+      "type": "E",
+      "name": "中等E",
+      "plan_km": 10,
+      "plan_km_max": 12,
+      "pace": "5'15–5'45",
+      "hr": "<145",
+      "note": "质量课后只吸收，不渐进",
+      "quality": false
+    },
+    {
+      "date": "2026-08-14",
+      "weekday": "五",
+      "type": "R",
+      "name": "LSD保护日",
+      "plan_km": 8,
+      "plan_km_max": 8,
+      "pace": "5'45–6'20",
+      "hr": "<130",
+      "note": "禁酒、控咖啡因、补主食水盐",
+      "quality": false
+    },
+    {
+      "date": "2026-08-15",
+      "weekday": "六",
+      "type": "LSD",
+      "name": "恢复长距离",
+      "plan_km": 18,
+      "plan_km_max": 20,
+      "pace": "5'10–5'35",
+      "hr": "有氧可控",
+      "note": "前10保守；轻松才续20",
+      "quality": true
+    },
+    {
+      "date": "2026-08-16",
+      "weekday": "日",
+      "type": "R",
+      "name": "长后恢复",
+      "plan_km": 8,
+      "plan_km_max": 10,
+      "pace": "5'45–6'20",
+      "hr": "<130",
+      "note": "恢复不佳直接休",
+      "quality": false
+    }
+  ]
+}
