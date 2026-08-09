@@ -1,0 +1,14 @@
+{
+  "a_race": {
+    "id": 99,
+    "title": "2026上海马拉松",
+    "date": "2026-12-06 07:00",
+    "location": "上海市",
+    "goal_time": "2:38:00",
+    "goal_pace": "3'45/km"
+  },
+  "long_term_goal": "2:31:00",
+  "cycle_start": "2026-08-10",
+  "framework": "Daniels + Hansons",
+  "note": "本周期所有训练围绕2026上海马拉松制定；训练强度仍按当前真实能力与恢复反馈，不直接用目标成绩硬套。"
+}

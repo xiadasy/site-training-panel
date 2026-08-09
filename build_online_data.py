@@ -198,7 +198,11 @@ out = {
         'pb_date': '2019-11-03',
         'current_cycle_result': '2:42:17',
         'current_cycle_race': '2026无锡马拉松',
-        'goal': '2:31:00'
+        'goal': '2:38:00',
+        'goal_pace': "3'45/km",
+        'goal_race': '2026上海马拉松',
+        'goal_race_date': '2026-12-06 07:00',
+        'long_term_goal': '2:31:00'
     },
     'runs': runs,
     'recent': list(reversed(runs[-10:])),

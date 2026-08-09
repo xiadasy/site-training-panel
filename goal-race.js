@@ -40,8 +40,13 @@
     timeInput.value = saved.goal || '2:35:00';
   }
 
+  const DEFAULT_GOAL = {id: '99', goal: '2:38:00'};
   let saved = null;
   try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (_) {}
+  if (!saved || String(saved.id) !== DEFAULT_GOAL.id || saved.goal !== DEFAULT_GOAL.goal) {
+    saved = DEFAULT_GOAL;
+    localStorage.setItem(KEY, JSON.stringify(saved));
+  }
   render(saved);
   saveButton.addEventListener('click', () => {
     if (!select.value) {
