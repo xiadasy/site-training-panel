@@ -30,6 +30,16 @@ if Path('merged_data.js').exists():
         except:
             print("⚠️ Could not parse existing merged_data.js, starting fresh")
 
+# Load manual distance overrides for known treadmill calibration errors
+manual_distance_overrides = {}
+override_path = Path('data/manual_distance_overrides.json')
+if override_path.exists():
+    try:
+        manual_distance_overrides = json.loads(override_path.read_text(encoding='utf-8'))
+        print(f"📏 Loaded {len(manual_distance_overrides)} manual distance overrides")
+    except Exception as e:
+        print(f"⚠️ Could not load distance overrides: {e}")
+
 # Load newly fetched Garmin data
 new_runs = []
 if Path('garmin_data.json').exists():
@@ -46,6 +56,11 @@ for a in new_runs:
     if not aid: continue
     typ = (a.get('activityType') or {}).get('typeKey','')
     dist = (a.get('distance') or 0) / 1000
+    override = manual_distance_overrides.get(aid)
+    if override and override.get('distance_km'):
+        raw_dist = dist
+        dist = float(override['distance_km'])
+        print(f"📏 Override {aid}: Garmin {raw_dist:.5f}km -> {dist:.5f}km ({override.get('source','manual')})")
     if dist <= 0: continue
     date = str(a.get('startTimeLocal',''))[:10]
     dur = a.get('duration') or 0

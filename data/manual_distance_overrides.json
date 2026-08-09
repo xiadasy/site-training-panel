@@ -1,0 +1,14 @@
+{
+  "23830648486": {
+    "distance_km": 11.5,
+    "distance_label": "约11.5km",
+    "source": "manual_treadmill_approx",
+    "note": "2026-08-03酒店跑步机；Garmin室内估算13.01649km明显偏高，用户确认机器约11.5km"
+  },
+  "23843395181": {
+    "distance_km": 13.5,
+    "distance_label": "约13.5km",
+    "source": "manual_treadmill_midpoint_approx",
+    "note": "2026-08-04酒店跑步机；用户给出13-14km范围，取中值13.5km；Garmin室内估算17.10153km明显偏高"
+  }
+}
