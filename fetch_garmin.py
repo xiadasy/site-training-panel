@@ -99,6 +99,16 @@ def main():
             # Clean up residual patterns like "3x" from quality workouts
             clean = re.sub(r'\s*\d+\s*[x×]\s*$', '', clean).strip()
             rows[d.weekday()] = {'type': clean or title, 'plan': distance, 'title': title, 'workout_id': item.get('workoutId')}
+        # Apply manual plan overrides for range-based/flexible workouts whose titles
+        # cannot be parsed reliably (e.g. E10-12, recovery8-or-rest, LSD18-22).
+        override_path = Path('data/manual_weekly_plan_overrides.json')
+        if override_path.exists():
+            try:
+                overrides = json.loads(override_path.read_text(encoding='utf-8'))
+                plans.update(overrides)
+                print(f"📅 Applied {len(overrides)} manual weekly plan overrides")
+            except Exception as e:
+                print(f"⚠️ Weekly plan overrides failed: {e}")
         Path('weekly_plans.json').write_text(json.dumps(plans, ensure_ascii=False, indent=2), encoding='utf-8')
         Path('weekly_plans.js').write_text('window.WEEKLY_PLANS=' + json.dumps(plans, ensure_ascii=False, separators=(',',':')) + ';\n', encoding='utf-8')
         print(f"📅 Saved {len(plans)} Garmin calendar weeks")
