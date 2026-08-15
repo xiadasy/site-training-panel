@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>恐怖黎明 · 套装助手</title>
+  <link rel="stylesheet" href="styles.css?v=9" />
+  <link rel="stylesheet" href="icons/icons.css?v=9" />
+</head>
+<body>
+  <div id="app">
+    <header class="top">
+      <div class="brand">
+        <div class="title">恐怖黎明 · 套装助手</div>
+        <div class="sub" id="metaLine">加载中…</div>
+      </div>
+      <nav class="tabs">
+        <button class="tab active" data-tab="class">职业</button>
+        <button class="tab" data-tab="browse">图鉴</button>
+        <button class="tab" data-tab="planner">我的配装</button>
+        <button class="tab" data-tab="compare">对比</button>
+        <button class="tab" data-tab="quest">任务</button>
+        <button class="tab" data-tab="about">说明</button>
+      </nav>
+    </header>
+
+    <!-- CLASS GUIDE -->
+    <section id="tab-class" class="tab-panel active">
+      <div class="class-hero">
+        <p class="lead">输入专精/职业（可双修），自动筛<strong>高相关套装</strong>和<strong>值得看的散件</strong>。</p>
+        <div class="class-input-row">
+          <input id="classQuery" type="search" list="classList" placeholder="例如：萨满 / 神秘学者+萨满 / 士兵 夜刃 / 审判官" autocomplete="off" />
+          <button id="btnClassSearch" type="button">筛选</button>
+        </div>
+        <datalist id="classList"></datalist>
+        <div class="class-chips" id="classChips"></div>
+        <div class="class-input-row dual" id="dualRow">
+          <label>专精 A
+            <select id="classA"><option value="">—</option></select>
+          </label>
+          <label>专精 B（可选）
+            <select id="classB"><option value="">—</option></select>
+          </label>
+          <label>最低相关分
+            <select id="classMinScore">
+              <option value="3">3（宽）</option>
+              <option value="8" selected>8（常用）</option>
+              <option value="15">15（严）</option>
+              <option value="30">30（核心）</option>
+            </select>
+          </label>
+          <label>等级
+            <select id="classLevel">
+              <option value="">全部</option>
+              <option value="94+" selected>94+</option>
+              <option value="90-93">90–93</option>
+              <option value="70-89">70–89</option>
+              <option value="1-94">不限高端</option>
+            </select>
+          </label>
+        </div>
+        <p class="muted tiny" id="classResolveHint">匹配规则：套装/散件上的「+专精点、+技能等级、技能强化」会给对应职业加分。</p>
+      </div>
+
+      <div id="classResult" class="class-result hidden">
+        <div class="class-summary" id="classSummary"></div>
+
+        <div class="subtabs">
+          <button type="button" class="subtab active" data-sub="sets">推荐套装</button>
+          <button type="button" class="subtab" data-sub="loose">推荐散件</button>
+          <button type="button" class="subtab" data-sub="slots">按部位</button>
+        </div>
+
+        <div id="classSets" class="card-list subpanel active"></div>
+        <div id="classLoose" class="card-list subpanel"></div>
+        <div id="classSlots" class="subpanel"></div>
+      </div>
+      <div class="empty" id="classEmpty">选一个或两个专精开始。也支持直接打字：神秘+萨满、死灵、狂战士…</div>
+    </section>
+
+    <!-- BROWSE -->
+    <section id="tab-browse" class="tab-panel">
+      <div class="search-box">
+        <input id="q" type="search" placeholder="搜套装 / 部件 / 属性 / 技能… 例如：宠物 混沌 拜斯迈 防御能力" autocomplete="off" />
+        <button id="btnClear" class="ghost" type="button">清空</button>
+      </div>
+
+      <div class="filters" id="filters">
+        <div class="filter-row">
+          <label>等级
+            <select id="fLevel">
+              <option value="">全部</option>
+              <option value="94+">94+</option>
+              <option value="90-93">90–93</option>
+              <option value="70-89">70–89</option>
+              <option value="50-69">50–69</option>
+              <option value="1-49">1–49</option>
+            </select>
+          </label>
+          <label>DLC
+            <select id="fDlc">
+              <option value="">全部</option>
+              <option value="base">本体</option>
+              <option value="gdx1">灰烬之马来斯</option>
+              <option value="gdx2">遗忘之神</option>
+              <option value="gdx3">阿斯特肯之牙</option>
+            </select>
+          </label>
+          <label>件数
+            <select id="fPieces">
+              <option value="">全部</option>
+              <option value="2">2 件</option>
+              <option value="3">3 件</option>
+              <option value="4">4 件</option>
+              <option value="5">5 件</option>
+              <option value="6+">6+ 件</option>
+            </select>
+          </label>
+          <label>稀有
+            <select id="fRarity">
+              <option value="">全部</option>
+              <option value="Legendary">传奇</option>
+              <option value="Epic">史诗</option>
+              <option value="Rare">稀有</option>
+            </select>
+          </label>
+          <label>形态
+            <select id="fMyth">
+              <option value="">全部</option>
+              <option value="myth">仅神话</option>
+              <option value="nonmyth">非神话</option>
+            </select>
+          </label>
+        </div>
+        <div class="filter-row">
+          <label>职业相关
+            <select id="fClass">
+              <option value="">不限</option>
+            </select>
+          </label>
+          <label>职业分≥
+            <select id="fClassScore">
+              <option value="0">0</option>
+              <option value="3">3</option>
+              <option value="8" selected>8</option>
+              <option value="15">15</option>
+            </select>
+          </label>
+        </div>
+        <div class="filter-row chips" id="statChips"></div>
+        <div class="filter-row sort-row">
+          <span id="resultCount">—</span>
+          <label>排序
+            <select id="fSort">
+              <option value="level-desc">等级 ↓</option>
+              <option value="level-asc">等级 ↑</option>
+              <option value="name">名称</option>
+              <option value="pieces">件数</option>
+              <option value="class">职业相关 ↓</option>
+            </select>
+          </label>
+          <label class="check"><input type="checkbox" id="fHideBlack" checked /> 隐藏无效套装</label>
+        </div>
+      </div>
+
+      <div id="list" class="card-list"></div>
+    </section>
+
+    <!-- PLANNER -->
+    <section id="tab-planner" class="tab-panel">
+      <div class="planner-head">
+        <p>把看中的套装丢进来，按你的流派打标签、记备注。数据存在本机浏览器。</p>
+        <div class="planner-actions">
+          <input id="buildName" placeholder="配装方案名，如：宠物召唤 / 火焰法" />
+          <button id="btnNewBuild" type="button">新建方案</button>
+          <select id="buildSelect"></select>
+          <button id="btnDelBuild" class="ghost danger" type="button">删除方案</button>
+        </div>
+        <textarea id="buildNotes" rows="2" placeholder="方案备注：专精组合、目标抗性、毕业件…"></textarea>
+      </div>
+      <div id="buildSets" class="card-list"></div>
+      <div class="empty" id="buildEmpty">还没有收藏。在图鉴或职业页点「加入配装」。</div>
+    </section>
+
+    <!-- COMPARE -->
+    <section id="tab-compare" class="tab-panel">
+      <p class="hint">最多对比 3 套。在卡片上点「对比」。</p>
+      <div id="compareBar" class="compare-bar"></div>
+      <div id="compareTable" class="compare-table"></div>
+    </section>
+
+    
+    <!-- QUEST -->
+    <section id="tab-quest" class="tab-panel">
+      <div class="quest-limit" id="questLimit">
+        <b>任务导航库：</b>已接入 3DM 全 DLC 中文图文攻略（118 页），同时保留游民星空、官方 Wiki、Grim Tools 地图作为补充来源。<br>
+        输入单个任务看流程；把任务日志里的多个任务名逐行粘贴，可按章节和攻略顺序重新梳理。
+      </div>
+      <div class="subtabs quest-mode-tabs">
+        <button type="button" class="subtab active" data-qmode="single">查一个任务</button>
+        <button type="button" class="subtab" data-qmode="messy">梳理任务线</button>
+        <button type="button" class="subtab" data-qmode="sources">资料来源</button>
+      </div>
+      <div id="questModeSingle">
+        <div class="search-box">
+          <input id="questQ" type="search" placeholder="输入任务名，如：从困境中苏醒 / 卡斯帕罗夫的实验室" />
+          <button id="btnQuestSearch" type="button">查询</button>
+        </div>
+      </div>
+      <div id="questModeMessy" class="hidden">
+        <textarea id="questMessyInput" rows="6" placeholder="把游戏右侧任务栏/任务日志中的任务名逐行粘贴，例如：&#10;排忧解难&#10;一滴水都没得喝&#10;妹妹的礼物"></textarea>
+        <div class="card-actions">
+          <button id="btnQuestOrganize" type="button">按主线章节梳理</button>
+        </div>
+        <p class="muted tiny">你也可以直接把任务日志截图发给我，我会 OCR 后替你整理。</p>
+      </div>
+      <div id="questModeSources" class="hidden"></div>
+      <div id="questList" class="card-list"></div>
+      <div class="empty" id="questEmpty">输入任务名查询：前置提示、目标、流程摘录、路线图和原攻略链接。</div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="tab-about" class="tab-panel">
+      <div class="about prose">
+        <h2>职业筛选怎么算的</h2>
+        <p>不是玄学推荐，是硬数据：统计每件装备/套装上的</p>
+        <ul>
+          <li><strong>+专精点</strong>（权重最高）</li>
+          <li><strong>+某技能等级</strong></li>
+          <li><strong>强化/修饰某技能</strong></li>
+        </ul>
+        <p>映射到 10 个专精后打分。双修时取两系分数之和（同件装备两边都加会更高）。</p>
+        <p class="muted">注意：高分 =「技能树绑定深」，不等于 dual-wield 一定比盾好，也不含纯属性毕业散件（无技能绑定的环/腰带会较少出现）。纯属性件仍可在图鉴用属性芯片搜。</p>
+        <h2>十专精</h2>
+        <p>士兵、爆破者、神秘学者、夜刃、奥术师、萨满、审判官、死灵法师、守誓者、狂战士。</p>
+        <h2>获取来源</h2>
+        <p>部件详情会显示：怪物专属、任务奖励、商人、势力、制作、裂缝/碎境箱、随机掉落等（数据来自 Grim Tools）。</p>
+        <h2>其它功能</h2>
+        <ul>
+          <li>图鉴全文搜索、属性筛选、对比、我的配装</li>
+          <li>数据源 Grim Tools，版本见顶栏</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <div class="drawer-backdrop" data-close></div>
+    <div class="drawer-panel">
+      <button class="drawer-close" data-close type="button">×</button>
+      <div id="drawerBody"></div>
+    </div>
+  </aside>
+
+    <script src="data_js/meta.js?v=9"></script>
+  <script src="data_js/icon_meta.js?v=9"></script>
+  <script src="data_js/sets_index.js?v=9"></script>
+  <script src="data_js/sets.js?v=9"></script>
+  <script src="data_js/class_guide.js?v=9"></script>
+  <script src="data_js/sources.js?v=9"></script>
+  <script src="data_js/item_details.js?v=9"></script>
+  <script src="data_js/quests_index.js?v=9"></script>
+  <script src="data_js/quest_library.js?v=9"></script>
+  <script src="app.js?v=9"></script>
+</body>
+</html>
