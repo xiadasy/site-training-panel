@@ -1,0 +1,6185 @@
+/* local helper */
+.skills{background-image:url('skills.webp');background-repeat:no-repeat;display:inline-block}
+.skills {
+	background-image: url('skills.webp');
+}
+
+.skills-ui_skills_icons_class01_skillicon_battlefury2_down {
+	background-position: -0px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_battlefury2_up {
+	background-position: -32px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_battlefury_down {
+	background-position: -64px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_battlefury_up {
+	background-position: -96px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_bladearc1down {
+	background-position: -128px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_bladearc1up {
+	background-position: -160px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_bladearc2down {
+	background-position: -192px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_bladearc2up {
+	background-position: -224px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_blitz1_down {
+	background-position: -256px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_blitz1_up {
+	background-position: -288px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_blitz2_down {
+	background-position: -320px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_blitz2_up {
+	background-position: -352px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_cadence1_down {
+	background-position: -384px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_cadence1_up {
+	background-position: -416px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_cadence2_down {
+	background-position: -448px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_cadence2_up {
+	background-position: -480px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_cadence3_down {
+	background-position: -512px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_cadence3_up {
+	background-position: -544px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_counterstrike1down {
+	background-position: -576px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_counterstrike1up {
+	background-position: -608px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_decoratedsoldier1_down {
+	background-position: -640px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_decoratedsoldier1_up {
+	background-position: -672px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_fieldcommand1_down {
+	background-position: -704px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_fieldcommand1_up {
+	background-position: -736px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_fieldcommand2down {
+	background-position: -768px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_fieldcommand2up {
+	background-position: -800px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_fightingspirit1_down {
+	background-position: -832px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_fightingspirit1_up {
+	background-position: -864px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_militaryconditioning1_down {
+	background-position: -896px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_militaryconditioning1_up {
+	background-position: -928px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_overguard1_down {
+	background-position: -960px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_overguard1_up {
+	background-position: -992px -0px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_passive1down {
+	background-position: -0px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_passive1up {
+	background-position: -32px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_passiveshield1down {
+	background-position: -64px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_passiveshield1up {
+	background-position: -96px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_scarsofbattle1_down {
+	background-position: -128px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_scarsofbattle1_up {
+	background-position: -160px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_shieldhammer1down {
+	background-position: -192px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_shieldhammer1up {
+	background-position: -224px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_shieldhammer2down {
+	background-position: -256px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_shieldhammer2up {
+	background-position: -288px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_shieldhammer3down {
+	background-position: -320px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_shieldhammer3up {
+	background-position: -352px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_stancedefensive1down {
+	background-position: -384px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_stancedefensive1up {
+	background-position: -416px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_stanceoffensive1down {
+	background-position: -448px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_stanceoffensive1up {
+	background-position: -480px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_veterancy1_down {
+	background-position: -512px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_veterancy1_up {
+	background-position: -544px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_weaponpool1down {
+	background-position: -576px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_weaponpool1up {
+	background-position: -608px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_weaponpool2down {
+	background-position: -640px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_weaponpool2up {
+	background-position: -672px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_willtolive1_down {
+	background-position: -704px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class01_skillicon_willtolive1_up {
+	background-position: -736px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_blastshield2down {
+	background-position: -768px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_blastshield2up {
+	background-position: -800px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_canisterbomb1_down {
+	background-position: -832px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_canisterbomb1_up {
+	background-position: -864px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_canisterbomb2_down {
+	background-position: -896px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_canisterbomb2_up {
+	background-position: -928px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_firestrike1_down {
+	background-position: -960px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_firestrike1_up {
+	background-position: -992px -32px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_firestrike2_down {
+	background-position: -0px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_firestrike2_up {
+	background-position: -32px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_firestrike3_down {
+	background-position: -64px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_firestrike3_up {
+	background-position: -96px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_firestrike4_down {
+	background-position: -128px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_firestrike4_up {
+	background-position: -160px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_flametouched1_down {
+	background-position: -192px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_flametouched1_up {
+	background-position: -224px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_flametouched2_down {
+	background-position: -256px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_flametouched2_up {
+	background-position: -288px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_flaremine1_down {
+	background-position: -320px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_flaremine1_up {
+	background-position: -352px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_flaremine2_down {
+	background-position: -384px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_flaremine2_up {
+	background-position: -416px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_flashbang1_down {
+	background-position: -448px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_flashbang1_up {
+	background-position: -480px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_flashbang2_down {
+	background-position: -512px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_flashbang2_up {
+	background-position: -544px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_grenado1_down {
+	background-position: -576px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_grenado1_up {
+	background-position: -608px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_grenado2_down {
+	background-position: -640px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_grenado2_up {
+	background-position: -672px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_grenado3orange_down {
+	background-position: -704px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_grenado3orange_up {
+	background-position: -736px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_lightningcharge1_down {
+	background-position: -768px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_lightningcharge1_up {
+	background-position: -800px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_molotov1_down {
+	background-position: -832px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_molotov1_up {
+	background-position: -864px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_molotov2_down {
+	background-position: -896px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_molotov2_up {
+	background-position: -928px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_molotov3_down {
+	background-position: -960px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_molotov3_up {
+	background-position: -992px -64px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_mortartrap1_down {
+	background-position: -0px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_mortartrap1_up {
+	background-position: -32px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_mortartrap2_down {
+	background-position: -64px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_mortartrap2_up {
+	background-position: -96px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_mortartrap3_down {
+	background-position: -128px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_mortartrap3_up {
+	background-position: -160px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_pyrotechnics1_down {
+	background-position: -192px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_pyrotechnics1_up {
+	background-position: -224px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_stunjacks1_down {
+	background-position: -256px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_stunjacks1_up {
+	background-position: -288px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_stunjacks2_down {
+	background-position: -320px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_stunjacks2_up {
+	background-position: -352px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_vindictiveflame1_down {
+	background-position: -384px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_vindictiveflame1_up {
+	background-position: -416px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_vindictiveflame2_down {
+	background-position: -448px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class02_skillicon_vindictiveflame2_up {
+	background-position: -480px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_bloodofdreeg1down {
+	background-position: -512px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_bloodofdreeg1up {
+	background-position: -544px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_bloodofdreeg2down {
+	background-position: -576px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_bloodofdreeg2up {
+	background-position: -608px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_bondsofbysmiel1down {
+	background-position: -640px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_bondsofbysmiel1up {
+	background-position: -672px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_bondsofbysmiel2down {
+	background-position: -704px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_bondsofbysmiel2up {
+	background-position: -736px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_curse1down {
+	background-position: -768px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_curse1up {
+	background-position: -800px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_curse2down {
+	background-position: -832px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_curse2up {
+	background-position: -864px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_doombolt1down {
+	background-position: -896px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_doombolt1up {
+	background-position: -928px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_evileye1down {
+	background-position: -960px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_evileye1up {
+	background-position: -992px -96px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_evileye2down {
+	background-position: -0px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_evileye2up {
+	background-position: -32px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_evileye3down {
+	background-position: -64px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_evileye3up {
+	background-position: -96px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_evileye4down {
+	background-position: -128px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_evileye4up {
+	background-position: -160px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_hellhoundsummon1down {
+	background-position: -192px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_hellhoundsummon1up {
+	background-position: -224px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_hellhoundsummon2down {
+	background-position: -256px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_hellhoundsummon2up {
+	background-position: -288px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_hellhoundsummon3down {
+	background-position: -320px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_hellhoundsummon3up {
+	background-position: -352px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_hellhoundsummon4down {
+	background-position: -384px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_hellhoundsummon4up {
+	background-position: -416px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_possession1down {
+	background-position: -448px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_possession1up {
+	background-position: -480px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_pox1down {
+	background-position: -512px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_pox1up {
+	background-position: -544px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_pox2down {
+	background-position: -576px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_pox2up {
+	background-position: -608px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_pox3down {
+	background-position: -640px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_pox3up {
+	background-position: -672px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_ravensummon1down {
+	background-position: -704px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_ravensummon1up {
+	background-position: -736px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_ravensummon2down {
+	background-position: -768px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_ravensummon2up {
+	background-position: -800px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_ravensummon3down {
+	background-position: -832px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_ravensummon3up {
+	background-position: -864px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_ravensummon4down {
+	background-position: -896px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_ravensummon4up {
+	background-position: -928px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_sigilofdestruction1down {
+	background-position: -960px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_sigilofdestruction1up {
+	background-position: -992px -128px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_sigilofdestruction2down {
+	background-position: -0px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_sigilofdestruction2up {
+	background-position: -32px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_witchfireenchantment1down {
+	background-position: -64px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_witchfireenchantment1up {
+	background-position: -96px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_witchfireenchantment2down {
+	background-position: -128px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class03_skillicon_witchfireenchantment2up {
+	background-position: -160px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_bladebarrier1down {
+	background-position: -192px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_bladebarrier1up {
+	background-position: -224px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_bladespirit1down {
+	background-position: -256px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_bladespirit1up {
+	background-position: -288px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_bladeswarm2down {
+	background-position: -320px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_bladeswarm2up {
+	background-position: -352px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_bladetrap1down {
+	background-position: -384px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_bladetrap1up {
+	background-position: -416px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_bladetrap2down {
+	background-position: -448px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_bladetrap2up {
+	background-position: -480px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_dualblades1down {
+	background-position: -512px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_dualblades1up {
+	background-position: -544px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_dualblades2down {
+	background-position: -576px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_dualblades2up {
+	background-position: -608px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_dualblades3down {
+	background-position: -640px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_dualblades3up {
+	background-position: -672px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_dualblades4down {
+	background-position: -704px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_dualblades4up {
+	background-position: -736px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_dualblades5down {
+	background-position: -768px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_dualblades5up {
+	background-position: -800px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_dualblades6down {
+	background-position: -832px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_dualblades6up {
+	background-position: -864px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_lethalgambit1down {
+	background-position: -896px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_lethalgambit1up {
+	background-position: -928px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_lethalgambit2down {
+	background-position: -960px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_lethalgambit2up {
+	background-position: -992px -160px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_nightbladeenchant1down {
+	background-position: -0px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_nightbladeenchant1up {
+	background-position: -32px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_nightbladeenchant2down {
+	background-position: -64px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_nightbladeenchant2up {
+	background-position: -96px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_nightbladeenchant3down {
+	background-position: -128px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_nightbladeenchant3up {
+	background-position: -160px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_passive1down {
+	background-position: -192px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_passive1up {
+	background-position: -224px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_passive2down {
+	background-position: -256px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_passive2up {
+	background-position: -288px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_passive3down {
+	background-position: -320px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_passive3up {
+	background-position: -352px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_phantomblades1down {
+	background-position: -384px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_phantomblades1up {
+	background-position: -416px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_phantomblades2down {
+	background-position: -448px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_phantomblades2up {
+	background-position: -480px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_phantomblades3down {
+	background-position: -512px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_phantomblades3up {
+	background-position: -544px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_ringofsteel1down {
+	background-position: -576px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_ringofsteel1up {
+	background-position: -608px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_ringofsteel2down {
+	background-position: -640px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_ringofsteel2up {
+	background-position: -672px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_shadowstrike1down {
+	background-position: -704px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_shadowstrike1up {
+	background-position: -736px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_shadowstrike2down {
+	background-position: -768px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_shadowstrike2up {
+	background-position: -800px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_shadowstrike3down {
+	background-position: -832px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_shadowstrike3up {
+	background-position: -864px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_veilofshadows1down {
+	background-position: -896px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_veilofshadows1up {
+	background-position: -928px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_veilofshadows2down {
+	background-position: -960px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class04_skillicon_veilofshadows2up {
+	background-position: -992px -192px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_aetherray1down {
+	background-position: -0px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_aetherray1up {
+	background-position: -32px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_aetherray2down {
+	background-position: -64px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_aetherray2up {
+	background-position: -96px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_arcanemissile1_down {
+	background-position: -128px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_arcanemissile1_up {
+	background-position: -160px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_arcanemissile2down {
+	background-position: -192px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_arcanemissile2up {
+	background-position: -224px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_arcanemissile3down {
+	background-position: -256px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_arcanemissile3up {
+	background-position: -288px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_arcanemissile4down {
+	background-position: -320px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_arcanemissile4up {
+	background-position: -352px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_arcaneshield1down {
+	background-position: -384px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_arcaneshield1up {
+	background-position: -416px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_arcanetempest1down {
+	background-position: -448px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_arcanetempest1up {
+	background-position: -480px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_arcanetempest2down {
+	background-position: -512px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_arcanetempest2up {
+	background-position: -544px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_chillingsurge2down {
+	background-position: -576px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_chillingsurge2up {
+	background-position: -608px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_chillingsurge_down {
+	background-position: -640px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_chillingsurge_up {
+	background-position: -672px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_devastation1down {
+	background-position: -704px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_devastation1up {
+	background-position: -736px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_elementalinfusion1down {
+	background-position: -768px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_elementalinfusion1up {
+	background-position: -800px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_elementalinfusion2down {
+	background-position: -832px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_elementalinfusion2up {
+	background-position: -864px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_elementalinfusion3down {
+	background-position: -896px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_elementalinfusion3up {
+	background-position: -928px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_mindovermatter1down {
+	background-position: -960px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_mindovermatter1up {
+	background-position: -992px -224px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_mindovermatter2down {
+	background-position: -0px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_mindovermatter2up {
+	background-position: -32px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_nullification1down {
+	background-position: -64px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_nullification1up {
+	background-position: -96px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_passive01down {
+	background-position: -128px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_passive01up {
+	background-position: -160px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_passive02down {
+	background-position: -192px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_passive02up {
+	background-position: -224px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_passive03down {
+	background-position: -256px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_passive03up {
+	background-position: -288px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_passive04down {
+	background-position: -320px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_passive04up {
+	background-position: -352px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_skyshard1down {
+	background-position: -384px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_skyshard1up {
+	background-position: -416px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_skyshard2down {
+	background-position: -448px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_skyshard2up {
+	background-position: -480px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_skyshard3down {
+	background-position: -512px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_skyshard3up {
+	background-position: -544px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_sphereofprotection1down {
+	background-position: -576px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_sphereofprotection1up {
+	background-position: -608px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_sphereofprotection2down {
+	background-position: -640px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class05_skillicon_sphereofprotection2up {
+	background-position: -672px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_devouringswarm1down {
+	background-position: -704px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_devouringswarm1up {
+	background-position: -736px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_graspingvines1down {
+	background-position: -768px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_graspingvines1up {
+	background-position: -800px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_graspingvines2down {
+	background-position: -832px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_graspingvines2up {
+	background-position: -864px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_manticoresummon1down {
+	background-position: -896px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_manticoresummon1up {
+	background-position: -928px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_natureblessing1down {
+	background-position: -960px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_natureblessing1up {
+	background-position: -992px -256px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_natureblessing2down {
+	background-position: -0px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_natureblessing2up {
+	background-position: -32px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_natureblessing3down {
+	background-position: -64px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_natureblessing3up {
+	background-position: -96px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_passive01down {
+	background-position: -128px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_passive01up {
+	background-position: -160px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_primalbond01down {
+	background-position: -192px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_primalbond01up {
+	background-position: -224px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_savagery1down {
+	background-position: -256px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_savagery1up {
+	background-position: -288px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_savagery2down {
+	background-position: -320px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_savagery2up {
+	background-position: -352px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_savagery3down {
+	background-position: -384px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_savagery3up {
+	background-position: -416px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_stormcaller1down {
+	background-position: -448px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_stormcaller1up {
+	background-position: -480px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_stormcloud1down {
+	background-position: -512px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_stormcloud1up {
+	background-position: -544px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_stormcloud2down {
+	background-position: -576px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_stormcloud2up {
+	background-position: -608px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_stormcloud3down {
+	background-position: -640px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_stormcloud3up {
+	background-position: -672px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_stormtotem1down {
+	background-position: -704px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_stormtotem1up {
+	background-position: -736px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_thornedhorrorsummon1down {
+	background-position: -768px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_thornedhorrorsummon1up {
+	background-position: -800px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_thornedhorrorsummon3down {
+	background-position: -832px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_thornedhorrorsummon3up {
+	background-position: -864px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_thornedhorrorsummon4down {
+	background-position: -896px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_thornedhorrorsummon4up {
+	background-position: -928px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_totem1down {
+	background-position: -960px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_totem1up {
+	background-position: -992px -288px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_totem2down {
+	background-position: -0px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_totem2up {
+	background-position: -32px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_weaponpool1down {
+	background-position: -64px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_weaponpool1up {
+	background-position: -96px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_weaponpool2down {
+	background-position: -128px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_weaponpool2up {
+	background-position: -160px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_wildstrike1_down {
+	background-position: -192px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_wildstrike1_up {
+	background-position: -224px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_wildstrike2down {
+	background-position: -256px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_wildstrike2up {
+	background-position: -288px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_wildstrike3down {
+	background-position: -320px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_wildstrike3up {
+	background-position: -352px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_winddevilsummon1down {
+	background-position: -384px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class06_skillicon_winddevilsummon1up {
+	background-position: -416px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_artifacthandling1down {
+	background-position: -448px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_artifacthandling1up {
+	background-position: -480px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_auraofcensure1down {
+	background-position: -512px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_auraofcensure1up {
+	background-position: -544px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_auraofconviction1down {
+	background-position: -576px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_auraofconviction1up {
+	background-position: -608px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_burstinground1down {
+	background-position: -640px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_burstinground1up {
+	background-position: -672px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_chillingrounds1down {
+	background-position: -704px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_chillingrounds1up {
+	background-position: -736px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_deadlyaim1down {
+	background-position: -768px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_deadlyaim1up {
+	background-position: -800px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_flamesofignaffar1down {
+	background-position: -832px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_flamesofignaffar1up {
+	background-position: -864px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_flamesofignaffar2down {
+	background-position: -896px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_flamesofignaffar2up {
+	background-position: -928px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_flamesofignaffar3down {
+	background-position: -960px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_flamesofignaffar3up {
+	background-position: -992px -320px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_flamesofignaffar4down {
+	background-position: -0px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_flamesofignaffar4up {
+	background-position: -32px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_hornofgandarr1down {
+	background-position: -64px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_hornofgandarr1up {
+	background-position: -96px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_inquisitorseal1down {
+	background-position: -128px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_inquisitorseal1up {
+	background-position: -160px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_inquisitorseal2down {
+	background-position: -192px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_inquisitorseal2up {
+	background-position: -224px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_rangedexpertise1down {
+	background-position: -256px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_rangedexpertise1up {
+	background-position: -288px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_runeofhagarrad1down {
+	background-position: -320px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_runeofhagarrad1up {
+	background-position: -352px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_runeofhagarrad2down {
+	background-position: -384px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_runeofhagarrad2up {
+	background-position: -416px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_runeofhagarrad3down {
+	background-position: -448px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_runeofhagarrad3up {
+	background-position: -480px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_runeofkalastor1down {
+	background-position: -512px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_runeofkalastor1up {
+	background-position: -544px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_runeofkalastor2down {
+	background-position: -576px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_runeofkalastor2up {
+	background-position: -608px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_stormbox1down {
+	background-position: -640px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_stormbox1up {
+	background-position: -672px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_stormbox2down {
+	background-position: -704px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_stormbox2up {
+	background-position: -736px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_stormspread1down {
+	background-position: -768px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_stormspread1up {
+	background-position: -800px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_wordofpain1down {
+	background-position: -832px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_wordofpain1up {
+	background-position: -864px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_wordofpain2down {
+	background-position: -896px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_wordofpain2up {
+	background-position: -928px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_wordofpain3down {
+	background-position: -960px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_wordofpain3up {
+	background-position: -992px -352px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_wordofrenewal1down {
+	background-position: -0px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_wordofrenewal1up {
+	background-position: -32px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_wordofrenewal2down {
+	background-position: -64px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_wordofrenewal2up {
+	background-position: -96px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_wordofrenewal3down {
+	background-position: -128px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class07_skillicon_wordofrenewal3up {
+	background-position: -160px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_blightbeast1down {
+	background-position: -192px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_blightbeast1up {
+	background-position: -224px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_blightbeast2down {
+	background-position: -256px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_blightbeast2up {
+	background-position: -288px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_blightbeast3down {
+	background-position: -320px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_blightbeast3up {
+	background-position: -352px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_boneharvest1down {
+	background-position: -384px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_boneharvest1up {
+	background-position: -416px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_boneharvest2down {
+	background-position: -448px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_boneharvest2up {
+	background-position: -480px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_boneharvest3down {
+	background-position: -512px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_boneharvest3up {
+	background-position: -544px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_callofthegrave1down {
+	background-position: -576px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_callofthegrave1up {
+	background-position: -608px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_drainessence1down {
+	background-position: -640px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_drainessence1up {
+	background-position: -672px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_drainessence2down {
+	background-position: -704px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_drainessence2up {
+	background-position: -736px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_drainessence3down {
+	background-position: -768px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_drainessence3up {
+	background-position: -800px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_harbingerofsouls1down {
+	background-position: -832px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_harbingerofsouls1up {
+	background-position: -864px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_illomen1down {
+	background-position: -896px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_illomen1up {
+	background-position: -928px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_markoftorment1down {
+	background-position: -960px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_markoftorment1up {
+	background-position: -992px -384px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_masterofdeath1down {
+	background-position: -0px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_masterofdeath1up {
+	background-position: -32px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_necroticedge1down {
+	background-position: -64px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_necroticedge1up {
+	background-position: -96px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_raiseskeletons1down {
+	background-position: -128px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_raiseskeletons1up {
+	background-position: -160px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_raiseskeletons2up {
+	background-position: -192px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_raiseskeletons3up {
+	background-position: -224px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_raiseskeletons4down {
+	background-position: -256px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_raiseskeletons4up {
+	background-position: -288px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_ravenousearth1down {
+	background-position: -320px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_ravenousearth1up {
+	background-position: -352px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_ravenousearth2down {
+	background-position: -384px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_ravenousearth2up {
+	background-position: -416px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_ravenousearth3down {
+	background-position: -448px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_ravenousearth3up {
+	background-position: -480px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_reapingstrike1down {
+	background-position: -512px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_reapingstrike1up {
+	background-position: -544px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_reapspirit1down {
+	background-position: -576px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_reapspirit1up {
+	background-position: -608px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_siphonsoul1down {
+	background-position: -640px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_siphonsoul1up {
+	background-position: -672px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_siphonsoul2down {
+	background-position: -704px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_siphonsoul2up {
+	background-position: -736px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_spectralbinding1down {
+	background-position: -768px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_spectralbinding1up {
+	background-position: -800px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_spectralbinding2down {
+	background-position: -832px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class08_skillicon_spectralbinding2up {
+	background-position: -864px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_aegis1down {
+	background-position: -896px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_aegis1up {
+	background-position: -928px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_aegis2down {
+	background-position: -960px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_aegis2up {
+	background-position: -992px -416px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_aegis3down {
+	background-position: -0px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_aegis3up {
+	background-position: -32px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_ascension1down {
+	background-position: -64px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_ascension1up {
+	background-position: -96px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_ascension2down {
+	background-position: -128px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_ascension2up {
+	background-position: -160px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_conjurecelestialguardian1down {
+	background-position: -192px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_conjurecelestialguardian1up {
+	background-position: -224px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_conjurecelestialguardian2down {
+	background-position: -256px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_conjurecelestialguardian2up {
+	background-position: -288px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_divinemandate1down {
+	background-position: -320px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_divinemandate1up {
+	background-position: -352px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_eyeofreckoning1down {
+	background-position: -384px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_eyeofreckoning1up {
+	background-position: -416px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_eyeofreckoning2down {
+	background-position: -448px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_eyeofreckoning2up {
+	background-position: -480px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_judgment1_down {
+	background-position: -512px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_judgment1_up {
+	background-position: -544px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_judgment2down {
+	background-position: -576px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_judgment2up {
+	background-position: -608px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_judgment3down {
+	background-position: -640px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_judgment3up {
+	background-position: -672px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_pathofthethree01down {
+	background-position: -704px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_pathofthethree01up {
+	background-position: -736px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_presenceofvirtue1down {
+	background-position: -768px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_presenceofvirtue1up {
+	background-position: -800px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_presenceofvirtue2down {
+	background-position: -832px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_presenceofvirtue2up {
+	background-position: -864px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_presenceofvirtue3down {
+	background-position: -896px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_presenceofvirtue3up {
+	background-position: -928px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_resilience1_down {
+	background-position: -960px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_resilience1_up {
+	background-position: -992px -448px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_righteousfervor1down {
+	background-position: -0px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_righteousfervor1up {
+	background-position: -32px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_righteousfervor2down {
+	background-position: -64px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_righteousfervor2up {
+	background-position: -96px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_righteousfervor3down {
+	background-position: -128px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_righteousfervor3up {
+	background-position: -160px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_shieldmastery1down {
+	background-position: -192px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_shieldmastery1up {
+	background-position: -224px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_shieldslam1down {
+	background-position: -256px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_shieldslam1up {
+	background-position: -288px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_shieldsmash1down {
+	background-position: -320px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_shieldsmash1up {
+	background-position: -352px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_viremight1down {
+	background-position: -384px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_viremight1up {
+	background-position: -416px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_viremight2down {
+	background-position: -448px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_viremight2up {
+	background-position: -480px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_viremight3down {
+	background-position: -512px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class09_skillicon_viremight3up {
+	background-position: -544px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_amatokpact1down {
+	background-position: -576px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_amatokpact1up {
+	background-position: -608px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_amatokpact2down {
+	background-position: -640px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_amatokpact2up {
+	background-position: -672px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_amatokpact3down {
+	background-position: -704px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_amatokpact3up {
+	background-position: -736px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_avalanche1down {
+	background-position: -768px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_avalanche1up {
+	background-position: -800px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_battlesurge1_down {
+	background-position: -832px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_battlesurge1_up {
+	background-position: -864px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_bloodborne1down {
+	background-position: -896px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_bloodborne1up {
+	background-position: -928px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_bloodfangs1down {
+	background-position: -960px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_bloodfangs1up {
+	background-position: -992px -480px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_bonechillingcry1down {
+	background-position: -0px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_bonechillingcry1up {
+	background-position: -32px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_dualwieldmastery1down {
+	background-position: -64px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_dualwieldmastery1up {
+	background-position: -96px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_formofthebeast1down {
+	background-position: -128px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_formofthebeast1up {
+	background-position: -160px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_heartofasterkarn1down {
+	background-position: -192px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_heartofasterkarn1up {
+	background-position: -224px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_leap1down {
+	background-position: -256px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_leap1up {
+	background-position: -288px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_leap2down {
+	background-position: -320px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_leap2up {
+	background-position: -352px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_onslaught1down {
+	background-position: -384px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_onslaught1up {
+	background-position: -416px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_onslaught2down {
+	background-position: -448px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_onslaught2up {
+	background-position: -480px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_onslaught3down {
+	background-position: -512px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_onslaught3up {
+	background-position: -544px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_rallyingcry1down {
+	background-position: -576px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_rallyingcry1up {
+	background-position: -608px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_rallyingcry2down {
+	background-position: -640px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_rallyingcry2up {
+	background-position: -672px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_untamedrage1down {
+	background-position: -704px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_untamedrage1up {
+	background-position: -736px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_wereraven1down {
+	background-position: -768px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_wereraven1up {
+	background-position: -800px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_wereraven2down {
+	background-position: -832px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_wereraven2up {
+	background-position: -864px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_wereraven3down {
+	background-position: -896px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_wereraven3up {
+	background-position: -928px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_wereravenskill1down {
+	background-position: -960px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_wereravenskill1up {
+	background-position: -992px -512px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_wereravenskill2down {
+	background-position: -0px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_wereravenskill2up {
+	background-position: -32px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_werewolf1down {
+	background-position: -64px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_werewolf1up {
+	background-position: -96px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_werewolf2down {
+	background-position: -128px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_werewolf2up {
+	background-position: -160px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_werewolf3down {
+	background-position: -192px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_werewolf3up {
+	background-position: -224px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_werewolfskill1down {
+	background-position: -256px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_werewolfskill1up {
+	background-position: -288px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_werewolfskill2down {
+	background-position: -320px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_werewolfskill2up {
+	background-position: -352px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_windsofasterkarn1down {
+	background-position: -384px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_windsofasterkarn1up {
+	background-position: -416px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_windsofasterkarn2down {
+	background-position: -448px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_class10_skillicon_windsofasterkarn2up {
+	background-position: -480px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_aether_aoe_down {
+	background-position: -512px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_aether_aoe_up {
+	background-position: -544px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_aether_buff_down {
+	background-position: -576px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_aether_buff_up {
+	background-position: -608px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_aether_melee_down {
+	background-position: -640px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_aether_melee_up {
+	background-position: -672px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_aether_projectile_down {
+	background-position: -704px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_aether_projectile_up {
+	background-position: -736px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_aetherrayblue1down {
+	background-position: -768px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_aetherrayblue1up {
+	background-position: -800px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_aetherspread1down {
+	background-position: -832px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_aetherspread1up {
+	background-position: -864px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_agonizingflames_purple_down {
+	background-position: -896px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_agonizingflames_purple_up {
+	background-position: -928px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ancestralbond_purple_down {
+	background-position: -960px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ancestralbond_purple_up {
+	background-position: -992px -544px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ancestralbond_tealdown {
+	background-position: -0px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ancestralbond_tealup {
+	background-position: -32px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ancestralbonddown {
+	background-position: -64px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ancestralbondup {
+	background-position: -96px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_asterkarnaura_blue_down {
+	background-position: -128px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_asterkarnaura_blue_up {
+	background-position: -160px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_asterkarnaura_yellow_down {
+	background-position: -192px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_asterkarnaura_yellow_up {
+	background-position: -224px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_asterkarndebuff_blue_down {
+	background-position: -256px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_asterkarndebuff_blue_up {
+	background-position: -288px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_asterkarndebuff_green_down {
+	background-position: -320px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_asterkarndebuff_green_up {
+	background-position: -352px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_asterkarndebuff_orange_down {
+	background-position: -384px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_asterkarndebuff_orange_up {
+	background-position: -416px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_asterkarndebuff_yellow_down {
+	background-position: -448px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_asterkarndebuff_yellow_up {
+	background-position: -480px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_beronathaspect_down {
+	background-position: -512px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_beronathaspect_up {
+	background-position: -544px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_bladearc_red_down {
+	background-position: -576px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_bladearc_red_up {
+	background-position: -608px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_bladeflurry_yellow_down {
+	background-position: -640px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_bladeflurry_yellow_up {
+	background-position: -672px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_bladesgreendown {
+	background-position: -704px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_bladesgreenup {
+	background-position: -736px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_blastshieldbluedown {
+	background-position: -768px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_blastshieldblueup {
+	background-position: -800px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_blastshieldgreendown {
+	background-position: -832px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_blastshieldgreenup {
+	background-position: -864px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_blastshieldpurpledown {
+	background-position: -896px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_blastshieldpurpleup {
+	background-position: -928px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_blastshieldsquareyellowdown {
+	background-position: -960px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_blastshieldsquareyellowup {
+	background-position: -992px -576px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_blastshieldwhitedown {
+	background-position: -0px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_blastshieldwhiteup {
+	background-position: -32px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_blastshieldyellowdown {
+	background-position: -64px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_blastshieldyellowup {
+	background-position: -96px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_bloodfangs1aetherdown {
+	background-position: -128px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_bloodfangs1aetherup {
+	background-position: -160px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_bloodofdreeg_red1down {
+	background-position: -192px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_bloodofdreeg_red1up {
+	background-position: -224px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_bloodofdreeg_yellow1down {
+	background-position: -256px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_bloodofdreeg_yellow1up {
+	background-position: -288px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_boltyellowdown {
+	background-position: -320px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_boltyellowup {
+	background-position: -352px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_bondsofbysmiel_blue1down {
+	background-position: -384px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_bondsofbysmiel_blue1up {
+	background-position: -416px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_brain_arcane_red_down {
+	background-position: -448px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_brain_arcane_red_up {
+	background-position: -480px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_celestialblaze1_down {
+	background-position: -512px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_celestialblaze1_up {
+	background-position: -544px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_chaos_aoe_down {
+	background-position: -576px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_chaos_aoe_up {
+	background-position: -608px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_chaos_buff_down {
+	background-position: -640px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_chaos_buff_up {
+	background-position: -672px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_chaos_melee_down {
+	background-position: -704px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_chaos_melee_up {
+	background-position: -736px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_chaos_projectile_down {
+	background-position: -768px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_chaos_projectile_up {
+	background-position: -800px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_chillingpresence_down {
+	background-position: -832px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_chillingpresence_up {
+	background-position: -864px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_chthonian_summon_down {
+	background-position: -896px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_chthonian_summon_up {
+	background-position: -928px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_cold_aoe_down {
+	background-position: -960px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_cold_aoe_up {
+	background-position: -992px -608px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_cold_buff_down {
+	background-position: -0px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_cold_buff_up {
+	background-position: -32px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_cold_melee_down {
+	background-position: -64px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_cold_melee_up {
+	background-position: -96px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_cold_projectile_down {
+	background-position: -128px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_cold_projectile_up {
+	background-position: -160px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_cursegreendown {
+	background-position: -192px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_cursegreenup {
+	background-position: -224px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_cursepurpledown {
+	background-position: -256px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_cursepurpleup {
+	background-position: -288px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_curseyellowdown {
+	background-position: -320px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_curseyellowup {
+	background-position: -352px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_debuff_mooncrescent01_down {
+	background-position: -384px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_debuff_mooncrescent01_up {
+	background-position: -416px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_defydeath_down {
+	background-position: -448px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_defydeath_up {
+	background-position: -480px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_devastation_blue1down {
+	background-position: -512px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_devastation_blue1up {
+	background-position: -544px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_dreeggaze_blue_down {
+	background-position: -576px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_dreeggaze_blue_up {
+	background-position: -608px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_dreeggaze_down {
+	background-position: -640px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_dreeggaze_up {
+	background-position: -672px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_dualbladesreddown {
+	background-position: -704px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_dualbladesredup {
+	background-position: -736px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_earth_aoe_down {
+	background-position: -768px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_earth_aoe_up {
+	background-position: -800px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_earth_buff_down {
+	background-position: -832px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_earth_buff_up {
+	background-position: -864px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_earth_melee_down {
+	background-position: -896px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_earth_melee_up {
+	background-position: -928px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_elementalbalance_buff_down {
+	background-position: -960px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_elementalbalance_buff_up {
+	background-position: -992px -640px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_elementalinfusion3down {
+	background-position: -0px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_elementalinfusion3up {
+	background-position: -32px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_energyshield_green_down {
+	background-position: -64px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_energyshield_green_up {
+	background-position: -96px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_energyshield_yellow_down {
+	background-position: -128px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_energyshield_yellow_up {
+	background-position: -160px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_eyeofguardian_down {
+	background-position: -192px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_eyeofguardian_up {
+	background-position: -224px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_eyeofreckoningred1down {
+	background-position: -256px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_eyeofreckoningred1up {
+	background-position: -288px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fangsdown {
+	background-position: -320px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fangsskill1down {
+	background-position: -352px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fangsskill1up {
+	background-position: -384px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fangsskill2down {
+	background-position: -416px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fangsskill2up {
+	background-position: -448px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fangsup {
+	background-position: -480px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fightingspiritbluedown {
+	background-position: -512px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fightingspiritblueup {
+	background-position: -544px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fightingspiritgreendown {
+	background-position: -576px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fightingspiritgreenup {
+	background-position: -608px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fightingspiritreddown {
+	background-position: -640px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fightingspiritredup {
+	background-position: -672px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fire_aoe_down {
+	background-position: -704px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fire_aoe_up {
+	background-position: -736px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fire_buff_down {
+	background-position: -768px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fire_buff_up {
+	background-position: -800px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fire_melee_down {
+	background-position: -832px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fire_melee_up {
+	background-position: -864px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fire_projectile_down {
+	background-position: -896px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_fire_projectile_up {
+	background-position: -928px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ghoststrikedown {
+	background-position: -960px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ghoststrikeup {
+	background-position: -992px -672px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_graspingvines_green1down {
+	background-position: -0px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_graspingvines_green1up {
+	background-position: -32px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_guardianswill_chaos_down {
+	background-position: -64px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_guardianswill_chaos_up {
+	background-position: -96px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_guardianswill_down {
+	background-position: -128px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_guardianswill_up {
+	background-position: -160px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_guardianswill_yellow_down {
+	background-position: -192px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_guardianswill_yellow_up {
+	background-position: -224px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_guardianswillblue_down {
+	background-position: -256px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_guardianswillblue_up {
+	background-position: -288px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_heal_blue_down {
+	background-position: -320px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_heal_blue_up {
+	background-position: -352px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_heal_down {
+	background-position: -384px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_heal_green_down {
+	background-position: -416px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_heal_green_up {
+	background-position: -448px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_heal_purple_down {
+	background-position: -480px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_heal_purple_up {
+	background-position: -512px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_heal_up {
+	background-position: -544px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_hellhoundsummon3greendown {
+	background-position: -576px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_hellhoundsummon3greenup {
+	background-position: -608px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_hookednet_down {
+	background-position: -640px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_hookednet_up {
+	background-position: -672px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_icechillauradown {
+	background-position: -704px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_icechillauraup {
+	background-position: -736px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightning_aoe_down {
+	background-position: -768px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightning_aoe_up {
+	background-position: -800px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightning_buff_down {
+	background-position: -832px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightning_buff_purple_down {
+	background-position: -864px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightning_buff_purple_up {
+	background-position: -896px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightning_buff_up {
+	background-position: -928px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightning_projectile_down {
+	background-position: -960px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightning_projectile_up {
+	background-position: -992px -704px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightning_storm_down {
+	background-position: -0px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightning_storm_up {
+	background-position: -32px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightning_stormgreen_down {
+	background-position: -64px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightning_stormgreen_up {
+	background-position: -96px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightningaether_down {
+	background-position: -128px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightningaether_up {
+	background-position: -160px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightningchain_down {
+	background-position: -192px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_lightningchain_up {
+	background-position: -224px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_livingfortress_down {
+	background-position: -256px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_livingfortress_up {
+	background-position: -288px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_magicpower_bluedown {
+	background-position: -320px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_magicpower_blueup {
+	background-position: -352px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_manticoresummonpurple1down {
+	background-position: -384px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_manticoresummonpurple1up {
+	background-position: -416px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_manticoresummonwhite1down {
+	background-position: -448px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_manticoresummonwhite1up {
+	background-position: -480px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_meatwalldown {
+	background-position: -512px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_meatwallup {
+	background-position: -544px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_menhir_red_down {
+	background-position: -576px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_menhir_red_up {
+	background-position: -608px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_meteor_down {
+	background-position: -640px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_meteor_up {
+	background-position: -672px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_mindovermatterblue1down {
+	background-position: -704px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_mindovermatterblue1up {
+	background-position: -736px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_mindovermatterblue2down {
+	background-position: -768px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_mindovermatterblue2up {
+	background-position: -800px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_mindovermatterpurple1down {
+	background-position: -832px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_mindovermatterpurple1up {
+	background-position: -864px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_mindovermatterred1down {
+	background-position: -896px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_mindovermatterred1up {
+	background-position: -928px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_mindovermatteryellow2down {
+	background-position: -960px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_mindovermatteryellow2up {
+	background-position: -992px -736px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_minionfrenzydown {
+	background-position: -0px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_minionfrenzyup {
+	background-position: -32px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_multielement_buff_down {
+	background-position: -64px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_multielement_buff_up {
+	background-position: -96px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_multimeteor_down {
+	background-position: -128px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_multimeteor_up {
+	background-position: -160px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_natural_gensummon_down {
+	background-position: -192px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_natural_gensummon_up {
+	background-position: -224px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_natural_gensummonred_down {
+	background-position: -256px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_natural_gensummonred_up {
+	background-position: -288px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_nullificationaetherdown {
+	background-position: -320px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_nullificationaetherup {
+	background-position: -352px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_nyarlathonproclamationdown {
+	background-position: -384px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_nyarlathonproclamationup {
+	background-position: -416px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_otherworldly_gensummon_down {
+	background-position: -448px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_otherworldly_gensummon_up {
+	background-position: -480px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_otherworldly_gensummonyellow_down {
+	background-position: -512px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_otherworldly_gensummonyellow_up {
+	background-position: -544px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_overguardblue1_down {
+	background-position: -576px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_overguardblue1_up {
+	background-position: -608px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_phantasmalarmorpurpledown {
+	background-position: -640px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_phantasmalarmorpurpleup {
+	background-position: -672px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_physical_melee02_down {
+	background-position: -704px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_physical_melee02_up {
+	background-position: -736px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_physical_melee_down {
+	background-position: -768px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_physical_melee_up {
+	background-position: -800px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_physical_meleeaoe_down {
+	background-position: -832px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_physical_meleeaoe_up {
+	background-position: -864px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_physical_projectile_down {
+	background-position: -896px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_physical_projectile_up {
+	background-position: -928px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_physical_shotgunprojectile_down {
+	background-position: -960px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_physical_shotgunprojectile_up {
+	background-position: -992px -768px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_pierce_buff_down {
+	background-position: -0px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_pierce_buff_purple_down {
+	background-position: -32px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_pierce_buff_purple_up {
+	background-position: -64px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_pierce_buff_up {
+	background-position: -96px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_pierce_ward_down {
+	background-position: -128px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_pierce_ward_up {
+	background-position: -160px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_plagueaetherdown {
+	background-position: -192px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_plagueaetherup {
+	background-position: -224px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_plaguebluedown {
+	background-position: -256px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_plagueblueup {
+	background-position: -288px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_plaguedown {
+	background-position: -320px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_plaguereddown {
+	background-position: -352px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_plagueredup {
+	background-position: -384px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_plaguesilverdown {
+	background-position: -416px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_plaguesilverup {
+	background-position: -448px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_plagueup {
+	background-position: -480px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_plagueyellowdown {
+	background-position: -512px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_plagueyellowup {
+	background-position: -544px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_poison_aoe_down {
+	background-position: -576px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_poison_aoe_up {
+	background-position: -608px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_poison_buff_down {
+	background-position: -640px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_poison_buff_up {
+	background-position: -672px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_poison_melee_down {
+	background-position: -704px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_poison_melee_up {
+	background-position: -736px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_poison_projectile_down {
+	background-position: -768px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_poison_projectile_up {
+	background-position: -800px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_possessionblue_down {
+	background-position: -832px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_possessionblue_up {
+	background-position: -864px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_possessiongreendown {
+	background-position: -896px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_possessiongreenup {
+	background-position: -928px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_possessionyellow1down {
+	background-position: -960px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_possessionyellow1up {
+	background-position: -992px -800px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_prawn_summon_down {
+	background-position: -0px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_prawn_summon_up {
+	background-position: -32px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_primalstrikered_down {
+	background-position: -64px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_primalstrikered_up {
+	background-position: -96px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_prismaticrage_down {
+	background-position: -128px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_prismaticrage_up {
+	background-position: -160px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_psychicattackblue_down {
+	background-position: -192px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_psychicattackblue_up {
+	background-position: -224px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_psychicattackgreen_down {
+	background-position: -256px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_psychicattackgreen_up {
+	background-position: -288px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_psychicattackpurple_down {
+	background-position: -320px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_psychicattackpurple_up {
+	background-position: -352px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ragered_down {
+	background-position: -384px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ragered_up {
+	background-position: -416px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ringflameblue_down {
+	background-position: -448px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ringflameblue_up {
+	background-position: -480px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ringflamegreen_down {
+	background-position: -512px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ringflamegreen_up {
+	background-position: -544px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ringflamered_down {
+	background-position: -576px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ringflamered_up {
+	background-position: -608px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ringofsteelbluedown {
+	background-position: -640px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ringofsteelblueup {
+	background-position: -672px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ringofsteelgreendown {
+	background-position: -704px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ringofsteelgreenup {
+	background-position: -736px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ringofsteelyellowdown {
+	background-position: -768px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_ringofsteelyellowup {
+	background-position: -800px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_shadowstrikered1down {
+	background-position: -832px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_shadowstrikered1up {
+	background-position: -864px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_shield_green_down {
+	background-position: -896px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_shield_green_up {
+	background-position: -928px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_shield_purple_down {
+	background-position: -960px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_shield_purple_up {
+	background-position: -992px -832px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_shield_silver_down {
+	background-position: -0px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_shield_silver_up {
+	background-position: -32px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_shieldsmashyellowdown {
+	background-position: -64px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_shieldsmashyellowup {
+	background-position: -96px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_silvershot_down {
+	background-position: -128px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_silvershot_up {
+	background-position: -160px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_skeleton_summon_orange_down {
+	background-position: -192px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_skeleton_summon_orange_up {
+	background-position: -224px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_smite_greendown {
+	background-position: -256px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_smite_greenup {
+	background-position: -288px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_smite_reddown {
+	background-position: -320px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_smite_redup {
+	background-position: -352px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_smite_tealdown {
+	background-position: -384px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_smite_tealup {
+	background-position: -416px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_sphereofprotectionblue1down {
+	background-position: -448px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_sphereofprotectionblue1up {
+	background-position: -480px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_spikes_down {
+	background-position: -512px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_spikes_up {
+	background-position: -544px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_stormcaller_aether1down {
+	background-position: -576px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_stormcaller_aether1up {
+	background-position: -608px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_stormcalleryellow1down {
+	background-position: -640px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_stormcalleryellow1up {
+	background-position: -672px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_summonchthonianharbinger_down {
+	background-position: -704px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_summonchthonianharbinger_up {
+	background-position: -736px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_summoneldritchlizard1down {
+	background-position: -768px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_summoneldritchlizard1up {
+	background-position: -800px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_summonrifthoundbluedown {
+	background-position: -832px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_summonrifthoundblueup {
+	background-position: -864px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_summonyetidown {
+	background-position: -896px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_summonyetiup {
+	background-position: -928px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_swordfiredown {
+	background-position: -960px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_swordfireup {
+	background-position: -992px -864px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_turd_projectile_down {
+	background-position: -0px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_turd_projectile_up {
+	background-position: -32px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_vitality_aoe_down {
+	background-position: -64px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_vitality_aoe_up {
+	background-position: -96px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_vitality_buff_down {
+	background-position: -128px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_vitality_buff_up {
+	background-position: -160px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_vitality_melee_down {
+	background-position: -192px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_vitality_melee_up {
+	background-position: -224px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_vitality_projectile_down {
+	background-position: -256px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_vitality_projectile_up {
+	background-position: -288px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_warcry_blue_down {
+	background-position: -320px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_warcry_blue_up {
+	background-position: -352px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_warcry_green_down {
+	background-position: -384px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_warcry_green_up {
+	background-position: -416px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_warcry_red_down {
+	background-position: -448px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_warcry_red_up {
+	background-position: -480px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_weaponenchantgreendown {
+	background-position: -512px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_weaponenchantgreenup {
+	background-position: -544px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_wolfwhitesummon1down {
+	background-position: -576px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskills_skillicon_wolfwhitesummon1up {
+	background-position: -608px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_auraofcensurebluedown {
+	background-position: -640px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_auraofcensureblueup {
+	background-position: -672px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_auraofcensuregreendown {
+	background-position: -704px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_auraofcensuregreenup {
+	background-position: -736px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_auraofcensurepurpledown {
+	background-position: -768px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_auraofcensurepurpleup {
+	background-position: -800px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_auraofcensurereddown {
+	background-position: -832px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_auraofcensureredup {
+	background-position: -864px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_bladearcvitalitydown {
+	background-position: -896px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_bladearcvitalityup {
+	background-position: -928px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_boneharvestbluedown {
+	background-position: -960px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_boneharvestblueup {
+	background-position: -992px -896px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_bonered_down {
+	background-position: -0px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_bonered_up {
+	background-position: -32px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_bonewhite_down {
+	background-position: -64px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_bonewhite_up {
+	background-position: -96px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_callofthegravegreendown {
+	background-position: -128px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_callofthegravegreenup {
+	background-position: -160px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_callofthegravereddown {
+	background-position: -192px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_callofthegraveredup {
+	background-position: -224px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_chillingroundschaos1down {
+	background-position: -256px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_chillingroundschaos1up {
+	background-position: -288px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_firestrikeaether1_down {
+	background-position: -320px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_firestrikeaether1_up {
+	background-position: -352px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_firestrikepurple_down {
+	background-position: -384px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_firestrikepurple_up {
+	background-position: -416px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_flamesofignaffargreendown {
+	background-position: -448px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_flamesofignaffargreenup {
+	background-position: -480px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_harbingerofsoulsgreendown {
+	background-position: -512px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_harbingerofsoulsgreenup {
+	background-position: -544px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_illomenreddown {
+	background-position: -576px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_illomenredup {
+	background-position: -608px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_inquisitorsealyellowdown {
+	background-position: -640px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_inquisitorsealyellowup {
+	background-position: -672px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_masterofdeathpurpledown {
+	background-position: -704px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_masterofdeathpurpleup {
+	background-position: -736px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_masterofdeathreddown {
+	background-position: -768px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_masterofdeathredup {
+	background-position: -800px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_necroticedgebluedown {
+	background-position: -832px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_necroticedgeblueup {
+	background-position: -864px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_noxiousfumes_down {
+	background-position: -896px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_noxiousfumes_up {
+	background-position: -928px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_reapingstrike_tealdown {
+	background-position: -960px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_reapingstrike_tealup {
+	background-position: -992px -928px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_ribsred_down {
+	background-position: -0px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_ribsred_up {
+	background-position: -32px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_ribswhiteround_down {
+	background-position: -64px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_ribswhiteround_up {
+	background-position: -96px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_spectralbindingreddown {
+	background-position: -128px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_spectralbindingredup {
+	background-position: -160px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_stormrune1down {
+	background-position: -192px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_stormrune1up {
+	background-position: -224px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_summonghostcrabdown {
+	background-position: -256px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_summonghostcrabup {
+	background-position: -288px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_summonskeletalgolemdown {
+	background-position: -320px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_summonskeletalgolemup {
+	background-position: -352px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_summonwraithvitalitydown {
+	background-position: -384px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_summonwraithvitalityup {
+	background-position: -416px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_wordofpain3yellowdown {
+	background-position: -448px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_wordofpain3yellowup {
+	background-position: -480px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_wordofrenewal2yellowdown {
+	background-position: -512px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_wordofrenewal2yellowup {
+	background-position: -544px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_wordofrenewalyellowdown {
+	background-position: -576px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_itemskillsgdx1_skillicon_wordofrenewalyellowup {
+	background-position: -608px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_absorbing_down {
+	background-position: -640px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_absorbing_up {
+	background-position: -672px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_amplification_down {
+	background-position: -704px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_amplification_up {
+	background-position: -736px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_bloodrite_down {
+	background-position: -768px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_bloodrite_up {
+	background-position: -800px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_energyovertime_down {
+	background-position: -832px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_energyovertime_up {
+	background-position: -864px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_freezeimmunity_down {
+	background-position: -896px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_freezeimmunity_up {
+	background-position: -928px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_pure_down {
+	background-position: -960px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_pure_up {
+	background-position: -992px -960px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_stoneskin_down {
+	background-position: -0px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_stoneskin_up {
+	background-position: -32px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_swift_down {
+	background-position: -64px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_swift_up {
+	background-position: -96px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_truesight_down {
+	background-position: -128px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_truesight_up {
+	background-position: -160px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_vampire_down {
+	background-position: -192px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_vampire_up {
+	background-position: -224px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_wealth_down {
+	background-position: -256px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_potionbuffs_skillicon_potion_wealth_up {
+	background-position: -288px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_runeskills_skillicon_charge1down {
+	background-position: -320px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_runeskills_skillicon_charge1up {
+	background-position: -352px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_runeskills_skillicon_chargethrough1down {
+	background-position: -384px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_runeskills_skillicon_chargethrough1up {
+	background-position: -416px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_runeskills_skillicon_disengage1down {
+	background-position: -448px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_runeskills_skillicon_disengage1up {
+	background-position: -480px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_runeskills_skillicon_leap1down {
+	background-position: -512px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_runeskills_skillicon_leap1up {
+	background-position: -544px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_runeskills_skillicon_shadowstrike1down {
+	background-position: -576px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_runeskills_skillicon_shadowstrike1up {
+	background-position: -608px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_runeskills_skillicon_teleport1down {
+	background-position: -640px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_runeskills_skillicon_teleport1up {
+	background-position: -672px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skillicon_defaultattackdown {
+	background-position: -704px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skillicon_defaultattackup {
+	background-position: -736px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skillicon_defaultevade_round_down {
+	background-position: -768px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skillicon_defaultevade_round_up {
+	background-position: -800px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skillicon_defaultevadedown {
+	background-position: -832px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skillicon_defaultevadeup {
+	background-position: -864px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skillicon_defaultpetattackdown {
+	background-position: -896px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skillicon_defaultpetattackup {
+	background-position: -928px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skillicon_defaultswordbuffdown {
+	background-position: -960px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skillicon_defaultswordbuffup {
+	background-position: -992px -992px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skillicon_devotionstar01_down {
+	background-position: -0px -1024px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skillicon_devotionstar01_up {
+	background-position: -32px -1024px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skillicon_transmuter01down {
+	background-position: -64px -1024px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skillicon_transmuter01up {
+	background-position: -96px -1024px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skilliicon_nullification_down {
+	background-position: -128px -1024px;
+	width: 32px;
+	height: 32px;
+}
+
+.skills-ui_skills_icons_skilliicon_nullification_up {
+	background-position: -160px -1024px;
+	width: 32px;
+	height: 32px;
+}

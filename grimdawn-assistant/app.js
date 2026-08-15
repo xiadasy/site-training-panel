@@ -1,6 +1,7 @@
 /* 恐怖黎明套装助手 v3 — 含职业筛选 */
 const LS_BUILDS = 'gd_set_builds_v1';
 const LS_COMPARE = 'gd_set_compare_v1';
+const LS_SHRINES = 'gd_shrine_progress_v1';
 
 const state = {
   meta: null,
@@ -13,7 +14,9 @@ const state = {
   builds: {},
   currentBuildId: null,
   classIds: [], // selected mastery ids for class tab
-  classSub: 'sets',
+  classSub: 'builds',
+  selectedBuildId: null,
+  shrineDone: {},
 };
 
 const $ = (s, el = document) => el.querySelector(s);
@@ -28,6 +31,136 @@ function getSet(id) {
   ensureSets();
   return state.sets.get(id);
 }
+
+function getSetVariants(setOrId) {
+  const s = typeof setOrId === 'string' ? getSet(setOrId) : setOrId;
+  if (!s) return null;
+  if (s.variantAll && s.variantAll.length) return s;
+  const map = window.GD_DATA_SET_VARIANTS && window.GD_DATA_SET_VARIANTS.map;
+  const v = map && map[s.id];
+  if (!v) {
+    const myth = !!(s.mythical || (s.members || []).every((m) => m && (m.mythical || (m.style && m.style.mythical))));
+    return Object.assign({}, s, {
+      hasVariants: false,
+      version: myth ? 'myth' : 'normal',
+      versionZh: myth ? '神话' : '普通',
+      variantAll: null,
+    });
+  }
+  return Object.assign({}, s, {
+    hasVariants: true,
+    version: v.version,
+    versionZh: v.versionZh,
+    variantSiblings: v.siblings,
+    variantAll: v.all,
+    mythical: v.version === 'myth' || !!s.mythical,
+  });
+}
+function versionBadgeHTML(s) {
+  if (!s) return '';
+  const vv = getSetVariants(s);
+  const v = (vv && vv.version) || 'normal';
+  const zh = (vv && vv.versionZh) || (v === 'myth' ? '神话' : '普通');
+  const cls = v === 'myth' ? 'myth' : v === 'empowered' ? 'emp' : 'norm';
+  return `<span class="badge ver ver-${cls}">${escapeHtml(zh)}</span>`;
+}
+function variantChipsHTML(s) {
+  const vv = getSetVariants(s);
+  if (!vv) return '';
+  const list = vv.variantAll;
+  if (!list || list.length < 2) return `<div class="variant-mini">${versionBadgeHTML(vv)}</div>`;
+  return `<div class="variant-mini"><span class="variant-mini-label">版本</span>${list
+    .map((x) => {
+      const on = x.id === s.id ? 'on' : '';
+      return `<button type="button" class="variant-chip ${on} ver-${x.version}" data-variant-set="${escapeHtml(x.id)}">${escapeHtml(x.versionZh)} · Lv${x.level ?? '?'}</button>`;
+    })
+    .join('')}</div>`;
+}
+function variantSwitchHTML(s) {
+  const vv = getSetVariants(s);
+  if (!vv) return '';
+  const list = vv.variantAll;
+  if (!list || list.length < 2) {
+    return `<div class="variant-bar single">当前版本：${versionBadgeHTML(vv)} · 需求等级 Lv ${s.level ?? '?'}</div>`;
+  }
+  return `<div class="variant-bar">
+    <div class="variant-label">⚠ 同名套装有多个版本，属性不同。点下方切换查看：</div>
+    <div class="variant-switches">
+      ${list
+        .map((v) => {
+          const on = v.id === s.id ? 'on' : '';
+          return `<button type="button" class="variant-btn ${on} ver-${v.version}" data-variant-set="${escapeHtml(v.id)}">${escapeHtml(v.versionZh)} · Lv ${v.level ?? '?'}${v.dlcZh ? ' · ' + escapeHtml(v.dlcZh) : ''}</button>`;
+        })
+        .join('')}
+    </div>
+  </div>`;
+}
+function variantCompareHTML(s) {
+  const vv = getSetVariants(s);
+  const list = vv && vv.variantAll;
+  if (!list || list.length < 2) return '';
+  const fulls = list.map((v) => getSetVariants(getSet(v.id))).filter(Boolean);
+  if (fulls.length < 2) return '';
+  const pieceSet = new Set();
+  for (const f of fulls) {
+    for (const t of f.bonusTiers || []) pieceSet.add(t.pieces);
+    if (f.tierSummary) Object.keys(f.tierSummary).forEach((k) => pieceSet.add(+k));
+  }
+  const pieces = [...pieceSet].filter(Boolean).sort((a, b) => a - b);
+  const head = fulls
+    .map((f) => {
+      const lab = f.versionZh || (f.mythical ? '神话' : '普通');
+      return `<th class="ver-${f.version || ''}">${escapeHtml(lab)}<div class="en">Lv ${f.level ?? '?'} · ${escapeHtml((f.dlc && f.dlc.zh) || '')}</div></th>`;
+    })
+    .join('');
+  const rows = pieces
+    .map((pcs) => {
+      const cells = fulls
+        .map((f) => {
+          let lines = [];
+          if (f.bonusTiers) {
+            const t = f.bonusTiers.find((x) => x.pieces == pcs);
+            lines = (t && t.lines) || [];
+          } else if (f.tierSummary) {
+            lines = f.tierSummary[pcs] || f.tierSummary[String(pcs)] || [];
+          }
+          return `<td>${lines.length ? lines.map((l) => `<div class="line">${escapeHtml(l)}</div>`).join('') : '<span class="muted">—</span>'}</td>`;
+        })
+        .join('');
+      return `<tr><th>(${pcs}) 件套</th>${cells}</tr>`;
+    })
+    .join('');
+  const maxM = Math.max(...fulls.map((f) => (f.members || []).length));
+  let memRows = '';
+  for (let i = 0; i < maxM; i++) {
+    memRows +=
+      `<tr><th>部件 ${i + 1}</th>` +
+      fulls
+        .map((f) => {
+          const m = (f.members || [])[i];
+          if (!m) return '<td>—</td>';
+          const myth = m.mythical || (m.style && m.style.mythical);
+          return `<td><button type="button" class="linkish" data-item-id="${escapeHtml(m.id)}">${escapeHtml(m.nameZh)}</button><div class="en">Lv ${m.level ?? '?'}${myth ? ' · 神话件' : ''}</div></td>`;
+        })
+        .join('') +
+      '</tr>';
+  }
+  return `<div class="section variant-compare">
+    <h4>版本属性对照（避免把普通当神话）</h4>
+    <p class="muted tiny">以「野兽召唤者的华服」为例：普通约 Lv70（防御+5%…授予野性狂暴），神话 Lv94（防御+6%…强化召唤物且无同一授予技能）。请逐行对比。</p>
+    <div class="table-wrap"><table class="variant-table">
+      <thead><tr><th>项目</th>${head}</tr></thead>
+      <tbody>
+        <tr><th>套装 ID</th>${fulls.map((f) => `<td>${escapeHtml(f.id)} (#${f.numId ?? ''})</td>`).join('')}</tr>
+        <tr><th>等级 / DLC</th>${fulls.map((f) => `<td>Lv ${f.level ?? '?'} · ${escapeHtml((f.dlc && f.dlc.zh) || '本体')}</td>`).join('')}</tr>
+        ${rows}
+        ${memRows}
+      </tbody>
+    </table></div>
+  </div>`;
+}
+
+
 
 function loadBuilds() {
   try {
@@ -149,18 +282,23 @@ function sourcesBlockHTML(src, {compact=false}={}) {
     return `<div class="source-line">📍 ${lines.map(escapeHtml).join(' · ')}</div>`;
   }
   const groups = src.groups || [];
-  if (!groups.length) return '';
+  if (!groups.length) {
+    const lines = src.lines || [];
+    if (!lines.length) return '';
+    return `<div class="section source-section"><h4>获取来源</h4>${lines.map(l=>`<div class="source-item">• ${escapeHtml(l)}</div>`).join('')}</div>`;
+  }
   return `<div class="section source-section"><h4>获取来源</h4>${groups.map(g => {
     const items = (g.items||[]).map(it => {
       const sub = it.sub ? ` <span class="src-sub">(${escapeHtml(it.sub)})</span>` : '';
-      const link = it.mapUrl ? ` <a class="src-map" href="${escapeHtml(it.mapUrl)}" target="_blank" rel="noopener">地图</a>` : '';
+      const link = it.mapUrl
+        ? ` <button type="button" class="src-map" data-ext-url="${escapeHtml(it.mapUrl)}" data-ext-title="地图定位 · ${escapeHtml(it.text||'')}">地图</button>`
+        : '';
       return `<div class="source-item">• ${escapeHtml(it.text)}${sub}${link}</div>`;
     }).join('');
-    const more = g.more ? `<div class="src-sub">…另有 ${g.more} 条</div>` : '';
+    const more = g.more ? `<div class="muted tiny">…另有 ${g.more} 条</div>` : '';
     return `<div class="source-group"><div class="source-title">${escapeHtml(g.titleZh||'')}</div>${items}${more}</div>`;
   }).join('')}</div>`;
 }
-
 
 function matchLevel(level, key) {
   if (!key || key === '1-94') return true;
@@ -357,13 +495,14 @@ function cardHTML(it, full, opts = {}) {
       </div>
       <div class="badges">
         ${classScore != null ? `<span class="badge legend">相关 ${Math.round(classScore * 10) / 10}</span>` : ''}
-        ${it.mythical || full?.mythical ? `<span class="badge myth">神话</span>` : it.mythicalPartial || full?.mythicalPartial ? `<span class="badge myth">含神话</span>` : ''}
+        ${versionBadgeHTML(full || it)}
         <span class="badge ${rarityClass(it.rarity)}">${escapeHtml(rarityZh(it.rarity))}</span>
         <span class="badge">Lv ${it.level ?? '?'}</span>
         <span class="badge">${it.pieceCount} 件</span>
         <span class="badge dlc">${escapeHtml(it.dlcZh || full?.dlc?.zh || '本体')}</span>
       </div>
     </div>
+    ${variantChipsHTML(full || it)}
     ${classScore != null ? scoreBar(classScore) : ''}
     <div class="meta-line">
       <span>部位：${escapeHtml((it.slots || []).join(' / '))}</span>
@@ -379,7 +518,7 @@ function cardHTML(it, full, opts = {}) {
       <button type="button" data-act="detail">详情</button>
       <button type="button" data-act="build">${inBuild ? '已在配装 ✓' : '加入配装'}</button>
       <button type="button" data-act="compare">${inCompare ? '取消对比' : '对比'}</button>
-      ${it.numId ? `<a href="https://www.grimtools.com/db/zh/itemsets/${it.numId}" target="_blank" rel="noopener"><button type="button">GrimTools</button></a>` : ''}
+      ${it.numId ? `<button type="button" data-ext-url="https://www.grimtools.com/db/zh/itemsets/${it.numId}" data-ext-title="GrimTools 套装">GrimTools</button>` : ''}
     </div>
       </div>
     </div>
@@ -394,6 +533,13 @@ function bindCardList(root) {
       e.preventDefault();
       e.stopPropagation();
       openItemDetail(itemEl.dataset.itemId);
+      return;
+    }
+    const varBtn = e.target.closest('[data-variant-set]');
+    if (varBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      openDetail(varBtn.dataset.variantSet);
       return;
     }
     const btn = e.target.closest('button[data-act]');
@@ -569,10 +715,11 @@ function openItemDetail(id) {
 }
 
 function openDetail(id) {
-  const s = getSet(id);
-  if (!s) return;
+  const s0 = getSet(id);
+  if (!s0) return;
+  const s = getSetVariants(s0);
   const body = $('#drawerBody');
-  const tiers = `<div class="section"><h4>套装加成</h4>${bonusTiersHTML(s)}</div>`;
+  const tiers = `<div class="section"><h4>本版本套装加成（${escapeHtml(s.versionZh || '')}）</h4>${bonusTiersHTML(s)}</div>`;
 
   const build = currentBuild();
   const tags = (build?.tags && build.tags[id]) || [];
@@ -583,22 +730,24 @@ function openDetail(id) {
   body.innerHTML = `
     <h2>${escapeHtml(s.nameZh)}</h2>
     <div class="en">${escapeHtml(s.nameEn || '')}</div>
+    ${variantSwitchHTML(s)}
     <div style="margin:8px 0">${iconsRowHTML((s.members||[]).map(m=>({id:m.id,bitmap:m.bitmap,rarity:m.rarity})), 'md', true)}</div>
     <div class="badges" style="justify-content:flex-start;margin:8px 0">
-      ${s.mythical ? `<span class="badge myth">神话</span>` : s.mythicalPartial ? `<span class="badge myth">含神话</span>` : ''}
+      ${versionBadgeHTML(s)}
       <span class="badge ${rarityClass(s.members?.[0]?.rarity)}">${escapeHtml(rarityZh(s.members?.[0]?.rarity))}</span>
       <span class="badge">Lv ${s.level ?? '?'}</span>
       <span class="badge">${s.pieceCount} 件</span>
       <span class="badge dlc">${escapeHtml(s.dlc?.zh || '本体')}</span>
     </div>
-    <div class="icon-tip">点左侧/部件图标可查看单件完整属性</div>
+    <div class="icon-tip">点左侧/部件图标可查看单件完整属性。有多版本时务必先看清「普通/神话」。</div>
     ${classBest ? `<div class="section"><h4>职业相关</h4>${classBest}</div>` : ''}
     ${s.descriptionZh ? `<div class="desc">“${escapeHtml(s.descriptionZh)}”</div>` : ''}
+    ${variantCompareHTML(s)}
     ${s.sourceSummary ? `<div class="section"><h4>获取来源（套装汇总）</h4><div class="source-line">📍 ${escapeHtml(s.sourceSummary.label||'')}</div>${(s.sourceSummary.lines||[]).map(l=>`<div class="source-item">• ${escapeHtml(l)}</div>`).join('')}<p class="muted tiny">具体怪物/任务/地图见下方各部件。</p></div>` : ''}
     <div class="card-actions">
       <button type="button" id="dBuild">${build?.setIds?.includes(id) ? '移出配装' : '加入配装'}</button>
       <button type="button" id="dCompare">${state.compare.includes(id) ? '取消对比' : '加入对比'}</button>
-      ${s.grimtoolsUrl ? `<a href="${s.grimtoolsUrl}" target="_blank" rel="noopener"><button type="button">打开 GrimTools</button></a>` : ''}
+      ${s.grimtoolsUrl ? `<button type="button" data-ext-url="${s.grimtoolsUrl}" data-ext-title="打开 GrimTools">打开 GrimTools</button>` : ''}
     </div>
     <div class="section tag-input">
       <h4>我的标签（当前方案）</h4>
@@ -638,8 +787,15 @@ function openDetail(id) {
     removeTag(id, b.dataset.rm);
     openDetail(id);
   };
-  // drawerBody item click
+  // drawerBody: item detail + variant switch
   $('#drawerBody').onclick = (e) => {
+    const varBtn = e.target.closest('[data-variant-set]');
+    if (varBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      openDetail(varBtn.dataset.variantSet);
+      return;
+    }
     const el = e.target.closest('[data-item-id]');
     if (!el) return;
     e.preventDefault();
@@ -685,6 +841,119 @@ function toggleCompare(id) {
 }
 
 /* ---------- class tab ---------- */
+/* ---------- build wizard v14 ---------- */
+function getBuildGroup(ids = state.classIds) {
+  const db = window.GD_BUILD_GUIDES;
+  if (!db || !ids?.length) return null;
+  const key = [...ids].sort((a,b)=>a-b).join('-');
+  return (ids.length === 1 ? db.singles : db.combos)?.find((x) => x.key === key) || null;
+}
+function getSelectedBuild() {
+  const group = getBuildGroup();
+  if (!group?.builds?.length) return null;
+  return group.builds.find((x) => x.id === state.selectedBuildId) || group.builds[0];
+}
+function masterySkill(name) {
+  for (const m of getGuides()?.masteries || []) {
+    const s = (m.skills || []).find((x) => x.nameZh === name);
+    if (s) return s;
+  }
+  return null;
+}
+function skillPillHTML(name, kind='core') {
+  const s = masterySkill(name);
+  return `<div class="build-skill ${kind}">${skillIconHTML(s)}<span>${escapeHtml(name)}</span></div>`;
+}
+function buildLinkHTML(url, label, title) {
+  return `<button type="button" class="ghost" data-ext-url="${escapeHtml(url)}" data-ext-title="${escapeHtml(title || label)}">${escapeHtml(label)}</button>`;
+}
+function renderClassBuildPanels() {
+  const group = getBuildGroup();
+  const wizard = $('#classBuildWizard');
+  const buildBox = $('#classBuilds'), skillBox = $('#classSkills'), devBox = $('#classDevotion');
+  if (!group || !wizard || !buildBox || !skillBox || !devBox) return;
+  if (!state.selectedBuildId || !group.builds.some(x=>x.id===state.selectedBuildId)) state.selectedBuildId = group.builds[0].id;
+  const b = getSelectedBuild();
+  const v=b.verification||{level:'concept',label:'算法组合 · 未验证',exact:false};
+  wizard.innerHTML = `<div class="wizard-title"><div><span class="step-no">1</span><b>${escapeHtml(group.comboZh)}</b><span class="en"> ${escapeHtml(group.comboEn)}</span></div><span class="badge ${v.exact?'verified-badge':'draft-badge'}">${escapeHtml(v.label)}</span></div>
+    <div class="build-choice-row">${group.builds.map((x,i)=>`<button type="button" class="build-choice ${x.id===b.id?'active':''}" data-build-id="${escapeHtml(x.id)}"><b>${i+1}. ${escapeHtml(x.name)}</b><small>${escapeHtml(x.difficulty)} · ${escapeHtml(x.weapon)}</small></button>`).join('')}</div>
+    <div class="wizard-current"><span class="step-no">2</span>当前方案：<b>${escapeHtml(b.name)}</b>　<span class="muted">${escapeHtml(b.summary)}</span></div>
+    <div class="source-verdict ${v.exact?'ok':'warn'}"><b>${v.exact?'这条可追溯：':'注意：这条不是攻略原样导入。'}</b> ${escapeHtml(v.note||'')}${v.sourceUrl?` <button type="button" class="src-map" data-ext-url="${escapeHtml(v.sourceUrl)}" data-ext-title="流派来源">查看 GrimTools 原配置</button>`:''}</div>`;
+  buildBox.innerHTML = `<div class="build-overview-grid">
+    <article class="build-block hero"><h3>一句话玩法</h3><p>${escapeHtml(b.summary)}</p><div class="build-tags"><span>${escapeHtml(b.damage)}</span><span>${escapeHtml(b.weapon)}</span><span>${escapeHtml(b.attribute)}</span></div></article>
+    <article class="build-block"><h3>战斗按键顺序</h3><ol>${b.loop.map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ol></article>
+    <article class="build-block"><h3>装备只看这些词</h3><div class="build-tags">${b.gearKeywords.map(x=>`<span>${escapeHtml(x)}</span>`).join('')}</div><p class="muted tiny">下面「推荐套装/散件」仍按双职业技能相关度筛；再优先检查这些词是否符合本流派。</p></article>
+    <article class="build-block"><h3>新手避坑</h3><ul><li>只选一个主伤害类型，不要看到绿字就换。</li><li>所有抗性先补到 80%，终极难度最好溢出 20～30%。</li><li>降抗技能与星座，通常比多一点面板伤害更重要。</li></ul></article>
+  </div>`;
+  const sk=b.skills;
+  skillBox.innerHTML = `<div class="wizard-banner"><span class="step-no">3</span><b>技能抄作业</b>　主攻点满 → 降抗/光环点到够用 → 生存先 1 点</div>
+    <article class="build-block"><h3>优先点满</h3><div class="build-skill-grid">${sk.max.map(x=>skillPillHTML(x,'core')).join('')}</div></article>
+    <article class="build-block"><h3>第二优先：降抗 / 增伤 / 光环</h3><div class="build-skill-grid">${sk.support.map(x=>skillPillHTML(x,'support')).join('')}</div></article>
+    <article class="build-block"><h3>先点 1 点，后期再补</h3><div class="build-skill-grid">${sk.onePoint.map(x=>skillPillHTML(x,'safe')).join('')}</div></article>
+    <article class="build-block"><h3>升级顺序</h3><ol>${sk.order.map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ol><p class="muted tiny">装备提供 +技能后，可把超过有效上限的点移到生存。不同装备转换伤害时，以装备说明为准。</p></article>`;
+  const d=b.devotion;
+  devBox.innerHTML = `<div class="wizard-banner"><span class="step-no">4</span><b>${escapeHtml(b.name)} · 星座路线</b>　不是通用星座，已按主伤害和玩法匹配</div>
+    <article class="build-block devotion-route"><h3>按顺序点</h3>${d.route.map((x,i)=>`<div class="route-step"><i>${i+1}</i><span>${escapeHtml(x)}</span></div>`).join('')}</article>
+    <article class="build-block"><h3>星座技能绑定</h3><p>${escapeHtml(d.bind)}</p><p class="muted tiny">临时星座凑够亲和后可以洗掉岔路口/小星座，但必须保证后续星座仍由其余节点自持。</p></article>
+    <article class="build-block"><h3>属性点</h3><p>${escapeHtml(b.attribute)}</p><p class="muted tiny">铁则：先满足毕业装备需求，剩余点再按上面分配；新手默认偏体魄更稳。</p></article>
+    <div class="card-actions">${buildLinkHTML('https://www.grimtools.com/calc/','打开星座盘','GrimTools 星座盘')}${buildLinkHTML('https://www.grimtools.com/builds/','看公开流派库','GrimTools Builds')}</div>`;
+  renderLevelPlan();
+}
+
+function skillPointsAtLevel(level) {
+  const lv=Math.max(1,Math.min(100,+level||1));
+  if(lv<=50)return (lv-1)*3;
+  if(lv<=90)return 147+(lv-50)*2;
+  return 227+(lv-90);
+}
+function skillRuleByName(name){
+  const db=window.GD_SKILL_RULES;
+  for(const id of state.classIds||[]){const c=db?.classes?.[id];const s=c?.skills?.find(x=>x.nameZh===name);if(s)return {...s,classId:+id,className:c.nameZh};}
+  return null;
+}
+function buildAllocationSequence(b){
+  // 来源验证路线：从外部成品 Build 的裸点目标生成，不再由关键词拼技能。
+  if(b.exactTargets){
+    const seq=[];const db=window.GD_SKILL_RULES;
+    const addBar=(id,target)=>{for(let n=1;n<=target;n++)seq.push({kind:'mastery',classId:+id,className:db.classes[id].nameZh,name:'专精条',to:n});};
+    const addSkill=(id,name,target)=>{const r=db.classes[id]?.skills?.find(x=>x.nameZh===name);const cap=Math.max(Number(r?.max||0),Number(target||0));for(let n=1;n<=target;n++)seq.push({kind:'skill',classId:+id,className:db.classes[id].nameZh,name,to:n,max:cap});};
+    // 先保证乌鸦完整技能链与一只可靠主宠，再逐步补双专精光环/降抗；最后趋近成品248点。
+    const early=[['3','召唤乌鸦'],['3','血肉缝合'],['3','风暴之心'],['3','闪电打击'],['6','召唤荆棘兽'],['6','莫格卓根的契约'],['6','橡树皮'],['3','虚弱诅咒'],['3','易伤']];
+    const bars={};for(const id of Object.keys(b.exactTargets)){bars[id]=0;}
+    const ensure=(id,req)=>{while(bars[id]<req){bars[id]++;seq.push({kind:'mastery',classId:+id,className:db.classes[id].nameZh,name:'专精条',to:bars[id]});}};
+    const done=new Set();
+    for(const [id,name] of early){const target=b.exactTargets[id]?.skills?.[name];if(!target)continue;const r=db.classes[id].skills.find(x=>x.nameZh===name);ensure(id,Math.min(50,r?.masteryRequired||1));addSkill(id,name,target);done.add(id+'|'+name);}
+    for(const id of Object.keys(b.exactTargets))ensure(id,b.exactTargets[id].mastery||50);
+    for(const [id,t] of Object.entries(b.exactTargets))for(const [name,target] of Object.entries(t.skills||{}))if(!done.has(id+'|'+name))addSkill(id,name,target);
+    return seq;
+  }
+  const db=window.GD_SKILL_RULES, pts={}, bars={};
+  const seq=[]; for(const id of state.classIds){pts[id]={};bars[id]=0;}
+  const addBar=(id,target)=>{while((bars[id]||0)<target){bars[id]++;seq.push({kind:'mastery',classId:id,className:db.classes[id].nameZh,name:'专精条',to:bars[id]});}};
+  const addSkill=(name,target)=>{const s=skillRuleByName(name);if(!s)return;addBar(s.classId,Math.min(50,s.masteryRequired||1));const cur=pts[s.classId][name]||0;for(let n=cur+1;n<=Math.min(target,s.max||1);n++){pts[s.classId][name]=n;seq.push({kind:'skill',classId:s.classId,className:s.className,name,to:n,max:s.max});}};
+  // 先成型主攻，再开第二职业；之后降抗/光环，最后补生存。
+  for(const n of b.skills.max||[]) addSkill(n,skillRuleByName(n)?.max||1);
+  for(const n of b.skills.support||[]) addSkill(n,skillRuleByName(n)?.max||1);
+  for(const n of b.skills.onePoint||[]) addSkill(n,1);
+  // 两条专精按流派实际需求补到50，剩余点继续补生存技能裸上限。
+  for(const id of state.classIds)addBar(id,50);
+  for(const n of b.skills.onePoint||[]) addSkill(n,skillRuleByName(n)?.max||1);
+  return seq;
+}
+function renderLevelPlan(){
+  const box=$('#classLevelPlan'),b=getSelectedBuild();if(!box||!b)return;
+  const verified=!!b.verification?.exact;
+  if(!verified){box.innerHTML=`<div class="source-verdict warn"><b>已停止生成“精确加点”。</b> 这条路线目前只是算法组合，没有绑定外部 GrimTools/论坛成品 Build。继续显示逐点数字会误导你。请改选带“来源验证”标记的路线。</div>`;return;}
+  const lv=Math.max(1,Math.min(100,+($('#buildCurrentLevel')?.value||1))),quest=Math.max(0,Math.min(13,+($('#buildQuestPoints')?.value||0)));
+  const levelPts=skillPointsAtLevel(lv),budget=levelPts+quest,seq=buildAllocationSequence(b),used=seq.slice(0,budget),next=seq.slice(budget,budget+10);
+  const grouped={};for(const id of state.classIds)grouped[id]={bar:0,skills:{}};
+  for(const a of used){if(a.kind==='mastery')grouped[a.classId].bar=a.to;else grouped[a.classId].skills[a.name]=a.to;}
+  const classHtml=state.classIds.map(id=>{const c=window.GD_SKILL_RULES?.classes?.[id],g=grouped[id];return `<article class="level-class-card"><h3>${escapeHtml(c?.nameZh||className(id))}</h3><div class="mastery-target">专精条 <b>${g.bar}/50</b></div>${Object.entries(g.skills).sort((a,b)=>a[0].localeCompare(b[0],'zh')).map(([n,v])=>{const r=skillRuleByName(n);return `<div class="level-skill-row"><span>${skillIconHTML(masterySkill(n))}${escapeHtml(n)}</span><b>${v}/${r?.max||v}</b></div>`}).join('')||'<p class="muted tiny">当前等级还没开始投这一系。</p>'}</article>`}).join('');
+  const nextHtml=next.length?next.map((a,i)=>`<div class="next-point ${i===0?'now':''}"><i>${budget+i+1}</i><span>${i===0?'下一点：':'然后：'}<b>${escapeHtml(a.className)}</b> → ${escapeHtml(a.name)} ${a.kind==='mastery'?a.to+'/50':a.to+'/'+a.max}</span></div>`).join(''):'<div class="next-point now"><span>本流派核心目标已经完成，余点按抗性/生存短板补充。</span></div>';
+  const shortage=Math.max(0,budget-seq.length);
+  box.innerHTML=`<div class="level-budget"><b>Lv${lv}</b><span>升级点 ${levelPts}</span><span>任务点 ${quest}</span><strong>本次按 ${budget} 点计算</strong></div><div class="level-class-grid">${classHtml}</div><article class="build-block next-plan"><h3>从你现在开始，后面10点这样投</h3>${nextHtml}${shortage?`<p class="muted tiny">核心模板用掉 ${seq.length} 点，剩余 ${shortage} 点作为装备适配点；优先修正抗性、生存或装备转换后的技能。</p>`:''}</article><p class="muted tiny">显示的是裸点，不含装备“+技能”。如果你现在的点法不一样，可去灵魂向导洗点后对照；任务点不确定时，看游戏技能页剩余点，或先填0获得保守方案。</p>`;
+}
+
 function initClassUI() {
   const g = state.classGuide;
   if (!g) return;
@@ -716,9 +985,15 @@ function initClassUI() {
   }
 
   chips.onclick = (e) => {
-    const b = e.target.closest('[data-cid]');
-    if (!b) return;
-    const id = +b.dataset.cid;
+    const b = e.target.closest('[data-build-id]');
+    if (b) {
+      state.selectedBuildId = b.dataset.buildId;
+      renderClassBuildPanels();
+      return;
+    }
+    const cbtn = e.target.closest('[data-cid]');
+    if (!cbtn) return;
+    const id = +cbtn.dataset.cid;
     // toggle into classIds max 2
     const idx = state.classIds.indexOf(id);
     if (idx >= 0) state.classIds.splice(idx, 1);
@@ -755,12 +1030,25 @@ function initClassUI() {
     });
   });
 
-  $$('.subtab').forEach((t) => {
+  const wizard = $('#classBuildWizard');
+  if (wizard) wizard.onclick = (e) => {
+    const b = e.target.closest('[data-build-id]');
+    if (!b) return;
+    state.selectedBuildId = b.dataset.buildId;
+    renderClassBuildPanels();
+  };
+
+  const lvlBtn=$('#btnBuildLevelPlan'); if(lvlBtn) lvlBtn.onclick=renderLevelPlan;
+  ['buildCurrentLevel','buildQuestPoints'].forEach(id=>$(`#${id}`)?.addEventListener('change',renderLevelPlan));
+
+  // 只绑职业结果区的 subtab，避免抢 NPC/制作/加点/任务 的子页签
+  $$('#classResult > .subtabs .subtab, #tab-class .subtabs .subtab[data-sub]').forEach((t) => {
     t.onclick = () => {
+      if (!t.dataset.sub) return;
       state.classSub = t.dataset.sub;
-      $$('.subtab').forEach((x) => x.classList.toggle('active', x === t));
+      $$('#tab-class .subtabs .subtab[data-sub]').forEach((x) => x.classList.toggle('active', x === t));
       $$('#classResult .subpanel').forEach((p) => p.classList.remove('active'));
-      const map = { sets: '#classSets', loose: '#classLoose', slots: '#classSlots' };
+      const map = { builds: '#classBuilds', skills: '#classSkills', devotion: '#classDevotion', sets: '#classSets', loose: '#classLoose', slots: '#classSlots' };
       $(map[state.classSub])?.classList.add('active');
     };
   });
@@ -943,6 +1231,9 @@ function renderClassResults() {
     </div>
     <p class="muted tiny" style="margin:8px 0 0">分数来自技能/专精绑定深度，不是通关强度排名。双修时两边加分。</p>
   `;
+
+  // 流派、技能、星座先与职业组合联动
+  renderClassBuildPanels();
 
   // sets panel
   const topSets = sets.slice(0, 40);
@@ -1167,6 +1458,742 @@ function renderCompare() {
     .join('')}</tbody></table>`;
 }
 
+
+/* ---- v10 external links + directory tabs ---- */
+state.npcSub = 'npcs';
+state.craftSub = 'blueprints';
+state.guideSub = 'points';
+
+function getDirectory() {
+  return window.GD_DATA_DIRECTORY || null;
+}
+
+function isExtModalOpen() {
+  const modal = $('#extLinkModal');
+  return !!(modal && !modal.classList.contains('hidden'));
+}
+
+function openExternalLink(url, title) {
+  if (!url) return;
+  state._extUrl = String(url);
+  const modal = $('#extLinkModal');
+  const urlEl = $('#extLinkUrl');
+  const input = $('#extLinkInput');
+  const status = $('#extLinkStatus');
+  const titleEl = $('#extLinkTitle');
+  if (titleEl) titleEl.textContent = title || '打开外部链接';
+  if (urlEl) urlEl.textContent = state._extUrl;
+  if (input) {
+    input.value = state._extUrl;
+    // delay select so mobile keyboard/layout settles
+    setTimeout(() => {
+      try {
+        input.focus();
+        input.setSelectionRange(0, input.value.length);
+      } catch (_) {}
+    }, 50);
+  }
+  if (status) {
+    status.textContent = '链接已就绪：优先点「复制链接」，再到 Safari 打开。';
+  }
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('ext-modal-open');
+  }
+}
+
+function closeExtModal(e) {
+  if (e) {
+    e.preventDefault?.();
+    e.stopPropagation?.();
+  }
+  const modal = $('#extLinkModal');
+  if (!modal) return;
+  modal.classList.add('hidden');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('ext-modal-open');
+  const status = $('#extLinkStatus');
+  if (status) status.textContent = '';
+}
+
+async function tryOpenExternal(url) {
+  const status = $('#extLinkStatus');
+  const u = url || state._extUrl;
+  if (!u) return;
+  // Minis 内嵌 WebView 多数拦 window.open；仍尽量试，失败就引导复制
+  let opened = false;
+  let note = '';
+  try {
+    const w = window.open(u, '_blank', 'noopener,noreferrer');
+    if (w) {
+      opened = true;
+      note = '已请求系统打开新页。';
+    }
+  } catch (_) {}
+  if (!opened) {
+    try {
+      // 显式用户手势下的 <a target=_blank>
+      const a = document.createElement('a');
+      a.href = u;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.style.position = 'fixed';
+      a.style.left = '-9999px';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => a.remove(), 0);
+      opened = true;
+      note = '已触发打开。若页面没变，请用「复制链接」。';
+    } catch (_) {}
+  }
+  if (status) {
+    status.textContent = opened
+      ? note + ' 若仍停在本页，点「复制链接」去 Safari。'
+      : '当前环境无法直接外跳（常见于 App 内嵌页）。请点「复制链接」→ Safari 粘贴。同步到 GitHub 用手机 Safari 打开在线版后，「尝试打开」会正常得多。';
+  }
+}
+
+async function copyExternal(url) {
+  const u = url || state._extUrl || '';
+  const status = $('#extLinkStatus');
+  const input = $('#extLinkInput');
+  if (!u) {
+    if (status) status.textContent = '没有可复制的链接。';
+    return;
+  }
+  let ok = false;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    try {
+      await navigator.clipboard.writeText(u);
+      ok = true;
+    } catch (_) {}
+  }
+  if (!ok && input) {
+    try {
+      input.focus();
+      input.select();
+      input.setSelectionRange(0, input.value.length);
+      ok = document.execCommand('copy');
+    } catch (_) {}
+  }
+  if (!ok) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = u;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      ok = document.execCommand('copy');
+      ta.remove();
+    } catch (_) {}
+  }
+  if (status) {
+    status.textContent = ok
+      ? '✅ 已复制。打开 Safari → 地址栏粘贴 → 前往。然后点「关闭」回到助手。'
+      : '自动复制失败：请长按上方链接框手动全选复制。';
+  }
+}
+
+function bindExternalClicks() {
+  // 只绑一次
+  if (state._extBound) return;
+  state._extBound = true;
+
+  // 捕获阶段：地图/GrimTools 触发弹层；弹层内部按钮不拦截
+  document.addEventListener(
+    'click',
+    (e) => {
+      const t = e.target;
+      if (!t || !t.closest) return;
+
+      // 弹层内的操作
+      if (t.closest('#extLinkModal')) {
+        if (t.closest('[data-ext-close]')) {
+          closeExtModal(e);
+          return;
+        }
+        if (t.closest('#extBtnCopy')) {
+          e.preventDefault();
+          e.stopPropagation();
+          copyExternal(state._extUrl);
+          return;
+        }
+        if (t.closest('#extBtnOpen')) {
+          e.preventDefault();
+          e.stopPropagation();
+          tryOpenExternal(state._extUrl);
+          return;
+        }
+        // 点遮罩关闭
+        if (t.classList && t.classList.contains('ext-modal-backdrop')) {
+          closeExtModal(e);
+          return;
+        }
+        return; // 弹层其它区域不冒泡处理
+      }
+
+      const btn = t.closest('[data-ext-url]');
+      if (btn) {
+        e.preventDefault();
+        e.stopPropagation();
+        openExternalLink(btn.getAttribute('data-ext-url'), btn.getAttribute('data-ext-title') || btn.textContent.trim());
+        return;
+      }
+      const a = t.closest('a[href^="http"]');
+      if (a && (a.href.includes('grimtools.com') || a.target === '_blank')) {
+        e.preventDefault();
+        e.stopPropagation();
+        openExternalLink(a.href, (a.textContent || '').trim() || '外部链接');
+      }
+    },
+    true
+  );
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isExtModalOpen()) closeExtModal(e);
+  });
+}
+
+function itemChipRow(items, limit = 12) {
+  const list = (items || []).slice(0, limit);
+  if (!list.length) return '<div class="muted tiny">暂无关联物品</div>';
+  const more = (items || []).length > limit ? `<div class="muted tiny">…共 ${items.length} 件</div>` : '';
+  return `<div class="dir-item-list">${list
+    .map(
+      (it) => `<button type="button" class="dir-item" data-item-id="${escapeHtml(it.id)}">
+      <span class="dir-item-name">${escapeHtml(it.nameZh || it.id)}</span>
+      <span class="dir-item-meta">${escapeHtml([it.slot, it.level != null ? 'Lv'+it.level : '', rarityZh(it.rarity)].filter(Boolean).join(' · '))}</span>
+    </button>`
+    )
+    .join('')}${more}</div>`;
+}
+
+function mapBtn(url, title) {
+  if (!url) return '';
+  return `<button type="button" class="src-map" data-ext-url="${escapeHtml(url)}" data-ext-title="${escapeHtml(title || '地图定位')}">地图定位</button>`;
+}
+
+function npcPortraitByName(name){
+  const q=String(name||'').toLowerCase();const items=window.GD_NPC_PORTRAITS?.items||[];
+  return items.find(x=>q.includes(String(x.nameZh||'').toLowerCase())||q.includes(String(x.nameEn||'').toLowerCase())||String(x.nameZh||'').includes(name))||null;
+}
+function npcPortraitHTML(name){
+ const p=npcPortraitByName(name);if(p)return `<button type="button" class="npc-photo-wrap" data-ext-url="${escapeHtml(p.wikiUrl)}" data-ext-title="${escapeHtml(p.nameZh)} · 官方 Wiki"><img class="npc-photo" src="${escapeHtml(p.image)}" alt="${escapeHtml(p.nameZh)} 游戏形象" loading="lazy"></button>`;
+ return `<div class="npc-avatar no-photo" title="暂无可验证人物图">${escapeHtml((name||'?').slice(0,1))}<small>暂无图</small></div>`;
+}
+
+function renderNpcTab() {
+  const dir = getDirectory();
+  const box = $('#npcList');
+  const empty = $('#npcEmpty');
+  const hint = $('#npcCountHint');
+  if (!dir || !box) {
+    if (empty) {
+      empty.style.display = 'block';
+      empty.textContent = '目录数据未加载（directory.js）。';
+    }
+    return;
+  }
+  const q = ($('#npcQuery')?.value || '').trim().toLowerCase();
+  const sub = state.npcSub || 'npcs';
+  if(sub==='portraits'){
+    let ps=window.GD_NPC_PORTRAITS?.items||[];if(q)ps=ps.filter(x=>(`${x.nameZh} ${x.nameEn}`).toLowerCase().includes(q));
+    if(hint)hint.textContent=`官方 Wiki 可验证人物图 ${ps.length}/${window.GD_NPC_PORTRAITS?.count||0} · 没有图的 NPC 不伪造`;
+    box.innerHTML=`<div class="face-note">这里是<strong>真实游戏人物图</strong>，来源为 Grim Dawn Official Wiki。当前收录 ${window.GD_NPC_PORTRAITS?.count||0} 位；装备来源目录里的部分商人没有 Wiki 肖像，因此仍会标“暂无图”。</div><div class="npc-gallery">${ps.map(p=>`<article class="npc-gallery-card"><img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.nameZh)}"><h3>${escapeHtml(p.nameZh)}</h3><div class="en">${escapeHtml(p.nameEn)}</div><button type="button" class="src-map" data-ext-url="${escapeHtml(p.wikiUrl)}" data-ext-title="${escapeHtml(p.nameZh)} · 官方 Wiki">查看资料</button></article>`).join('')}</div>`;
+    if(empty)empty.style.display=ps.length?'none':'block';return;
+  }
+  let rows = [];
+  if (sub === 'npcs') rows = dir.npcs || [];
+  else if (sub === 'monsters') rows = dir.monsters || [];
+  else if (sub === 'factions') rows = dir.factions || [];
+  else if (sub === 'containers') rows = dir.containers || [];
+
+  if (q) {
+    rows = rows.filter((r) => {
+      const blob = [
+        r.name,
+        ...(r.locations || []),
+        r.sub || '',
+        r.roleZh || '',
+        ...((r.sells || r.drops || r.items || []).map((x) => x.nameZh || '')),
+      ]
+        .join(' ')
+        .toLowerCase();
+      return q.split(/\s+/).every((t) => blob.includes(t));
+    });
+  }
+
+  if (hint) {
+    const c = dir.counts || {};
+    hint.textContent = `商人NPC ${c.npcs || 0} · 专属怪 ${c.monsters || 0} · 势力 ${c.factions || 0} · 容器 ${c.containers || 0} · 本页 ${rows.length} 条`;
+  }
+
+  if (!rows.length) {
+    box.innerHTML = '';
+    if (empty) {
+      empty.style.display = 'block';
+      empty.textContent = q ? '没有匹配结果，换个城镇或名字试试。' : '暂无数据。';
+    }
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+
+  box.innerHTML = rows
+    .map((r) => {
+      if (sub === 'npcs') {
+        return `<article class="dir-card">
+          <div class="card-top">
+            ${npcPortraitHTML(r.name)}
+            <div style="flex:1;min-width:0">
+              <h3>${escapeHtml(r.name)}</h3>
+              <div class="en">${escapeHtml(r.roleZh || '商人')} · 在售 ${r.sellCount || 0}</div>
+            </div>
+            <div class="badges"><span class="badge dlc">${escapeHtml(r.type || '')}</span></div>
+          </div>
+          <div class="meta-line">📍 位置：${escapeHtml((r.locations || []).join('、') || '未标注')}</div>
+          <div class="reason-list">${(r.howToFind || []).map(escapeHtml).join(' · ')}</div>
+          <div class="card-actions">
+            ${mapBtn(r.mapUrl, r.name + ' 地图')}
+            ${(r.mapUrls || []).slice(1, 3).map((u, i) => mapBtn(u, r.name + ' 地点' + (i + 2))).join('')}
+          </div>
+          <div class="section"><h4>出售 / 相关物品</h4>${itemChipRow(r.sells, 16)}</div>
+        </article>`;
+      }
+      if (sub === 'monsters') {
+        return `<article class="dir-card">
+          <div class="card-top">
+            <div class="mon-avatar" title="无立绘：用首字+掉落识别">${escapeHtml((r.name||'?').slice(0,1))}</div>
+            <div style="flex:1;min-width:0">
+              <h3>${escapeHtml(r.name)}</h3>
+              <div class="en">${escapeHtml(r.sub || r.roleZh || '')} · 掉落 ${r.dropCount || 0}</div>
+            </div>
+            <div class="badges"><span class="badge">MI</span></div>
+          </div>
+          <div class="reason-list">${(r.howToFind || []).map(escapeHtml).join(' · ')}</div>
+          <div class="card-actions">${mapBtn(r.mapUrl, r.name)}</div>
+          <div class="section"><h4>掉落</h4>${itemChipRow(r.drops, 16)}</div>
+        </article>`;
+      }
+      if (sub === 'factions') {
+        return `<article class="dir-card">
+          <div class="card-top">
+            <div>
+              <h3>${escapeHtml(r.name)}</h3>
+              <div class="en">${escapeHtml(r.sub || '势力')} · 关联 ${r.itemCount || 0}</div>
+            </div>
+            <div class="badges"><span class="badge dlc">声望</span></div>
+          </div>
+          <div class="reason-list">${(r.howToFind || []).map(escapeHtml).join(' · ')}</div>
+          <div class="section"><h4>声望相关物品</h4>${itemChipRow(r.items, 16)}</div>
+        </article>`;
+      }
+      // containers
+      return `<article class="dir-card">
+        <div class="card-top">
+          <div>
+            <h3>${escapeHtml(r.name)}</h3>
+            <div class="en">${escapeHtml(r.roleZh || '容器')} · ${r.itemCount || 0} 件关联</div>
+          </div>
+        </div>
+        <div class="reason-list">${(r.howToFind || []).map(escapeHtml).join(' · ')}</div>
+        <div class="card-actions">${mapBtn(r.mapUrl, r.name)}</div>
+        <div class="section"><h4>可能产出</h4>${itemChipRow(r.items, 16)}</div>
+      </article>`;
+    })
+    .join('');
+
+  box.onclick = (e) => {
+    const item = e.target.closest('[data-item-id]');
+    if (item) openItemDetail(item.dataset.itemId);
+  };
+}
+
+function renderCraftTab() {
+  const dir = getDirectory();
+  const box = $('#craftList');
+  const empty = $('#craftEmpty');
+  if (!dir || !box) {
+    if (empty) {
+      empty.style.display = 'block';
+      empty.textContent = '目录数据未加载。';
+    }
+    return;
+  }
+  const q = ($('#craftQuery')?.value || '').trim().toLowerCase();
+  const sub = state.craftSub || 'blueprints';
+  const guide = dir.craftGuide || {};
+
+  if (sub === 'guide') {
+    if (empty) empty.style.display = 'none';
+    box.innerHTML = `<article class="dir-card">
+      <h3>${escapeHtml(guide.title || '铁匠与制作')}</h3>
+      <p>${escapeHtml(guide.summary || '')}</p>
+      <div class="section"><h4>铁匠流程</h4><ol class="quest-steps">${(guide.blacksmith || []).map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ol></div>
+      <div class="section"><h4>使用提示</h4><ul>${(guide.tips || []).map((x) => `<li>${escapeHtml(x)}</li>`).join('')}</ul></div>
+    </article>`;
+    return;
+  }
+
+  if (sub === 'materials' || sub === 'potions') {
+    // prefer visual gallery from guides.js
+    const G = getGuides();
+    if (G && G.materials && G.materials.items) {
+      const want = sub === 'materials' ? ['material','component','relic','enchant','blueprint'] : ['potion'];
+      let items = G.materials.items.filter(it => want.includes(it.category));
+      if (q) items = items.filter(it => (`${it.nameZh} ${it.descZh||''}`).toLowerCase().includes(q));
+      if (empty) empty.style.display = 'none';
+      const tip = sub==='materials'
+        ? '可认图材料/组件/圣物（itemdb 精灵）。点图标可看详情（若有）。'
+        : '可认图药剂图标。效果以游戏内为准。';
+      box.innerHTML = `<div class="face-note">${tip} 共 ${items.length} 条。更系统的加点说明见「加点」页。</div>` +
+        (items.length? `<div class="mat-grid">${items.slice(0,240).map(it => `
+          <div class="mat-card" ${String(it.id||'').startsWith('it')?`data-item-id="${escapeHtml(it.id)}"`:''}>
+            ${it.hasIcon? iconHTML(it.bitmap, 'Common', 'lg', String(it.id||'').startsWith('it')?it.id:null): '<div class="gd-icon md"></div>'}
+            <div class="mat-name">${escapeHtml(it.nameZh)}</div>
+            <div class="mat-cat">${escapeHtml(it.category)}</div>
+          </div>`).join('')}</div>` : '<div class="empty">无匹配</div>');
+      box.onclick = (e)=>{ const el=e.target.closest('[data-item-id]'); if(el) openItemDetail(el.dataset.itemId); };
+      return;
+    }
+    const list = (sub === 'materials' ? guide.materials : guide.potions) || [];
+    let rows = list;
+    if (q) rows = list.filter((x) => JSON.stringify(x).toLowerCase().includes(q));
+    if (!rows.length) {
+      box.innerHTML = '';
+      if (empty) {
+        empty.style.display = 'block';
+        empty.textContent =
+          sub === 'materials'
+            ? '材料说明库无匹配。完整材料数值表不在当前装备快照中，可先看设计图成品。'
+            : '药剂说明库无匹配。';
+      }
+      return;
+    }
+    if (empty) empty.style.display = 'none';
+    box.innerHTML =
+      `<div class="quest-limit"><b>${sub === 'materials' ? '材料' : '药剂'}说明库</b>：这是游戏基础用途说明，不是完整 itemdb 消耗品表。设计图所需精确材料请以游戏内 tooltip / GrimTools 为准。</div>` +
+      rows
+        .map(
+          (x) => `<article class="dir-card">
+        <h3>${escapeHtml(x.name)}</h3>
+        <div class="meta-line">作用：${escapeHtml(x.role || '')}</div>
+        <div class="section"><h4>用来干什么</h4><ul>${(x.uses || []).map((u) => `<li>${escapeHtml(u)}</li>`).join('')}</ul></div>
+        <div class="section"><h4>怎么搞到</h4><p>${escapeHtml(x.how || '')}</p></div>
+      </article>`
+        )
+        .join('');
+    return;
+  }
+
+  // blueprints
+  let rows = dir.blueprints || [];
+  if (q) {
+    rows = rows.filter((r) => {
+      const blob = [r.name, r.nameShort, ...(r.products || []).map((p) => p.nameZh || '')].join(' ').toLowerCase();
+      return q.split(/\s+/).every((t) => blob.includes(t));
+    });
+  }
+  rows = rows.slice(0, 80);
+  if (!rows.length) {
+    box.innerHTML = '';
+    if (empty) {
+      empty.style.display = 'block';
+      empty.textContent = '没有匹配的设计图。试试成品装备名。';
+    }
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+  box.innerHTML =
+    `<div class="muted tiny" style="margin:0 0 8px">显示前 ${rows.length} 条（库内共 ${(dir.blueprints || []).length} 张设计图）</div>` +
+    rows
+      .map(
+        (b) => `<article class="dir-card">
+      <div class="card-top">
+        <div>
+          <h3>${escapeHtml(b.name)}</h3>
+          <div class="en">${escapeHtml(b.sub || '设计图')} · 成品 ${b.productCount || 0}</div>
+        </div>
+        <div class="badges"><span class="badge">配方</span></div>
+      </div>
+      <div class="meta-line">制作位置：${escapeHtml(b.craftWhere || '铁匠/制作栏')}</div>
+      <div class="reason-list">${(b.howTo || []).map(escapeHtml).join(' · ')}</div>
+      <div class="section"><h4>可制成</h4>${itemChipRow(b.products, 8)}</div>
+    </article>`
+      )
+      .join('');
+
+  box.onclick = (e) => {
+    const item = e.target.closest('[data-item-id]');
+    if (item) openItemDetail(item.dataset.itemId);
+  };
+}
+
+
+function getGuides(){ return window.GD_DATA_GUIDES || null; }
+
+function skillIconHTML(sk){
+  if(!sk) return '';
+  if(sk.hasIcon && sk.iconClass){
+    return `<span class="skill-ico skills ${escapeHtml(sk.iconClass)}" title="${escapeHtml(sk.nameZh||'')}"></span>`;
+  }
+  return `<span class="skill-ico" title="无图标"></span>`;
+}
+
+function cleanDesc(s){
+  return String(s||'').replace(/\^[a-zA-Z0-9]/g,'').replace(/\s+/g,' ').trim();
+}
+
+function renderGuideTab(){
+  const g = getGuides();
+  const box = $('#guideList');
+  const empty = $('#guideEmpty');
+  if(!box) return;
+  if(!g){
+    box.innerHTML='';
+    if(empty){ empty.style.display='block'; empty.textContent='guides.js 未加载'; }
+    return;
+  }
+  const sub = state.guideSub || 'points';
+  const q = ($('#guideQuery')?.value||'').trim().toLowerCase();
+  if(empty) empty.style.display='none';
+
+  if(sub==='points'){
+    const pg = g.pointGuide || {};
+    const a = pg.attributes||{}, sk=pg.skills||{}, d=pg.devotion||{};
+    const bio = pg.rawBio||{};
+    box.innerHTML = `<div class="pt-grid">
+      <article class="pt-card">
+        <h3>总览</h3>
+        <p>满级约 <b>${escapeHtml(String(pg.level?.maxLevel??100))}</b>。属性点每级 <b>${escapeHtml(String(a.perLevel??1))}</b>；技能点按等级表递增（前期多、后期少）；星座点上限 <b>${escapeHtml(String(d.maxDevotionPoints??55))}</b>（靠打碎神龛/石碑）。</p>
+        <p class="muted tiny">数据来自 Grim Tools itemdb ${escapeHtml(g.gameVersion||'')}</p>
+      </article>
+      <article class="pt-card">
+        <h3>${escapeHtml(a.title||'属性点')}</h3>
+        <ul>${(a.howTo||[]).map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul>
+        <div class="section"><h4>基础换算（每点）</h4>
+          <div class="meta-line">体魄→力量成长 ${escapeHtml(String(a.baseStats?.strengthPerPoint??'—'))} · 生命 ${escapeHtml(String(a.baseStats?.healthPerPhysique??'—'))}</div>
+          <div class="meta-line">灵巧成长 ${escapeHtml(String(a.baseStats?.cunningPerPoint??'—'))} · 精神成长 ${escapeHtml(String(a.baseStats?.spiritPerPoint??'—'))}</div>
+          <div class="meta-line">精神→能量 ${escapeHtml(String(a.baseStats?.energyPerSpirit??'—'))}</div>
+        </div>
+        <div class="reason-list">${(a.tips||[]).map(escapeHtml).join(' · ')}</div>
+      </article>
+      <article class="pt-card">
+        <h3>${escapeHtml(sk.title||'技能点')}</h3>
+        <ul>${(sk.howTo||[]).map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul>
+        <p class="muted tiny">${escapeHtml(sk.masteryBar||'')}</p>
+        <div class="reason-list">${(sk.tips||[]).map(escapeHtml).join(' · ')}</div>
+      </article>
+      <article class="pt-card">
+        <h3>${escapeHtml(d.title||'星座点')}</h3>
+        <ul>${(d.howTo||[]).map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul>
+        <div class="reason-list">${(d.tips||[]).map(escapeHtml).join(' · ')}</div>
+        <div class="card-actions" style="margin-top:8px">
+          <button type="button" data-ext-url="${escapeHtml(d.grimtools||'https://www.grimtools.com/calc/')}" data-ext-title="GrimTools 星座盘">打开 GrimTools 星座盘</button>
+        </div>
+      </article>
+    </div>`;
+    return;
+  }
+
+  if(sub==='masteries'){
+    let list = g.masteries||[];
+    if(q){
+      list = list.map(m=>({
+        ...m,
+        skills:(m.skills||[]).filter(sk => (`${sk.nameZh} ${sk.descZh}`).toLowerCase().includes(q))
+      })).filter(m=>m.skills.length || (m.nameZh||'').toLowerCase().includes(q));
+    }
+    box.innerHTML = list.map(m=>`
+      <article class="dir-card">
+        <div class="mastery-head">
+          <span class="mastery-dot" style="background:${escapeHtml(m.color||'#888')}"></span>
+          <div>
+            <h3 style="margin:0">${escapeHtml(m.nameZh)}</h3>
+            <div class="en">${escapeHtml(m.nameEn||'')} · ${m.skills?.length||0} 个技能节点</div>
+          </div>
+        </div>
+        <div class="muted tiny" style="margin-bottom:6px">点技能名可看简介。完整可点层级/连线请用 GrimTools 计算器。</div>
+        ${(m.skills||[]).map(sk=>`
+          <div class="skill-row">
+            ${skillIconHTML(sk)}
+            <div class="sk-body">
+              <h4>${escapeHtml(sk.nameZh)}</h4>
+              <p>${escapeHtml(cleanDesc(sk.descZh)||'暂无简介')}</p>
+            </div>
+          </div>`).join('')||'<div class="muted tiny">无匹配技能</div>'}
+      </article>`).join('');
+    return;
+  }
+
+  if(sub==='mats'){
+    let items = g.materials?.items||[];
+    if(q) items = items.filter(it => (`${it.nameZh} ${it.category} ${it.descZh||''}`).toLowerCase().includes(q));
+    const cats = g.materials?.counts||{};
+    const head = `<div class="face-note">材料/组件/药剂/圣物图标来自 itemdb 精灵，可直接认图。
+      统计：组件 ${cats.component||0} · 材料 ${cats.material||0} · 药剂 ${cats.potion||0} · 圣物 ${cats.relic||0} · 本页 ${items.length}</div>`;
+    if(!items.length){ box.innerHTML=head; if(empty){empty.style.display='block'; empty.textContent='无匹配材料';} return; }
+    box.innerHTML = head + `<div class="mat-grid">${items.slice(0,240).map(it=>`
+      <div class="mat-card" ${it.id && String(it.id).startsWith('it')?`data-item-id="${escapeHtml(it.id)}"`:''}>
+        ${it.hasIcon ? iconHTML(it.bitmap, it.category==='relic'?'Relic': it.category==='potion'?'Magical':'Common', 'lg', it.id && String(it.id).startsWith('it')?it.id:null) : '<div class="gd-icon md"></div>'}
+        <div class="mat-name">${escapeHtml(it.nameZh)}</div>
+        <div class="mat-cat">${escapeHtml({component:'组件',material:'材料',potion:'药剂',relic:'圣物',blueprint:'设计图',enchant:'附魔'}[it.category]||it.category)}${it.level? ' · Lv'+it.level:''}</div>
+      </div>`).join('')}</div>`;
+    box.onclick = (e)=>{
+      const el=e.target.closest('[data-item-id]');
+      if(el) openItemDetail(el.dataset.itemId);
+    };
+    return;
+  }
+
+  if(sub==='faces'){
+    box.innerHTML = `<div class="face-note">
+      <b>关于 NPC / 怪物“样子”：</b>当前 Grim Tools itemdb 精灵包只有<strong>物品与技能图标</strong>，没有 NPC/怪物全身立绘或头像图集。
+      所以助手里用：①名称 ②位置/地图 ③出售或掉落列表 来辨认。
+      若要像素级立绘，需要再从游戏资源或 Wiki 肖像包单独导入（体积大、版权需注意）。
+      <br><br>下面保留 MI 专属怪与商人入口；完整列表仍在「NPC」页。
+    </div>
+    <article class="dir-card"><h3>专属掉落怪（MI）· ${g.monsters?.mi?.length||0}</h3>
+      ${(g.monsters?.mi||[]).slice(0,20).map(m=>`
+        <div class="skill-row">
+          <div class="mon-avatar">${escapeHtml((m.nameZh||'?').slice(0,1))}</div>
+          <div class="sk-body">
+            <h4>${escapeHtml(m.nameZh||m.name||'')}</h4>
+            <p>${escapeHtml(m.sub||'')} ${(m.drops||[]).slice(0,3).map(d=>d.nameZh).join('、')}</p>
+            ${m.mapUrl?`<button type="button" class="src-map" data-ext-url="${escapeHtml(m.mapUrl)}" data-ext-title="地图">地图</button>`:''}
+          </div>
+        </div>`).join('')}
+      <p class="muted tiny">更多请到「NPC」页 → 专属怪</p>
+    </article>
+    <article class="dir-card"><h3>商人 / NPC · 示意</h3>
+      ${(g.npcs?.items||[]).slice(0,15).map(n=>`
+        <div class="skill-row">
+          <div class="npc-avatar">${escapeHtml((n.nameZh||'?').slice(0,1))}</div>
+          <div class="sk-body">
+            <h4>${escapeHtml(n.nameZh||'')}</h4>
+            <p>${escapeHtml((n.locations||[]).join('、')||'位置见 NPC 页')} · 在售 ${n.sellCount|| (n.sells?.length)||0}</p>
+          </div>
+        </div>`).join('')}
+      <p class="muted tiny">完整商人列表与货物在「NPC」页</p>
+    </article>`;
+    return;
+  }
+}
+
+function initGuideUI(){
+  if (state._guideBound) return;
+  state._guideBound = true;
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest && e.target.closest('#guideSubtabs .subtab');
+    if (!b) return;
+    $$('#guideSubtabs .subtab').forEach((x) => x.classList.toggle('active', x === b));
+    state.guideSub = b.dataset.gsub || 'points';
+    renderGuideTab();
+  });
+  const btn = $('#btnGuideSearch');
+  if (btn) btn.onclick = () => renderGuideTab();
+  const input = $('#guideQuery');
+  if (input) {
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') renderGuideTab();
+    });
+    let gt = null;
+    input.addEventListener('input', () => {
+      clearTimeout(gt);
+      gt = setTimeout(renderGuideTab, 150);
+    });
+  }
+}
+
+
+/* ---------- location finder v14 ---------- */
+function loadShrineProgress(){
+  try { state.shrineDone = JSON.parse(localStorage.getItem(LS_SHRINES)||'{}') || {}; } catch(e){ state.shrineDone={}; }
+}
+function saveShrineProgress(){ localStorage.setItem(LS_SHRINES, JSON.stringify(state.shrineDone||{})); }
+function allLocationRows(){
+  const loc=window.GD_LOCATION_GUIDE||{};
+  const dir=window.GD_DATA_DIRECTORY||{};
+  const shr=(loc.shrines||[]).map(x=>({...x,category:'shrine'}));
+  const npcs=(dir.npcs||[]).map((x,i)=>({id:x.id||`npc-${i}`,category:'npc',nameZh:x.name,nameEn:'',act:null,typeZh:x.roleZh||'NPC/商人',requirement:(x.locations||[]).join('、'),howToFind:(x.howToFind||[]).join('；'),mapUrl:x.mapUrl||(x.mapUrls||[])[0]||'',keywords:`NPC 商人 ${x.name} ${(x.locations||[]).join(' ')} ${(x.sells||[]).map(y=>y.nameZh).join(' ')}`}));
+  const mons=(dir.monsters||[]).map((x,i)=>({id:x.id||`mon-${i}`,category:'monster',nameZh:x.name,nameEn:'',act:null,typeZh:'专属怪',requirement:`掉落 ${(x.drops||[]).slice(0,5).map(y=>y.nameZh).join('、')}`,howToFind:(x.howToFind||[]).join('；')||x.sub||'',mapUrl:x.mapUrl||'',keywords:`怪物 专属怪 ${x.name} ${(x.drops||[]).map(y=>y.nameZh).join(' ')}`}));
+  const boxes=(dir.containers||[]).map((x,i)=>({id:`box-${i}`,category:'container',nameZh:String(x.name||'容器').replace(/\{\^I\}/g,''),nameEn:'',act:null,typeZh:'宝箱/容器',requirement:`可能掉落 ${(x.items||[]).slice(0,5).map(y=>y.nameZh).join('、')}`,howToFind:(x.howToFind||[]).join('；'),mapUrl:x.mapUrl||'',keywords:`宝箱 容器 ${x.name} ${(x.items||[]).map(y=>y.nameZh).join(' ')}`}));
+  return [...shr,...npcs,...mons,...boxes];
+}
+function renderLocationTab(){
+  const box=$('#locationList'), empty=$('#locationEmpty'); if(!box)return;
+  const q=($('#locationQuery')?.value||'').trim().toLowerCase();
+  const type=$('#locationType')?.value||'all', act=$('#locationAct')?.value||'', status=$('#locationStatus')?.value||'all';
+  let rows=allLocationRows().filter(x=>{
+    if(type!=='all'&&x.category!==type)return false;
+    if(act&&String(x.act||'')!==act)return false;
+    const done=!!state.shrineDone[x.id];
+    if(status==='done'&&!done)return false; if(status==='todo'&&done)return false;
+    if(q){const text=`${x.nameZh} ${x.nameEn||''} ${x.keywords||''} ${x.requirement||''} ${x.howToFind||''}`.toLowerCase(); if(!q.split(/\s+/).every(t=>text.includes(t)))return false;}
+    return true;
+  });
+  rows.sort((a,b)=>(a.act||99)-(b.act||99)||String(a.nameZh).localeCompare(String(b.nameZh),'zh'));
+  $('#locationHint').textContent=`找到 ${rows.length} 个地点${type==='shrine'?' · 勾选进度保存在本机':''}`;
+  box.innerHTML=rows.slice(0,200).map(x=>{
+    const done=!!state.shrineDone[x.id]; const cat={shrine:'神龛',npc:'NPC/商人',monster:'专属怪',container:'宝箱/容器'}[x.category]||x.typeZh;
+    return `<article class="location-card ${done?'done':''}">
+      <div class="card-top"><div><h3>${x.category==='shrine'?'✦ ':''}${escapeHtml(x.nameZh)}</h3>${x.nameEn?`<div class="en">${escapeHtml(x.nameEn)}</div>`:''}</div><div class="badges"><span class="badge ${x.category==='shrine'?'legend':''}">${escapeHtml(cat)}</span>${x.act?`<span class="badge">第${x.act}章</span>`:''}<span class="badge dlc">${escapeHtml(x.typeZh||'地点')}</span></div></div>
+      ${x.requirement?`<div class="location-line"><b>${x.category==='shrine'?'激活方式':'相关内容'}</b><span>${escapeHtml(x.requirement)}</span></div>`:''}
+      ${x.howToFind?`<div class="location-line"><b>怎么找</b><span>${escapeHtml(x.howToFind)}</span></div>`:''}
+      <div class="card-actions">${x.category==='shrine'?`<button type="button" class="${done?'done-btn':'find-btn'}" data-shrine-toggle="${escapeHtml(x.id)}">${done?'✓ 已找到':'标记已找到'}</button>`:''}${x.mapUrl?`<button type="button" data-ext-url="${escapeHtml(x.mapUrl)}" data-ext-title="地图 · ${escapeHtml(x.nameZh)}">打开地图</button>`:''}</div>
+    </article>`;
+  }).join('');
+  empty.style.display=rows.length?'none':'block'; empty.textContent='没有匹配地点，试试只输入地点名或切换类型。';
+}
+function initLocationUI(){
+  loadShrineProgress();
+  $('#btnLocationSearch')&&($('#btnLocationSearch').onclick=renderLocationTab);
+  $('#locationQuery')?.addEventListener('keydown',e=>{if(e.key==='Enter')renderLocationTab()});
+  let t=null; $('#locationQuery')?.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(renderLocationTab,120)});
+  ['locationType','locationAct','locationStatus'].forEach(id=>$(`#${id}`)?.addEventListener('change',renderLocationTab));
+  $('#locationList')?.addEventListener('click',e=>{const b=e.target.closest('[data-shrine-toggle]');if(!b)return; const id=b.dataset.shrineToggle; state.shrineDone[id]=!state.shrineDone[id]; if(!state.shrineDone[id])delete state.shrineDone[id];saveShrineProgress();renderLocationTab();});
+}
+
+function initDirectoryUI() {
+  $$('#npcSubtabs .subtab').forEach((b) => {
+    b.onclick = () => {
+      $$('#npcSubtabs .subtab').forEach((x) => x.classList.toggle('active', x === b));
+      state.npcSub = b.dataset.nsub;
+      renderNpcTab();
+    };
+  });
+  $$('#craftSubtabs .subtab').forEach((b) => {
+    b.onclick = () => {
+      $$('#craftSubtabs .subtab').forEach((x) => x.classList.toggle('active', x === b));
+      state.craftSub = b.dataset.csub;
+      renderCraftTab();
+    };
+  });
+  $('#btnNpcSearch') && ($('#btnNpcSearch').onclick = renderNpcTab);
+  $('#npcQuery')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') renderNpcTab();
+  });
+  let nt = null;
+  $('#npcQuery')?.addEventListener('input', () => {
+    clearTimeout(nt);
+    nt = setTimeout(renderNpcTab, 150);
+  });
+  $('#btnCraftSearch') && ($('#btnCraftSearch').onclick = renderCraftTab);
+  $('#craftQuery')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') renderCraftTab();
+  });
+  let ct = null;
+  $('#craftQuery')?.addEventListener('input', () => {
+    clearTimeout(ct);
+    ct = setTimeout(renderCraftTab, 150);
+  });
+
+  // 外链弹层改由 bindExternalClicks 事件委托，避免 DOM 顺序/重复绑定问题
+  bindExternalClicks();
+}
+
 function bindUI() {
   $$('.tab').forEach((tab) => {
     tab.onclick = () => {
@@ -1178,7 +2205,11 @@ function bindUI() {
       if (tab.dataset.tab === 'compare') renderCompare();
       if (tab.dataset.tab === 'browse') renderList();
       if (tab.dataset.tab === 'class' && state.classIds.length) renderClassResults();
+      if (tab.dataset.tab === 'location') renderLocationTab();
       if (tab.dataset.tab === 'quest') renderQuest();
+      if (tab.dataset.tab === 'npc') renderNpcTab();
+      if (tab.dataset.tab === 'craft') renderCraftTab();
+      if (tab.dataset.tab === 'guide') { if(!state.guideSub) state.guideSub='points'; renderGuideTab(); }
     };
   });
 
@@ -1188,6 +2219,8 @@ function bindUI() {
       if (e.key === 'Enter') renderQuest();
     });
     $('#btnQuestOrganize').onclick = organizeQuests;
+    $('#questImageInput')?.addEventListener('change',previewQuestImages);
+    $('#btnQuestOCR')&&($('#btnQuestOCR').onclick=recognizeQuestImages);
     $$('.quest-mode-tabs [data-qmode]').forEach((b) => {
       b.onclick = () => {
         $$('.quest-mode-tabs [data-qmode]').forEach((x) => x.classList.toggle('active', x === b));
@@ -1354,6 +2387,31 @@ function bindQuestList(box) {
     }
   };
 }
+async function recognizeQuestImages(){
+  const input=$('#questImageInput'),status=$('#questOCRStatus'),ta=$('#questMessyInput');
+  const files=[...(input?.files||[])];if(!files.length){status.textContent='请先选择一张或多张任务日志截图。';return;}
+  if(!window.Tesseract){status.textContent='OCR 引擎没有加载，请刷新页面后重试。';return;}
+  const btn=$('#btnQuestOCR');btn.disabled=true;let texts=[];
+  try{
+    const worker=await Tesseract.createWorker('chi_sim',1,{workerPath:'https://cdn.jsdelivr.net/npm/tesseract.js@7/dist/worker.min.js',langPath:'https://tessdata.projectnaptha.com/4.0.0',corePath:'https://cdn.jsdelivr.net/npm/tesseract.js-core@7/tesseract-core-lstm.wasm.js',logger:m=>{if(m.status==='recognizing text')status.textContent=`正在识别 ${Math.round((m.progress||0)*100)}%…`;else status.textContent=`正在准备 OCR：${m.status||''}`;}});
+    for(let i=0;i<files.length;i++){status.textContent=`正在识别第 ${i+1}/${files.length} 张…`;const r=await worker.recognize(files[i]);texts.push(r.data.text||'');}
+    await worker.terminate();
+    const lib=window.GD_QUEST_LIBRARY?.entries||[], allNames=lib.map(x=>x.nameZh).filter(Boolean);
+    const raw=texts.join('\n').replace(/[\t\r]+/g,'\n');const found=[];
+    // 先用任务库名称直接反查 OCR 全文，避免界面杂字混入任务列表。
+    const compact=raw.replace(/\s+/g,'');for(const n of allNames)if(compact.includes(n.replace(/\s+/g,'')))found.push(n);
+    const lines=raw.split('\n').map(x=>x.replace(/[|丨【】\[\]<>]/g,' ').replace(/\s+/g,' ').trim()).filter(x=>x.length>=2&&x.length<=35);
+    const uniq=[...new Set(found.length?found:lines.filter(x=>/[ - ]/.test('')||/[\u4e00-\u9fff]{2,}/.test(x)).slice(0,40))];
+    ta.value=uniq.join('\n');status.textContent=`识别完成：提取 ${uniq.length} 条候选任务，已自动梳理。`;
+    organizeQuests();
+  }catch(e){status.textContent='识别失败：'+(e.message||e);console.error(e);}finally{btn.disabled=false;}
+}
+function previewQuestImages(){
+ const box=$('#questImagePreview'),files=[...($('#questImageInput')?.files||[])];if(!box)return;box.innerHTML='';
+ files.forEach(f=>{const img=document.createElement('img');img.src=URL.createObjectURL(f);img.alt=f.name;box.appendChild(img)});
+ $('#questOCRStatus').textContent=files.length?`已选择 ${files.length} 张，点“识别截图并梳理”。`:'可一次选择多张；中文 OCR 在本机运行。';
+}
+
 function organizeQuests() {
   const raw = ($('#questMessyInput')?.value || '').trim();
   const box = $('#questList');
@@ -1416,10 +2474,21 @@ function main() {
       state.meta.setCount
     } 套装 · ${clsN} 专精筛选 · 更新 ${new Date(state.meta.extractedAt).toLocaleString()}`;
     initClassUI();
+    initLocationUI();
+    initDirectoryUI();
+    initGuideUI();
+    bindExternalClicks();
+    // 若默认不在加点页，首次点开再渲染；预热标记
+    if ($('#tab-guide')?.classList.contains('active')) renderGuideTab();
     renderStatChips();
     renderList();
     renderPlanner();
     renderCompare();
+    // warm directory empty states
+    if ($('#npcCountHint') && window.GD_DATA_DIRECTORY?.counts) {
+      const c = window.GD_DATA_DIRECTORY.counts;
+      $('#npcCountHint').textContent = `商人NPC ${c.npcs||0} · 专属怪 ${c.monsters||0} · 势力 ${c.factions||0} · 设计图 ${c.blueprints||0}`;
+    }
   } catch (e) {
     $('#metaLine').textContent = '数据加载失败：' + e.message;
     console.error(e);

@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>恐怖黎明 · 套装助手</title>
-  <link rel="stylesheet" href="styles.css?v=9" />
-  <link rel="stylesheet" href="icons/icons.css?v=9" />
+  <link rel="stylesheet" href="styles.css?v=16" />
+  <link rel="stylesheet" href="icons/icons.css?v=13" />
+  <link rel="stylesheet" href="icons/skills/skills.css?v=13" />
 </head>
 <body>
   <div id="app">
@@ -16,8 +17,12 @@
       </div>
       <nav class="tabs">
         <button class="tab active" data-tab="class">职业</button>
+        <button class="tab" data-tab="location">地点</button>
         <button class="tab" data-tab="browse">图鉴</button>
-        <button class="tab" data-tab="planner">我的配装</button>
+        <button class="tab" data-tab="npc">NPC</button>
+        <button class="tab" data-tab="craft">制作</button>
+        <button class="tab" data-tab="guide">加点</button>
+        <button class="tab" data-tab="planner">配装</button>
         <button class="tab" data-tab="compare">对比</button>
         <button class="tab" data-tab="quest">任务</button>
         <button class="tab" data-tab="about">说明</button>
@@ -27,7 +32,7 @@
     <!-- CLASS GUIDE -->
     <section id="tab-class" class="tab-panel active">
       <div class="class-hero">
-        <p class="lead">输入专精/职业（可双修），自动筛<strong>高相关套装</strong>和<strong>值得看的散件</strong>。</p>
+        <p class="lead">选 1～2 个专精后，先选<strong>职业流派</strong>，再按同一流派查看<strong>技能加点、属性点、星座路线、操作顺序和推荐装备</strong>。</p>
         <div class="class-input-row">
           <input id="classQuery" type="search" list="classList" placeholder="例如：萨满 / 神秘学者+萨满 / 士兵 夜刃 / 审判官" autocomplete="off" />
           <button id="btnClassSearch" type="button">筛选</button>
@@ -65,17 +70,60 @@
       <div id="classResult" class="class-result hidden">
         <div class="class-summary" id="classSummary"></div>
 
+        <div id="classBuildWizard" class="build-wizard"></div>
+        <div class="level-planner">
+          <div class="wizard-title"><div><span class="step-no">L</span><b>当前等级精确加点</b></div><span class="badge dlc">告诉你下一点投哪里</span></div>
+          <div class="level-planner-inputs">
+            <label>当前等级<input id="buildCurrentLevel" type="number" min="1" max="100" value="86" /></label>
+            <label>任务额外技能点<input id="buildQuestPoints" type="number" min="0" max="13" value="11" /></label>
+            <button id="btnBuildLevelPlan" type="button">生成本级加点</button>
+          </div>
+          <p class="muted tiny">86级升级所得技能点为219；任务最多另给13点。这里按所选流派给出截至当前等级的裸点目标，不计算装备上的 +技能。</p>
+          <div id="classLevelPlan"></div>
+        </div>
+
         <div class="subtabs">
-          <button type="button" class="subtab active" data-sub="sets">推荐套装</button>
+          <button type="button" class="subtab active" data-sub="builds">流派选择</button>
+          <button type="button" class="subtab" data-sub="skills">技能加点</button>
+          <button type="button" class="subtab" data-sub="devotion">星座加点</button>
+          <button type="button" class="subtab" data-sub="sets">推荐套装</button>
           <button type="button" class="subtab" data-sub="loose">推荐散件</button>
           <button type="button" class="subtab" data-sub="slots">按部位</button>
         </div>
 
-        <div id="classSets" class="card-list subpanel active"></div>
+        <div id="classBuilds" class="subpanel active"></div>
+        <div id="classSkills" class="subpanel"></div>
+        <div id="classDevotion" class="subpanel"></div>
+        <div id="classSets" class="card-list subpanel"></div>
         <div id="classLoose" class="card-list subpanel"></div>
         <div id="classSlots" class="subpanel"></div>
       </div>
       <div class="empty" id="classEmpty">选一个或两个专精开始。也支持直接打字：神秘+萨满、死灵、狂战士…</div>
+    </section>
+
+    <!-- LOCATION FINDER -->
+    <section id="tab-location" class="tab-panel">
+      <div class="class-hero">
+        <p class="lead">寻找<strong>神龛、NPC/商人、专属怪、宝箱容器</strong>。例如输入：神龛、伯尔维治、阿卡莫斯、废铁堆。</p>
+        <div class="class-input-row">
+          <input id="locationQuery" type="search" placeholder="我要找：神龛 / 伯尔维治 / 商人 / 阿卡莫斯…" autocomplete="off" />
+          <button id="btnLocationSearch" type="button">寻找</button>
+        </div>
+        <div class="class-input-row dual">
+          <label>类型
+            <select id="locationType"><option value="all">全部地点</option><option value="shrine" selected>神龛</option><option value="npc">NPC/商人</option><option value="monster">专属怪</option><option value="container">宝箱/容器</option></select>
+          </label>
+          <label>章节
+            <select id="locationAct"><option value="">全部章节</option><option value="1">第1章</option><option value="2">第2章</option><option value="3">第3章</option><option value="4">第4章</option><option value="5">第5章 AoM</option><option value="6">第6章 AoM</option><option value="7">第7章 FG</option></select>
+          </label>
+          <label>进度
+            <select id="locationStatus"><option value="all">全部</option><option value="todo">未完成</option><option value="done">已找到</option></select>
+          </label>
+        </div>
+        <p class="muted tiny" id="locationHint">神龛清单可勾选，进度保存在本机。点「地图」会打开 GrimTools 定位/搜索。</p>
+      </div>
+      <div id="locationList" class="card-list"></div>
+      <div id="locationEmpty" class="empty">选择类型或输入地点开始寻找。</div>
     </section>
 
     <!-- BROWSE -->
@@ -208,15 +256,83 @@
         </div>
       </div>
       <div id="questModeMessy" class="hidden">
-        <textarea id="questMessyInput" rows="6" placeholder="把游戏右侧任务栏/任务日志中的任务名逐行粘贴，例如：&#10;排忧解难&#10;一滴水都没得喝&#10;妹妹的礼物"></textarea>
+        <div class="quest-upload-box">
+          <label class="quest-upload-btn">📷 上传任务日志截图
+            <input id="questImageInput" type="file" accept="image/*" multiple hidden />
+          </label>
+          <button id="btnQuestOCR" type="button">识别截图并梳理</button>
+          <span id="questOCRStatus" class="muted tiny">可一次选择多张；中文 OCR 在本机运行。</span>
+        </div>
+        <div id="questImagePreview" class="quest-upload-preview"></div>
+        <textarea id="questMessyInput" rows="6" placeholder="上传截图会自动填入识别结果；也可以手动粘贴任务名。&#10;排忧解难&#10;一滴水都没得喝&#10;妹妹的礼物"></textarea>
         <div class="card-actions">
           <button id="btnQuestOrganize" type="button">按主线章节梳理</button>
         </div>
-        <p class="muted tiny">你也可以直接把任务日志截图发给我，我会 OCR 后替你整理。</p>
+        <p class="muted tiny">截图会在网页本机 OCR，识别后自动填入上方文本框并按章节梳理；不需要先发给我转文字。</p>
       </div>
       <div id="questModeSources" class="hidden"></div>
       <div id="questList" class="card-list"></div>
       <div class="empty" id="questEmpty">输入任务名查询：前置提示、目标、流程摘录、路线图和原攻略链接。</div>
+    </section>
+
+    <!-- NPC / WORLD -->
+    <section id="tab-npc" class="tab-panel">
+      <div class="class-hero">
+        <p class="lead">查<strong>商人 / NPC / 专属怪 / 势力 / 容器</strong>：在哪、干什么、怎么找到、卖什么或掉什么。</p>
+        <div class="class-input-row">
+          <input id="npcQuery" type="search" placeholder="搜名字 / 城镇 / 掉落物，如：库恩堡 乌兰纳 阿卡莫斯" autocomplete="off" />
+          <button id="btnNpcSearch" type="button">搜索</button>
+        </div>
+        <div class="subtabs" id="npcSubtabs">
+          <button type="button" class="subtab active" data-nsub="npcs">商人NPC</button>
+          <button type="button" class="subtab" data-nsub="portraits">人物图鉴</button>
+          <button type="button" class="subtab" data-nsub="monsters">专属怪</button>
+          <button type="button" class="subtab" data-nsub="factions">势力</button>
+          <button type="button" class="subtab" data-nsub="containers">容器</button>
+        </div>
+        <p class="muted tiny" id="npcCountHint">装备来源目录中的商人会显示位置/货物；人物图只使用可验证的官方 Wiki 游戏截图。没有图的会明确标“暂无图”。</p>
+      </div>
+      <div id="npcList" class="card-list"></div>
+      <div class="empty" id="npcEmpty">选上方分类，或直接搜索城镇/NPC/怪物名。</div>
+    </section>
+
+    <!-- CRAFT / MAT / POTION -->
+    <section id="tab-craft" class="tab-panel">
+      <div class="class-hero">
+        <p class="lead">设计图能做出什么、材料/药剂大概干什么。设计图来自真实来源数据；材料与药剂先给<strong>基础说明库</strong>（完整数值表需另接消耗品库）。</p>
+        <div class="class-input-row">
+          <input id="craftQuery" type="search" placeholder="搜设计图/成品/材料，如：阿拉加斯特 废料 生命药水" autocomplete="off" />
+          <button id="btnCraftSearch" type="button">搜索</button>
+        </div>
+        <div class="subtabs" id="craftSubtabs">
+          <button type="button" class="subtab active" data-csub="blueprints">设计图</button>
+          <button type="button" class="subtab" data-csub="materials">材料说明</button>
+          <button type="button" class="subtab" data-csub="potions">药剂说明</button>
+          <button type="button" class="subtab" data-csub="guide">铁匠流程</button>
+        </div>
+      </div>
+      <div id="craftList" class="card-list"></div>
+      <div class="empty" id="craftEmpty">在设计图里搜成品名；材料/药剂页看用途与获取思路。</div>
+    </section>
+
+
+    <!-- GUIDE: attributes / skills / devotion -->
+    <section id="tab-guide" class="tab-panel">
+      <div class="class-hero">
+        <p class="lead">属性点、技能点、星座点怎么加；十专精技能带<strong>图标</strong>。材料图鉴可认图。</p>
+        <div class="subtabs" id="guideSubtabs">
+          <button type="button" class="subtab active" data-gsub="points">点数规则</button>
+          <button type="button" class="subtab" data-gsub="masteries">专精技能图</button>
+          <button type="button" class="subtab" data-gsub="mats">材料认图</button>
+          <button type="button" class="subtab" data-gsub="faces">NPC/怪说明</button>
+        </div>
+        <div class="class-input-row" id="guideSearchRow">
+          <input id="guideQuery" type="search" placeholder="搜技能/材料名，如：节奏打击 废料 生命药水" autocomplete="off" />
+          <button id="btnGuideSearch" type="button">搜索</button>
+        </div>
+      </div>
+      <div id="guideList" class="card-list"></div>
+      <div class="empty" id="guideEmpty">查看点数规则，或切到专精技能图/材料认图。</div>
     </section>
 
     <!-- ABOUT -->
@@ -235,9 +351,15 @@
         <p>士兵、爆破者、神秘学者、夜刃、奥术师、萨满、审判官、死灵法师、守誓者、狂战士。</p>
         <h2>获取来源</h2>
         <p>部件详情会显示：怪物专属、任务奖励、商人、势力、制作、裂缝/碎境箱、随机掉落等（数据来自 Grim Tools）。</p>
+        <h2>加点 / 认图</h2>
+        <p>「加点」页含属性/技能/星座规则与十专精技能图标。材料用 itemdb 精灵认图。NPC/怪物全身立绘不在当前精灵包，以名称+地图+货物/掉落识别。</p>
+        <h2>NPC / 制作</h2>
+        <p>「NPC」页汇总商人位置、专属怪、势力与容器；「制作」页含设计图→成品，以及材料/药剂基础说明。</p>
+        <h2>外链打不开？</h2>
+        <p>App 内嵌页对 target=_blank 常无响应。现已改为弹出层：可复制链接到 Safari，或点「尝试打开」。</p>
         <h2>其它功能</h2>
         <ul>
-          <li>图鉴全文搜索、属性筛选、对比、我的配装</li>
+          <li>图鉴全文搜索、属性筛选、对比、配装</li>
           <li>数据源 Grim Tools，版本见顶栏</li>
         </ul>
       </div>
@@ -252,15 +374,44 @@
     </div>
   </aside>
 
-    <script src="data_js/meta.js?v=9"></script>
-  <script src="data_js/icon_meta.js?v=9"></script>
-  <script src="data_js/sets_index.js?v=9"></script>
-  <script src="data_js/sets.js?v=9"></script>
-  <script src="data_js/class_guide.js?v=9"></script>
-  <script src="data_js/sources.js?v=9"></script>
-  <script src="data_js/item_details.js?v=9"></script>
-  <script src="data_js/quests_index.js?v=9"></script>
-  <script src="data_js/quest_library.js?v=9"></script>
-  <script src="app.js?v=9"></script>
+  <!-- 外链弹层必须在 app.js 之前，否则初始化绑不到按钮 -->
+  <div id="extLinkModal" class="ext-modal hidden" aria-hidden="true">
+    <div class="ext-modal-backdrop" data-ext-close tabindex="-1"></div>
+    <div class="ext-modal-panel" role="dialog" aria-modal="true" aria-labelledby="extLinkTitle">
+      <div class="ext-modal-head">
+        <h3 id="extLinkTitle">打开外部链接</h3>
+        <button type="button" class="ext-x" id="extBtnCloseX" data-ext-close aria-label="关闭">×</button>
+      </div>
+      <p class="muted tiny">内置页往往不能直接跳转 GrimTools。推荐先<strong>复制链接</strong>，到 Safari 粘贴打开。GitHub 在线版在系统浏览器里「尝试打开」会更顺。</p>
+      <label class="muted tiny" for="extLinkInput">链接</label>
+      <input id="extLinkInput" class="ext-url-input" type="text" readonly value="" />
+      <div id="extLinkUrl" class="hidden"></div>
+      <div class="card-actions ext-actions">
+        <button type="button" id="extBtnCopy">复制链接</button>
+        <button type="button" id="extBtnOpen" class="ghost">尝试打开</button>
+        <button type="button" id="extBtnClose" class="ghost" data-ext-close>关闭</button>
+      </div>
+      <p class="muted tiny" id="extLinkStatus"></p>
+    </div>
+  </div>
+
+  <script src="data_js/meta.js?v=13"></script>
+  <script src="data_js/icon_meta.js?v=13"></script>
+  <script src="data_js/sets_index.js?v=13"></script>
+  <script src="data_js/sets.js?v=13"></script>
+  <script src="data_js/set_variants.js?v=13"></script>
+  <script src="data_js/class_guide.js?v=13"></script>
+  <script src="data_js/sources.js?v=13"></script>
+  <script src="data_js/item_details.js?v=13"></script>
+  <script src="data_js/directory.js?v=13"></script>
+  <script src="data_js/guides.js?v=14"></script>
+  <script src="data_js/build_guides.js?v=16"></script>
+  <script src="data_js/locations.js?v=14"></script>
+  <script src="data_js/npc_portraits.js?v=16"></script>
+  <script src="data_js/quests_index.js?v=13"></script>
+  <script src="data_js/quest_library.js?v=13"></script>
+  <script src="data_js/skill_rules.js?v=15"></script>
+  <script src="vendor/tesseract/tesseract.min.js?v=15"></script>
+  <script src="app.js?v=16b"></script>
 </body>
 </html>
