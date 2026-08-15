@@ -291,23 +291,8 @@ a{color:var(--accent);text-decoration:none}
   .races-view{margin-left:0;width:100%}
   .races-view button{flex:1}
 }
-/* ===== Training data cockpit ===== */
-.training-cockpit{position:relative;margin-top:28px;padding:28px 0 4px}
-.training-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:14px}
-.training-eyebrow{font-size:10px;letter-spacing:1.8px;color:var(--accent);font-weight:800}.training-eyebrow span{color:var(--text3);padding:0 3px}
-.training-heading h2{font-size:28px;line-height:1.1;letter-spacing:-.8px;margin-top:5px}.training-heading p{font-size:11px;color:var(--text2);margin-top:7px;max-width:520px}
-.training-source{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end;font-size:10px;color:var(--text2);padding-bottom:4px}.training-source b{font-size:9px;letter-spacing:1px;color:var(--green)}.training-source small{width:100%;text-align:right;color:var(--text3)}.source-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px rgba(74,222,128,.65)}
-.training-feature{display:grid;grid-template-columns:minmax(360px,1.15fr) minmax(400px,.85fr);min-height:360px;border:1px solid #2c2f32;border-radius:16px;overflow:hidden;background:#121416;box-shadow:0 18px 48px rgba(0,0,0,.24)}
-.feature-route-pane{position:relative;min-height:360px;background:radial-gradient(circle at 52% 48%,rgba(255,91,58,.08),transparent 34%),#0d1011;overflow:hidden}.feature-route-pane:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:38px 38px;mask-image:linear-gradient(to bottom,black,transparent 90%);pointer-events:none}.feature-route-top,.feature-route-footer{position:absolute;z-index:2;left:18px;right:18px;display:flex;justify-content:space-between;align-items:center}.feature-route-top{top:17px}.route-kicker,.route-lock{font-size:9px;letter-spacing:1.5px;color:#b5b9bb;font-weight:750}.route-kicker{color:var(--accent)}.route-lock{padding:4px 7px;border:1px solid #34383a;border-radius:4px;color:#777c80}.feature-route{position:absolute;inset:46px 24px 42px}.feature-route svg{width:100%;height:100%;display:block;filter:drop-shadow(0 0 7px rgba(255,91,58,.26))}.feature-route .route-halo{stroke:rgba(0,0,0,.85);stroke-width:7}.feature-route .route-line{stroke-width:2.8}.feature-route .route-start,.feature-route .route-end{r:2.5}.route-loading{height:100%;display:grid;place-items:center;color:#555b5f;font-size:11px}.feature-route-footer{bottom:15px;font-size:10px;color:#71777b}.feature-route-footer span:last-child{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#4f5559}
-.feature-summary{padding:26px 28px 24px;background:linear-gradient(145deg,#181b1d,#111315);display:flex;flex-direction:column;min-width:0}.feature-meta{display:flex;align-items:center;gap:8px;font-size:10px;color:#8d9295}.feature-kind,.activity-kind{display:inline-grid;place-items:center;min-width:24px;height:19px;padding:0 6px;border-radius:4px;background:rgba(255,91,58,.15);color:var(--accent);font-size:9px;font-weight:800;letter-spacing:.6px}.feature-divider{color:#4c5155}.feature-summary h3{font-size:19px;line-height:1.3;margin-top:16px;max-width:390px;text-wrap:balance}.feature-hero-number{display:flex;align-items:baseline;gap:7px;margin-top:16px}.feature-hero-number strong{font-size:50px;letter-spacing:-2.5px;line-height:1;color:#f2f3f3;font-variant-numeric:tabular-nums}.feature-hero-number span{font-size:12px;color:#a1a6a9}.feature-hero-number em{font-style:normal;font-size:13px;color:var(--accent);margin-left:10px}.feature-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:22px;padding-top:16px;border-top:1px solid #2a2d30}.feature-metrics div{min-width:0}.feature-metrics small{display:block;font-size:9px;color:#747a7e}.feature-metrics b{display:block;font-size:17px;line-height:1.25;margin-top:5px;font-variant-numeric:tabular-nums}.feature-metrics span{font-size:9px;color:#62686c}.feature-signal{margin-top:21px;padding:11px 12px;border-left:2px solid var(--accent);background:rgba(255,91,58,.055);border-radius:0 7px 7px 0}.feature-signal span{font-size:8px;color:var(--accent);font-weight:800;letter-spacing:1.4px}.feature-signal p{font-size:11px;color:#b2b6b8;line-height:1.65;margin-top:5px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}.feature-open{align-self:flex-start;margin-top:auto;border:0;background:none;color:var(--accent);font-size:11px;font-weight:700;padding:10px 0 0;cursor:pointer}.feature-open span{font-size:15px;padding-left:4px}.feature-open:hover{color:#ffad8e}
-.training-stats-strip{display:grid;grid-template-columns:repeat(5,1fr);margin-top:10px;border:1px solid var(--line);border-radius:12px;background:#131516;overflow:hidden}.training-stats-strip>div{padding:13px 16px;border-right:1px solid #292d30}.training-stats-strip>div:last-child{border-right:0}.training-stats-strip small{display:block;font-size:9px;color:#777d81}.training-stats-strip b{font-size:20px;margin-top:5px;display:inline-block;font-variant-numeric:tabular-nums}.training-stats-strip span{font-size:9px;color:#70767a;margin-left:4px}
-.training-section-label{display:flex;align-items:baseline;gap:10px;margin:25px 0 10px}.training-section-label span{font-size:9px;color:var(--accent);font-weight:800;letter-spacing:1.4px}.training-section-label b{font-size:14px}.training-section-label small{font-size:10px;color:var(--text3);margin-left:auto}.training-workspace{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:12px}.training-activity-column{min-width:0;border:1px solid var(--line);border-radius:13px;background:#111314;overflow:hidden}.activity-list-head{display:grid;grid-template-columns:62px 1fr 55px;padding:10px 14px;border-bottom:1px solid #292d30;color:#60666a;font-size:9px;letter-spacing:.8px;text-transform:uppercase}.activity-list-head span:last-child{text-align:right}.training-activity-column .act-list{gap:0}.training-activity-column .act-card{border:0;border-bottom:1px solid #25292b;border-radius:0;background:transparent;padding:13px 14px;min-height:70px}.training-activity-column .act-card:last-child{border-bottom:0}.training-activity-column .act-card:hover{background:#191c1e;transform:none}.training-activity-column .act-date{min-width:48px;text-align:left}.training-activity-column .act-date .d{font-size:18px;line-height:1}.training-activity-column .act-date .m{font-size:9px;margin-top:3px}.training-activity-column .act-info .title{font-size:12px}.training-activity-column .act-info .meta{font-size:10px;margin-top:5px}.training-activity-column .act-info .meta span{margin-right:9px}.training-activity-column .detail-hint{display:none}.training-activity-column .act-stats .dist{font-size:17px;color:#eceeef}.training-activity-column .act-stats .load{font-size:9px}.training-activity-column .act-card.alert{border-left:2px solid var(--red)}.training-activity-column .act-card.warn{border-left:2px solid var(--yellow)}.training-activity-column .act-card.ok{border-left:2px solid var(--green)}.analysis-stack{display:flex;flex-direction:column;gap:10px}.analysis-card{padding:14px;background:#131516}.analysis-card .chart-wrap{height:150px}.analysis-card .ctitle{font-size:12px;margin-bottom:2px}
-@media(max-width:1080px){.training-feature{grid-template-columns:1fr 1fr}.training-workspace{grid-template-columns:1fr}.analysis-stack{display:grid;grid-template-columns:1fr 1fr}.analysis-card .chart-wrap{height:145px}}
-@media(max-width:768px){.training-cockpit{margin-top:21px;padding-top:19px}.training-heading{align-items:flex-start;display:block}.training-heading h2{font-size:24px}.training-heading p{line-height:1.6}.training-source{justify-content:flex-start;margin-top:11px}.training-source small{width:auto;text-align:left}.training-feature{display:flex;flex-direction:column;min-height:0}.feature-route-pane{min-height:245px}.feature-route{inset:38px 16px 32px}.feature-route-top{top:13px;left:14px;right:14px}.feature-route-footer{left:14px;right:14px;bottom:11px}.feature-summary{padding:20px 17px 18px}.feature-summary h3{font-size:17px;margin-top:13px}.feature-hero-number{margin-top:13px}.feature-hero-number strong{font-size:43px}.feature-metrics{margin-top:18px;padding-top:13px}.feature-metrics b{font-size:15px}.feature-signal{margin-top:17px}.feature-open{margin-top:12px}.training-stats-strip{grid-template-columns:repeat(2,1fr)}.training-stats-strip>div{padding:11px 12px;border-bottom:1px solid #292d30}.training-stats-strip>div:nth-child(2n){border-right:0}.training-stats-strip>div:last-child{grid-column:span 2}.training-section-label{gap:7px;flex-wrap:wrap}.training-section-label small{width:100%;margin-left:0}.activity-list-head{grid-template-columns:51px 1fr 48px;padding:9px 11px}.training-activity-column .act-card{padding:12px 11px;gap:8px}.training-activity-column .act-info .meta{display:flex;gap:2px 0;flex-wrap:wrap}.training-activity-column .act-info .meta span{margin-right:8px}.training-activity-column .act-stats .dist{font-size:15px}.analysis-stack{display:grid;grid-template-columns:1fr 1fr;gap:7px}.analysis-card{padding:10px}.analysis-card .chart-wrap{height:135px}.analysis-card .ctitle{font-size:10px}.analysis-card .badge-sm{font-size:8px}}
-@media(max-width:430px){.analysis-stack{grid-template-columns:1fr}.analysis-card .chart-wrap{height:150px}.feature-metrics{gap:3px}.feature-metrics small{font-size:8px}.feature-metrics b{font-size:14px}.feature-hero-number strong{font-size:39px}}
-
 </style>
-<link rel="stylesheet" href="redesign.css?v=20260815-training-ui1">
+<link rel="stylesheet" href="redesign.css?v=20260725-restore1">
 </head>
 <body>
 
@@ -425,68 +410,28 @@ a{color:var(--accent);text-decoration:none}
   </div>
 </div>
 
-<!-- ===== Training data cockpit ===== -->
-<section class="training-cockpit" id="training" aria-label="训练数据">
-  <div class="training-heading">
-    <div>
-      <div class="training-eyebrow">ACTIVITY LAB <span>·</span> GARMIN</div>
-      <h2>训练数据</h2>
-      <p>先看路线与节奏，再判断内部负荷。每次活动都保留原始指标和训练语境。</p>
-    </div>
-    <div class="training-source"><span class="source-dot"></span><b>LIVE DATA</b><small id="trainingFreshness">Garmin 同步数据</small></div>
-  </div>
+<!-- ===== Recent Three Flip Cards ===== -->
+<div class="section-title" id="training">最近三天 · 点卡翻面</div>
+<div class="flip-grid" id="flipGrid"></div>
+<div class="flip-dots" id="flipDots" aria-label="最近三天分页"></div>
 
-  <div class="training-feature" id="trainingFeature">
-    <div class="feature-route-pane">
-      <div class="feature-route-top"><span class="route-kicker">LATEST ACTIVITY</span><span class="route-lock">GPS ROUTE</span></div>
-      <div class="feature-route" id="featureRoute"><div class="route-loading">路线加载中…</div></div>
-      <div class="feature-route-footer"><span id="featureRoutePlace">上海 · Garmin GPS</span><span id="featureRouteId">—</span></div>
+<!-- ===== Recent Activities + Heart Rate ===== -->
+<div class="section-title">最近 10 天训练</div>
+<div class="two-col">
+  <div>
+    <div class="act-list" id="actList"></div>
+  </div>
+  <div>
+    <div class="chart-card">
+      <div class="ctitle">最近跑步均心分布 <span class="badge-sm">真实活动统计</span></div>
+      <div class="chart-wrap"><canvas id="hrChart"></canvas></div>
     </div>
-    <div class="feature-summary">
-      <div class="feature-meta"><span class="activity-kind" id="featureKind">L</span><span id="featureDate">—</span><span class="feature-divider">/</span><span id="featureDuration">—</span></div>
-      <h3 id="featureTitle">读取最近一次训练…</h3>
-      <div class="feature-hero-number"><strong id="featureDistance">—</strong><span>km</span><em id="featurePace">— /km</em></div>
-      <div class="feature-metrics">
-        <div><small>均心</small><b id="featureHr">—</b><span>bpm</span></div>
-        <div><small>均功率</small><b id="featurePower">—</b><span>W</span></div>
-        <div><small>训练负荷</small><b id="featureLoad">—</b><span>Garmin</span></div>
-        <div><small>有氧 TE</small><b id="featureTe">—</b><span>效果</span></div>
-      </div>
-      <div class="feature-signal"><span>COACH SIGNAL</span><p id="featureCoach">等待训练点评…</p></div>
-      <button class="feature-open" id="featureOpen" type="button">打开完整记录 <span>↗</span></button>
+    <div class="chart-card" style="margin-top:12px">
+      <div class="ctitle">训练负荷趋势 <span class="badge-sm">7日滚动</span></div>
+      <div class="chart-wrap"><canvas id="loadChart"></canvas></div>
     </div>
   </div>
-
-  <div class="training-stats-strip" aria-label="训练数据摘要">
-    <div><small>本周跑量</small><b id="trainingWeekKm">—</b><span>km</span></div>
-    <div><small>本周活动</small><b id="trainingWeekRuns">—</b><span>次</span></div>
-    <div><small>最近负荷</small><b id="trainingLatestLoad">—</b><span>Garmin</span></div>
-    <div><small>当前 VO₂ Max</small><b id="trainingVo2">—</b><span>估算</span></div>
-    <div><small>跑后体重</small><b id="trainingWeight">—</b><span>kg</span></div>
-  </div>
-
-  <!-- 保留旧的翻面数据节点，兼容历史脚本，不在新版界面重复展示 -->
-  <div id="flipGrid" hidden></div>
-  <div id="flipDots" hidden></div>
-
-  <div class="training-section-label"><span>RECENT ACTIVITIES</span><b>最近 10 次活动</b><small>点击活动查看逐公里、感受与教练判断</small></div>
-  <div class="training-workspace">
-    <div class="training-activity-column">
-      <div class="activity-list-head"><span>日期</span><span>活动与内部负荷</span><span>距离</span></div>
-      <div class="act-list" id="actList"></div>
-    </div>
-    <div class="analysis-stack">
-      <div class="chart-card analysis-card">
-        <div class="ctitle"><span>心率分布</span><span class="badge-sm">最近活动</span></div>
-        <div class="chart-wrap"><canvas id="hrChart"></canvas></div>
-      </div>
-      <div class="chart-card analysis-card">
-        <div class="ctitle"><span>训练负荷</span><span class="badge-sm">连续变化</span></div>
-        <div class="chart-wrap"><canvas id="loadChart"></canvas></div>
-      </div>
-    </div>
-  </div>
-</section>
+</div>
 
 <!-- ===== Vitals ===== -->
 <div class="section-title">身体指标 Vitals</div>
@@ -817,51 +762,6 @@ function initFlipSlider(){
   update();
 }
 renderFlipCards();
-
-// ===== Training data cockpit =====
-function renderTrainingFeature(){
-  const D=window.MERGED_DATA;
-  const latest=activities[0] || (D?.recent?.[0]);
-  if(!latest)return;
-  const run=(D?.runs||[]).find(r=>String(r.activity_id)===String(latest.activityId))||latest;
-  const day=D?.days?.[run.date]||{};
-  const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value==null||value===''?'—':value};
-  const dist=Number(run.distance||0);
-  const load=Number(run.load||0);
-  const te=run.te==null?'—':Number(run.te).toFixed(1);
-  const power=run.avg_power==null?'—':Math.round(run.avg_power);
-  const hr=run.avg_hr==null?'—':Math.round(run.avg_hr);
-  const date=run.date?run.date.replace(/^2026-/,'').replace('-',' / '):'—';
-  const coach=day.coach&&day.coach!=='无'?day.coach:'这次活动已完成记录，打开完整记录查看逐公里和训练判断。';
-  const place=(run.title||'上海').split(' - ')[0]||'上海';
-  set('featureKind',run.kind||'RUN');
-  set('featureDate',date);
-  set('featureDuration',run.duration_min?`${Number(run.duration_min).toFixed(1)} min`:'—');
-  set('featureTitle',run.title||'最近一次训练');
-  set('featureDistance',dist.toFixed(2));
-  set('featurePace',`${run.pace||'—'} /km`);
-  set('featureHr',hr);
-  set('featurePower',power);
-  set('featureLoad',load?Math.round(load):'—');
-  set('featureTe',te);
-  set('featureCoach',coach);
-  set('featureRoutePlace',`${place} · Garmin GPS`);
-  set('featureRouteId',`#${run.activity_id||'—'}`);
-  const route=document.getElementById('featureRoute');
-  if(route)route.innerHTML=routeSVG(run.activity_id);
-  const open=document.getElementById('featureOpen');
-  if(open)open.onclick=()=>openTrainingDetail(run.date,run.activity_id);
-  const summary=D?.summary||{};
-  set('trainingWeekKm',Number(summary.week_km||0).toFixed(2));
-  set('trainingWeekRuns',summary.week_runs||'—');
-  set('trainingLatestLoad',load?Math.round(load):'—');
-  set('trainingVo2',summary.vo2max||'—');
-  const weight=day.weight?.value ?? D?.weights?.at(-1)?.value;
-  set('trainingWeight',weight==null?'—':Number(weight).toFixed(1));
-  const freshness=document.getElementById('trainingFreshness');
-  if(freshness)freshness.textContent=`更新至 ${run.date||'—'} · ${run.activity_id||'Garmin'}`;
-}
-renderTrainingFeature();
 const actList=document.getElementById('actList');
 actList.innerHTML=activities.map(a=>{
   if(a.status==='rest')return `<div class="act-card" style="opacity:.4">
