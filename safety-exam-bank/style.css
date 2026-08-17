@@ -1,0 +1,213 @@
+:root{
+  --bg:#f4f1e8;--card:#fffdf7;--ink:#14241f;--muted:#758078;--green:#1d6b55;--deep:#102e27;
+  --orange:#e87532;--line:#dddcd3;--red:#c64b45;--shadow:0 10px 30px #16392b12;
+  --max:980px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;padding-bottom:88px}
+button,input,textarea{font:inherit;color:inherit}
+a{color:inherit}
+
+.topbar{height:68px;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;background:#f4f1e8dd;backdrop-filter:blur(14px);position:sticky;top:0;z-index:10;border-bottom:1px solid #00000008;max-width:var(--max);margin:0 auto}
+.brand{display:flex;gap:10px;align-items:center}
+.brand .logo{width:40px;height:40px;border-radius:13px;background:var(--deep);color:#fff;display:grid;place-items:center;font-weight:900}
+.brand b,.brand small{display:block}
+.brand small{font-size:11px;color:var(--muted);margin-top:2px}
+.topRight{display:flex;align-items:center;gap:8px}
+.examCountdown{display:flex;align-items:baseline;gap:4px;background:var(--deep);color:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;user-select:none}
+.examCountdown .cdLabel{font-size:10px;opacity:.8}
+.examCountdown strong{font-size:18px;line-height:1;font-variant-numeric:tabular-nums}
+.examCountdown .cdUnit{font-size:11px}
+.icon{border:0;background:transparent;font-size:22px;padding:8px;cursor:pointer}
+
+.view{display:none;max-width:var(--max);margin:auto;padding:0 0 20px}
+.view.active{display:block}
+
+.hero{margin:10px 14px 14px;padding:28px 22px 22px;border-radius:25px;background:radial-gradient(circle at 90% 10%,#4a8268 0,transparent 32%),linear-gradient(145deg,#183f34,#0d2822);color:white;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero:after{content:"✓";position:absolute;right:-8px;bottom:-58px;font:200px Georgia;color:#ffffff0b}
+.eyebrow{font-size:11px;letter-spacing:1px;color:#f4ad75}
+.hero h1{font:700 30px/1.25 Georgia,"Songti SC",serif;margin:13px 0 9px;max-width:420px}
+.hero p{font-size:13px;line-height:1.7;color:#d3ded8;margin:0;max-width:520px}
+.heroStats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:25px;border-top:1px solid #ffffff24;padding-top:17px}
+.heroStats div{border-right:1px solid #ffffff1f;padding-left:12px}
+.heroStats div:first-child{padding-left:0}
+.heroStats div:last-child{border:0}
+.heroStats strong,.heroStats span{display:block}
+.heroStats strong{font-size:23px}
+.heroStats span{font-size:10px;color:#aebeb7}
+
+.continueBig{width:calc(100% - 28px);margin:0 14px 14px;border:0;border-radius:18px;padding:18px 18px;background:linear-gradient(135deg,#e87532,#d45d1d);color:#fff;display:flex;align-items:center;justify-content:space-between;box-shadow:0 12px 28px #e8753240;cursor:pointer;text-align:left}
+.continueBig b,.continueBig small{display:block}
+.continueBig b{font-size:16px}
+.continueBig small{margin-top:6px;opacity:.92;font-size:12px}
+.continueBig .arrow{font-size:28px;font-weight:300}
+.continueBig:not(.hasLast){background:linear-gradient(135deg,#2d5a4d,#1a3d34);box-shadow:0 12px 28px #16392b30}
+
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:0 14px 18px}
+.quick button{border:0;background:var(--card);padding:14px 12px;border-radius:16px;box-shadow:var(--shadow);text-align:left;cursor:pointer}
+.quick i{font-style:normal;color:var(--orange);font-size:18px}
+.quick b,.quick small{display:block}
+.quick b{font-size:13px;margin-top:7px}
+.quick small{font-size:11px;color:var(--muted);margin-top:3px}
+
+.sectionTitle,.pageHead{display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+.sectionTitle h2{font-size:18px;margin:8px 0}
+.sectionTitle button,.filterBtn{border:0;background:transparent;color:var(--muted);font-size:12px;cursor:pointer}
+.paperList{padding:0 14px}
+.paper{background:var(--card);border-radius:19px;margin:10px 0;padding:18px;box-shadow:var(--shadow);border:1px solid #ffffff}
+.paperTop{display:flex;gap:13px}
+.paperNo{width:46px;height:55px;border-radius:12px;background:#e5eee9;color:var(--green);display:grid;place-items:center;font:700 20px Georgia}
+.paper h3{font-size:15px;line-height:1.5;margin:0 0 6px}
+.paper p{font-size:12px;color:var(--muted);margin:0}
+.paperProgress{height:5px;background:#e6e6df;border-radius:9px;margin:16px 0 12px;overflow:hidden}
+.paperProgress i{height:100%;display:block;background:var(--orange)}
+.paperActions{display:flex;gap:8px;flex-wrap:wrap}
+.paperActions button{flex:1;min-width:90px;border:1px solid var(--line);background:transparent;border-radius:11px;padding:10px;font-size:12px;cursor:pointer}
+.paperActions .start{background:var(--deep);color:#fff;border-color:var(--deep)}
+.hintCard{margin:8px 14px 24px;padding:14px 16px;border-radius:14px;background:#e8f0eb;color:#245447}
+.hintCard b{display:block;margin-bottom:6px}
+.hintCard p{margin:0;font-size:12px;line-height:1.6}
+
+nav{position:fixed;z-index:20;left:0;right:0;bottom:0;height:76px;padding-bottom:env(safe-area-inset-bottom);background:#fffdf5ee;backdrop-filter:blur(15px);border-top:1px solid var(--line);display:flex;justify-content:center}
+nav button{max-width:180px;flex:1;border:0;background:transparent;color:#929a95;padding:8px;cursor:pointer}
+nav i,nav span{display:block;font-style:normal}
+nav i{font-size:22px}
+nav span{font-size:10px;margin-top:3px}
+nav button.active{color:var(--green)}
+
+.practiceHead{height:60px;padding:7px 8px;display:flex;align-items:center;gap:9px}
+.practiceHead .phMid{flex:1;min-width:0}
+.practiceHead b,.practiceHead small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.practiceHead small{color:var(--muted);font-size:10px;margin-top:3px}
+.phRight{display:flex;align-items:center;gap:4px}
+.qTimer{min-width:58px;text-align:center;font-variant-numeric:tabular-nums;font-weight:800;font-size:14px;color:var(--orange);background:#fff2e7;border-radius:999px;padding:7px 10px}
+.progress{height:3px;background:#ddd}
+.progress span{height:100%;display:block;background:var(--orange);transition:.3s}
+#questionCard{margin:18px 14px 110px}
+.qmeta{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:11px;gap:8px}
+.qmeta span:first-child{background:#e3ece7;color:var(--green);padding:5px 9px;border-radius:20px;max-width:52%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.qmeta button{border:0;background:transparent;font-size:22px;cursor:pointer}
+.stem{font:600 18px/1.75 Georgia,"Songti SC",serif;margin:18px 2px}
+.option{display:flex;width:100%;text-align:left;border:1px solid var(--line);background:var(--card);border-radius:15px;padding:15px;margin:10px 0;line-height:1.5;cursor:pointer}
+.option i{font-style:normal;flex:0 0 28px;height:28px;border:1px solid #aeb6b0;border-radius:50%;display:grid;place-items:center;margin-right:11px}
+.option.selected{border-color:var(--green);background:#eaf2ed}
+.option.selected i{background:var(--green);color:white}
+.option.correct{border-color:var(--green);background:#e7f3ea}
+.option.wrongopt{border-color:var(--red);background:#fae9e5}
+.analysis{margin-top:8px}
+.answerResult{display:flex;justify-content:space-between;align-items:center;padding:15px 16px;border-radius:14px;margin-bottom:10px}
+.answerResult strong{font-size:16px}
+.answerResult span{font-size:13px;font-weight:700}
+.answerResult.pass{background:#e3f2e8;color:#176044}
+.answerResult.fail{background:#fae6e2;color:#a83e38}
+.timeLine{font-size:12px;color:var(--muted);margin:0 2px 12px}
+.timeLine b{color:var(--orange)}
+.breakdown{background:var(--card);border-radius:16px;padding:16px;box-shadow:var(--shadow)}
+.breakdown h3{margin:0 0 12px;font-size:16px}
+.optionExplain{padding:13px 0;border-top:1px solid var(--line)}
+.optionExplain:first-of-type{border-top:0}
+.oeHead{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.oeHead span{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;color:white;font-weight:800}
+.isRight .oeHead span{background:var(--green)}
+.isWrong .oeHead span{background:var(--red)}
+.isRight .oeHead b{color:var(--green)}
+.isWrong .oeHead b{color:var(--red)}
+.oeText{font-size:14px;line-height:1.75}
+.oeText em{font-style:normal;font-weight:800;margin-right:4px}
+.isRight .oeText em{color:var(--green)}
+.isWrong .oeText em{color:var(--red)}
+.analysis mark,.originalAnalysis mark{background:#ffe19b;color:#623700;padding:1px 3px;border-radius:3px;font-weight:750}
+.originalAnalysis{margin-top:12px;background:var(--card);border-radius:14px;padding:14px 16px;line-height:1.8;font-size:14px}
+.originalAnalysis summary{font-weight:750;color:var(--green);cursor:pointer;margin-bottom:9px}
+.originalAnalysis[open] summary{border-bottom:1px solid var(--line);padding-bottom:9px}
+.note{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--card);margin-top:12px;min-height:70px}
+.figBox{margin:14px 0 8px}
+.figBox figure{margin:0 0 12px;padding:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+.figBox img{display:block;width:100%;height:auto;border-radius:8px;background:#fff}
+.figBox figcaption{margin-top:8px;font-size:11px;color:var(--muted)}
+.sourceLink{display:inline-block;margin-top:10px;padding:8px 12px;border-radius:999px;background:#e7f0eb;color:var(--green);text-decoration:none;font-size:12px;font-weight:700}
+
+.bottomActions{position:fixed;z-index:11;bottom:76px;left:0;right:0;display:flex;gap:8px;padding:10px 14px;background:#f4f1e8e8;backdrop-filter:blur(10px);max-width:var(--max);margin:auto}
+.bottomActions button{flex:1;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:13px;cursor:pointer}
+.primary{background:var(--orange)!important;color:#fff!important;border-color:var(--orange)!important;font-weight:700}
+
+.pageHead{padding-top:20px}
+.pageHead h1{margin:0;font:700 27px Georgia,"Songti SC"}
+.pageHead p{margin:4px 0;color:var(--muted);font-size:12px}
+.list{padding:12px 14px}
+.listItem{background:var(--card);margin:9px 0;padding:15px;border-radius:15px;box-shadow:var(--shadow);cursor:pointer}
+.listItem b{font-size:13px;line-height:1.55;display:block}
+.listItem small{color:var(--muted)}
+.empty{text-align:center;color:var(--muted);padding:70px 20px}
+.reportHero{margin:15px 14px;padding:22px;background:var(--deep);border-radius:20px;color:white}
+.reportHero strong{font-size:42px}
+.reportHero span{font-size:13px;color:#b5c8c0}
+.reportGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 14px}
+.reportGrid div,.chapter{background:var(--card);padding:17px;border-radius:15px}
+.reportGrid strong,.reportGrid span{display:block}
+.reportGrid span{color:var(--muted);font-size:11px;margin-top:5px}
+.chapters{padding:15px 14px}
+.chapter{margin-bottom:8px}
+.chapter .bar{height:5px;background:#e5e5dd;border-radius:5px;margin-top:10px}
+.chapter .bar i{display:block;height:100%;background:var(--green)}
+.wrongSettings{margin:18px 14px 10px;padding:15px;background:var(--card);border-radius:15px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow);gap:10px}
+.wrongSettings>span{font-size:12px;color:var(--muted);flex-shrink:0}
+#streakSetting{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+#streakSetting button{border:1px solid var(--line);background:transparent;padding:7px 9px;border-radius:9px;font-size:11px;cursor:pointer}
+#streakSetting button.active{background:var(--green);border-color:var(--green);color:white}
+.wrongStart{display:block;width:calc(100% - 28px);margin:0 14px;border:0;background:var(--orange);color:white;padding:13px;border-radius:13px;font-weight:700;cursor:pointer}
+.wrongStart:disabled{background:#aeb5b1}
+.miniStreak{height:4px;background:var(--line);border-radius:4px;margin-top:10px;overflow:hidden}
+.miniStreak i{height:100%;display:block;background:var(--orange)}
+.streakMessage{margin:10px 0;padding:9px 11px;border-radius:9px;background:#eaf5ef;color:var(--green);font-weight:700}
+
+.modal{display:none;position:fixed;inset:0;background:#0d1d18aa;z-index:40;align-items:flex-end}
+.modal.open{display:flex}
+.modalBox{background:var(--bg);width:100%;max-height:82vh;border-radius:24px 24px 0 0;padding:18px;overflow:auto}
+.modalBox.compact{max-width:420px}
+.modalHead{display:flex;justify-content:space-between;font-size:18px;align-items:center}
+.modalHead button{border:0;background:transparent;font-size:25px;cursor:pointer}
+.modalTip{font-size:13px;color:var(--muted);line-height:1.6}
+#examDateInput{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--card);margin:8px 0 4px}
+.legend{font-size:11px;color:var(--muted);display:flex;gap:15px;margin:12px 0}
+.legend i{display:inline-block;width:9px;height:9px;border:1px solid #aaa;border-radius:50%;margin-right:4px}
+.legend .done{background:var(--green)}
+.legend .wrongDot{background:var(--red)}
+.answerSheet{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.answerSheet button{aspect-ratio:1;border:1px solid var(--line);border-radius:50%;background:var(--card);cursor:pointer}
+.answerSheet button.done{background:var(--green);color:#fff}
+.answerSheet button.bad{background:var(--red);color:#fff}
+.wide{width:100%;padding:14px;border:0;border-radius:13px;margin-top:18px;cursor:pointer}
+
+#toast{position:fixed;left:50%;bottom:105px;transform:translateX(-50%) translateY(20px);background:#14241f;color:white;padding:10px 16px;border-radius:30px;font-size:12px;opacity:0;transition:.25s;z-index:80;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%)}
+
+body.dark{--bg:#121b18;--card:#1b2723;--ink:#edf2ef;--muted:#9daaa4;--line:#34413c;--deep:#1a4a3c}
+body.dark .topbar{background:#121b18dd}
+body.dark nav{background:#18221fee}
+body.dark .qTimer{background:#3a2a1c;color:#ffb27a}
+body.dark .answerResult.pass{background:#183c30;color:#9de0be}
+body.dark .answerResult.fail{background:#482724;color:#ffaaa1}
+body.dark .streakMessage{background:#243b33}
+body.dark .analysis mark,body.dark .originalAnalysis mark{background:#806321;color:#fff0ad}
+body.dark .sourceLink{background:#243b33}
+body.dark .figBox img{background:#0f1714}
+body.dark .hintCard{background:#1d322b;color:#b7d7c9}
+
+@media(min-width:760px){
+  body{padding-bottom:96px}
+  .hero{margin-top:18px}
+  .hero h1{font-size:36px;max-width:560px}
+  .quick{grid-template-columns:repeat(4,1fr)}
+  .paperActions button{flex:none;min-width:120px}
+  .modal{align-items:center;justify-content:center}
+  .modalBox{max-width:560px;border-radius:24px}
+  .answerSheet{grid-template-columns:repeat(10,1fr)}
+  #questionCard{margin-left:auto;margin-right:auto;max-width:760px}
+  .bottomActions{left:50%;transform:translateX(-50%);width:min(980px,100%)}
+  .stem{font-size:20px}
+}
+@media(min-width:1100px){
+  :root{--max:1080px}
+  .topbar,.view{padding-left:8px;padding-right:8px}
+}

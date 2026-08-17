@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#102a24">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>安考必过 · 安全生产技术题库</title>
+  <link rel="stylesheet" href="style.css?v=20">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">安</div>
+    <div>
+      <b>安考必过</b>
+      <small>安全生产技术基础 · 多端题库</small>
+    </div>
+  </div>
+  <div class="topRight">
+    <div class="examCountdown" id="examCountdown" title="点击可修改考试日期">
+      <span class="cdLabel">距考试</span>
+      <strong id="cdDays">--</strong>
+      <span class="cdUnit">天</span>
+    </div>
+    <button id="themeBtn" class="icon" aria-label="切换深色">◐</button>
+  </div>
+</header>
+
+<main>
+  <section id="home" class="view active">
+    <div class="hero">
+      <span class="eyebrow">2026 中级注册安全工程师</span>
+      <h1>把错题，练成你的得分点。</h1>
+      <p>三套试卷 255 题。手机 / iPad / 电脑都能刷，进度可导出导入同步。</p>
+      <div class="heroStats">
+        <div><strong id="totalCount">0</strong><span>道真题</span></div>
+        <div><strong id="doneCount">0</strong><span>已作答</span></div>
+        <div><strong id="accuracy">—</strong><span>正确率</span></div>
+      </div>
+    </div>
+
+    <button id="continueBig" class="continueBig" type="button">
+      <div>
+        <b>继续上次练习</b>
+        <small id="continueText">从未完成处开始</small>
+      </div>
+      <span class="arrow">→</span>
+    </button>
+
+    <div class="quick">
+      <button data-quick="wrong" type="button"><i>↺</i><span><b>错题回炉</b><small id="wrongText">暂无错题</small></span></button>
+      <button data-quick="random" type="button"><i>⚡</i><span><b>随机 20 题</b><small>三卷混合强化</small></span></button>
+      <button id="exportBtn" type="button"><i>⇪</i><span><b>导出进度</b><small>换设备用</small></span></button>
+      <button id="importBtn" type="button"><i>⇩</i><span><b>导入进度</b><small>覆盖本机</small></span></button>
+    </div>
+    <input id="importFile" type="file" accept="application/json,.json" hidden>
+
+    <div class="sectionTitle">
+      <h2>我的试卷</h2>
+      <button id="resetAll" type="button">重置记录</button>
+    </div>
+    <div id="paperList" class="paperList"></div>
+
+    <div class="hintCard">
+      <b>多端使用</b>
+      <p>本页可在手机、iPad、电脑浏览器直接打开。进度默认保存在当前浏览器；换设备时用「导出进度 / 导入进度」同步。</p>
+    </div>
+  </section>
+
+  <section id="practice" class="view">
+    <div class="practiceHead">
+      <button id="backBtn" class="icon" type="button">←</button>
+      <div class="phMid">
+        <b id="sessionTitle">练习</b>
+        <small id="sessionMeta"></small>
+      </div>
+      <div class="phRight">
+        <div class="qTimer" id="qTimer" title="本题用时">00:00</div>
+        <button id="sheetBtn" class="icon" type="button">▦</button>
+      </div>
+    </div>
+    <div class="progress"><span id="progressBar"></span></div>
+    <article id="questionCard"></article>
+    <div class="bottomActions">
+      <button id="prevBtn" type="button">上一题</button>
+      <button id="submitBtn" class="primary" type="button">确认答案</button>
+      <button id="nextBtn" type="button">下一题</button>
+    </div>
+  </section>
+
+  <section id="wrong" class="view">
+    <div class="pageHead">
+      <div>
+        <h1>错题本</h1>
+        <p>连续答对达到目标后自动消除</p>
+      </div>
+      <button class="filterBtn" id="clearWrong" type="button">清空错题</button>
+    </div>
+    <div class="wrongSettings">
+      <span>消除条件</span>
+      <div id="streakSetting">
+        <button data-n="2" type="button">连续 2 次</button>
+        <button data-n="3" type="button">连续 3 次</button>
+        <button data-n="5" type="button">连续 5 次</button>
+      </div>
+    </div>
+    <button id="startWrongBtn" class="wrongStart" type="button">开始错题回炉</button>
+    <div id="wrongList" class="list"></div>
+  </section>
+
+  <section id="favorite" class="view">
+    <div class="pageHead">
+      <div>
+        <h1>收藏夹</h1>
+        <p>值得反复看的题</p>
+      </div>
+    </div>
+    <div id="favoriteList" class="list"></div>
+  </section>
+
+  <section id="stats" class="view">
+    <div class="pageHead">
+      <div>
+        <h1>学习报告</h1>
+        <p>所有数据仅保存在本机浏览器</p>
+      </div>
+    </div>
+    <div id="statsContent"></div>
+  </section>
+</main>
+
+<nav>
+  <button data-view="home" class="active" type="button"><i>⌂</i><span>题库</span></button>
+  <button data-view="wrong" type="button"><i>↺</i><span>错题</span></button>
+  <button data-view="favorite" type="button"><i>☆</i><span>收藏</span></button>
+  <button data-view="stats" type="button"><i>▥</i><span>报告</span></button>
+</nav>
+
+<div id="sheetModal" class="modal">
+  <div class="modalBox">
+    <div class="modalHead"><b>答题卡</b><button id="closeSheet" type="button">×</button></div>
+    <div class="legend">
+      <span><i class="done"></i>已答</span>
+      <span><i class="wrongDot"></i>错误</span>
+      <span><i></i>未答</span>
+    </div>
+    <div id="answerSheet" class="answerSheet"></div>
+    <button id="finishBtn" class="primary wide" type="button">交卷并查看成绩</button>
+  </div>
+</div>
+
+<div id="examDateModal" class="modal">
+  <div class="modalBox compact">
+    <div class="modalHead"><b>考试日期</b><button id="closeExamDate" type="button">×</button></div>
+    <p class="modalTip">用于右上角倒计时。默认按 2026-10-24（可自行修改）。</p>
+    <input id="examDateInput" type="date" value="2026-10-24">
+    <button id="saveExamDate" class="primary wide" type="button">保存</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script src="data.js?v=20"></script>
+<script src="app.js?v=20"></script>
+</body>
+</html>
