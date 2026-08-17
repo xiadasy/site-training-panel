@@ -88,7 +88,19 @@ def main():
             # Extract numeric distance for plan target
             nums = re.findall(r'(\d+(?:\.\d+)?)\s*(?:km|公里)', title, re.I)
             distance = float(nums[-1]) if nums else 0
-            # Quality workouts encode repetitions (e.g. 3x2km), so read the workout's total target distance.
+            # Always fall back to Garmin workout detail when title parsing yields zero.
+            # Our range/flexible names often omit a literal "km" suffix (e.g. 恢复8, 轻松E12),
+            # while estimatedDistanceInMeters remains authoritative.
+            if distance <= 0 and item.get('workoutId'):
+                try:
+                    detail = client.get_workout_by_id(item['workoutId'])
+                    distance = round(float(detail.get('estimatedDistanceInMeters') or 0) / 1000, 2)
+                    if distance <= 0:
+                        steps = ((detail.get('workoutSegments') or [{}])[0].get('workoutSteps') or [])
+                        distance = round(sum(float(s.get('endConditionValue') or 0) for s in steps if (s.get('endCondition') or {}).get('conditionTypeId') == 3) / 1000, 2)
+                except Exception as e:
+                    print(f"  ⚠️ plan distance fallback failed for {item.get('workoutId')}: {e}")
+            # Quality workouts encode repetitions (e.g. 3x2km), so read total target distance.
             if re.search(r'\d+\s*[x×]\s*\d+(?:\.\d+)?\s*km', title, re.I) and item.get('workoutId'):
                 try:
                     detail = client.get_workout_by_id(item['workoutId'])
