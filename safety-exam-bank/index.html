@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#102a24">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>安考必过 · 安全生产技术题库</title>
-  <link rel="stylesheet" href="style.css?v=20">
+  <link rel="stylesheet" href="style.css?v=21">
 </head>
 <body>
 <header class="topbar">
@@ -48,11 +48,26 @@
       <span class="arrow">→</span>
     </button>
 
+    <div class="syncCard">
+      <div class="syncTop">
+        <div>
+          <b>云同步</b>
+          <small id="syncStatus">未设置同步码 · 电脑和手机可共用进度</small>
+        </div>
+        <button id="syncNowBtn" type="button">立即同步</button>
+      </div>
+      <div class="syncRow">
+        <input id="syncCodeInput" type="text" placeholder="设置同步码，如 aw-an kao-2026" maxlength="64" autocomplete="off">
+        <button id="saveSyncCodeBtn" type="button">保存</button>
+      </div>
+      <p class="syncTip">手机和电脑填同一个同步码即可互通。进度会在做题后自动上传，打开页面时自动拉取。</p>
+    </div>
+
     <div class="quick">
       <button data-quick="wrong" type="button"><i>↺</i><span><b>错题回炉</b><small id="wrongText">暂无错题</small></span></button>
       <button data-quick="random" type="button"><i>⚡</i><span><b>随机 20 题</b><small>三卷混合强化</small></span></button>
-      <button id="exportBtn" type="button"><i>⇪</i><span><b>导出进度</b><small>换设备用</small></span></button>
-      <button id="importBtn" type="button"><i>⇩</i><span><b>导入进度</b><small>覆盖本机</small></span></button>
+      <button id="exportBtn" type="button"><i>⇪</i><span><b>导出进度</b><small>本地备份</small></span></button>
+      <button id="importBtn" type="button"><i>⇩</i><span><b>导入进度</b><small>本地恢复</small></span></button>
     </div>
     <input id="importFile" type="file" accept="application/json,.json" hidden>
 
@@ -160,7 +175,7 @@
 </div>
 
 <div id="toast"></div>
-<script src="data.js?v=20"></script>
-<script src="app.js?v=20"></script>
+<script src="data.js?v=21"></script>
+<script src="app.js?v=21"></script>
 </body>
 </html>

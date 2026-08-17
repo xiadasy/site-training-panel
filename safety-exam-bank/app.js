@@ -1,6 +1,16 @@
 const DB = window.QUESTION_BANK;
 const KEY = 'safetyExamStateV1';
 const DEFAULT_EXAM = '2026-10-24';
+const SYNC_API = 'https://safety-exam-sync.a15221082942.workers.dev/api/state';
+const DEVICE_ID = (() => {
+  const k = 'safetyExamDeviceId';
+  let id = localStorage.getItem(k);
+  if (!id) {
+    id = 'web-' + Math.random().toString(36).slice(2, 8) + Date.now().toString(36).slice(-4);
+    localStorage.setItem(k, id);
+  }
+  return id;
+})();
 
 function loadState() {
   let S;
@@ -14,6 +24,9 @@ function loadState() {
   S.streakGoal = S.streakGoal || 3;
   S.examDate = S.examDate || DEFAULT_EXAM;
   S.qTimes = S.qTimes || {}; // qid -> total seconds spent
+  S.syncCode = S.syncCode || '';
+  S.syncUpdatedAt = S.syncUpdatedAt || null;
+  S.localUpdatedAt = S.localUpdatedAt || null;
   Object.keys(S.wrong).forEach(id => {
     if (typeof S.wrong[id] !== 'object') S.wrong[id] = { streak: 0, attempts: 0, lastWrong: Date.now() };
   });
@@ -23,6 +36,7 @@ function loadState() {
 let S = loadState();
 let session = [], idx = 0, chosen = [], roundAnswers = {};
 let qTimerSec = 0, qTimerHandle = null, qTimerStartedAt = 0;
+let syncTimer = null, syncing = false;
 
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
@@ -32,10 +46,13 @@ const all = () => DB.papers.flatMap(p => p.questions.map(q => ({
   paperTitle: p.title,
   sourcePdf: p.sourcePdf
 })));
-const save = () => {
+const save = (opts = {}) => {
+  S.localUpdatedAt = new Date().toISOString();
   localStorage.setItem(KEY, JSON.stringify(S));
   updateHome();
   updateCountdown();
+  updateSyncUI();
+  if (!opts.skipCloud) scheduleCloudPush();
 };
 const eq = (a, b) => [...a].sort().join() === [...b].sort().join();
 const esc = s => String(s || '').replace(/[&<>"']/g, c => ({
@@ -417,6 +434,155 @@ function toast(t) {
   x.classList.add('show');
   setTimeout(() => x.classList.remove('show'), 1600);
 }
+function normalizeSyncCode(code) {
+  return String(code || '').trim().toLowerCase().replace(/\s+/g, '');
+}
+function updateSyncUI() {
+  const status = $('#syncStatus');
+  const input = $('#syncCodeInput');
+  if (!status) return;
+  if (input && document.activeElement !== input) input.value = S.syncCode || '';
+  if (!S.syncCode) {
+    status.textContent = '未设置同步码 · 电脑和手机可共用进度';
+    return;
+  }
+  const t = S.syncUpdatedAt ? new Date(S.syncUpdatedAt).toLocaleString('zh-CN', { hour12: false }) : '尚未上传';
+  status.textContent = `已启用：${S.syncCode} · 云端 ${t}`;
+}
+function applyRemoteState(remote, updatedAt) {
+  if (!remote || typeof remote !== 'object') return false;
+  S.answers = remote.answers || {};
+  S.wrong = remote.wrong || {};
+  S.fav = remote.fav || {};
+  S.notes = remote.notes || {};
+  S.last = remote.last || null;
+  S.dark = !!remote.dark;
+  S.streakGoal = remote.streakGoal || 3;
+  S.examDate = remote.examDate || DEFAULT_EXAM;
+  S.qTimes = remote.qTimes || {};
+  // keep current sync code
+  S.syncUpdatedAt = updatedAt || remote.syncUpdatedAt || new Date().toISOString();
+  S.localUpdatedAt = S.syncUpdatedAt;
+  Object.keys(S.wrong).forEach(id => {
+    if (typeof S.wrong[id] !== 'object') S.wrong[id] = { streak: 0, attempts: 0, lastWrong: Date.now() };
+  });
+  localStorage.setItem(KEY, JSON.stringify(S));
+  document.body.classList.toggle('dark', S.dark);
+  updateHome();
+  updateCountdown();
+  updateSyncUI();
+  return true;
+}
+function exportableState() {
+  return {
+    answers: S.answers,
+    wrong: S.wrong,
+    fav: S.fav,
+    notes: S.notes,
+    last: S.last,
+    dark: S.dark,
+    streakGoal: S.streakGoal,
+    examDate: S.examDate,
+    qTimes: S.qTimes,
+    localUpdatedAt: S.localUpdatedAt,
+  };
+}
+function scheduleCloudPush() {
+  if (!normalizeSyncCode(S.syncCode)) return;
+  if (syncTimer) clearTimeout(syncTimer);
+  syncTimer = setTimeout(() => { cloudPush().catch(() => {}); }, 1200);
+}
+async function cloudPush() {
+  const code = normalizeSyncCode(S.syncCode);
+  if (!code || syncing) return null;
+  syncing = true;
+  updateSyncStatusText('正在上传进度…');
+  try {
+    const res = await fetch(SYNC_API, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code, state: exportableState(), device: DEVICE_ID })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || ('http ' + res.status));
+    S.syncUpdatedAt = data.updatedAt || new Date().toISOString();
+    localStorage.setItem(KEY, JSON.stringify(S));
+    updateSyncUI();
+    return data;
+  } catch (e) {
+    updateSyncStatusText('上传失败，稍后再试');
+    throw e;
+  } finally {
+    syncing = false;
+  }
+}
+async function cloudPull({ preferRemoteIfNewer = true, force = false } = {}) {
+  const code = normalizeSyncCode(S.syncCode);
+  if (!code || syncing) return null;
+  syncing = true;
+  updateSyncStatusText('正在拉取云端进度…');
+  try {
+    const res = await fetch(SYNC_API + '?code=' + encodeURIComponent(code));
+    const data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || ('http ' + res.status));
+    if (!data.exists || !data.state) {
+      // first time: upload local
+      syncing = false;
+      await cloudPush();
+      updateSyncStatusText('已创建云端进度');
+      return { created: true };
+    }
+    const remoteTs = Date.parse(data.updatedAt || 0) || 0;
+    const localTs = Date.parse(S.localUpdatedAt || S.syncUpdatedAt || 0) || 0;
+    if (force || !preferRemoteIfNewer || remoteTs >= localTs) {
+      applyRemoteState(data.state, data.updatedAt);
+      updateSyncStatusText('已从云端恢复');
+      return { pulled: true, updatedAt: data.updatedAt };
+    }
+    // local newer -> push
+    syncing = false;
+    await cloudPush();
+    updateSyncStatusText('本机更新，已上传云端');
+    return { pushed: true };
+  } catch (e) {
+    updateSyncStatusText('同步失败，检查网络后重试');
+    throw e;
+  } finally {
+    syncing = false;
+    updateSyncUI();
+  }
+}
+function updateSyncStatusText(text) {
+  const status = $('#syncStatus');
+  if (status) status.textContent = text;
+}
+async function saveSyncCode() {
+  const code = normalizeSyncCode($('#syncCodeInput').value);
+  if (code && (code.length < 4 || code.length > 64)) return toast('同步码请用 4-64 位');
+  S.syncCode = code;
+  save({ skipCloud: true });
+  if (!code) {
+    updateSyncUI();
+    toast('已关闭云同步');
+    return;
+  }
+  try {
+    await cloudPull({ force: false });
+    toast('同步码已保存并完成同步');
+  } catch (e) {
+    toast('同步码已保存，但联网同步失败');
+  }
+}
+async function syncNow() {
+  if (!normalizeSyncCode(S.syncCode)) return toast('请先设置同步码');
+  stopQTimer(true);
+  try {
+    await cloudPull({ force: false });
+    toast('同步完成');
+  } catch (e) {
+    toast('同步失败');
+  }
+}
 function updateCountdown() {
   let d = S.examDate || DEFAULT_EXAM;
   let target = new Date(d + 'T09:00:00+08:00');
@@ -525,14 +691,36 @@ $('#saveExamDate').onclick = () => {
   $('#examDateModal').classList.remove('open');
   toast('考试日期已更新');
 };
+$('#saveSyncCodeBtn').onclick = saveSyncCode;
+$('#syncNowBtn').onclick = syncNow;
+$('#syncCodeInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') saveSyncCode();
+});
 
 // visibility: save timer when page hidden
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden) { stopQTimer(true); save(); }
+  if (document.hidden) {
+    stopQTimer(true);
+    save({ skipCloud: true });
+    scheduleCloudPush();
+  } else if (normalizeSyncCode(S.syncCode)) {
+    cloudPull({ force: false }).catch(() => {});
+  }
 });
-window.addEventListener('beforeunload', () => { stopQTimer(true); save(); });
+window.addEventListener('beforeunload', () => {
+  stopQTimer(true);
+  try {
+    S.localUpdatedAt = new Date().toISOString();
+    localStorage.setItem(KEY, JSON.stringify(S));
+  } catch {}
+});
 
 document.body.classList.toggle('dark', S.dark);
 updateCountdown();
 updateHome();
+updateSyncUI();
 setInterval(updateCountdown, 60000);
+// boot cloud pull
+if (normalizeSyncCode(S.syncCode)) {
+  cloudPull({ force: false }).catch(() => {});
+}
