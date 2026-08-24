@@ -180,6 +180,7 @@ function view(id) {
   $$('nav button').forEach(x => x.classList.toggle('active', x.dataset.view === id));
   if (id === 'wrong') renderList('wrong');
   if (id === 'memo') renderMemoHome();
+  if (id === 'practiceMemo') renderPracticeHome();
   if (id === 'favorite') renderList('fav');
   if (id === 'stats') renderStats();
   if (id !== 'practice') stopQTimer(true), save();
@@ -488,6 +489,8 @@ function applyRemoteState(remote, updatedAt) {
   S.qTimes = remote.qTimes || {};
   S.memo = remote.memo || {};
   S.memoLast = remote.memoLast || null;
+  S.practiceMemo = remote.practiceMemo || {};
+  S.practiceLast = remote.practiceLast || null;
   // keep current sync code
   S.syncUpdatedAt = updatedAt || remote.syncUpdatedAt || new Date().toISOString();
   S.localUpdatedAt = S.syncUpdatedAt;
@@ -514,6 +517,8 @@ function exportableState() {
     qTimes: S.qTimes,
     memo: S.memo,
     memoLast: S.memoLast,
+    practiceMemo: S.practiceMemo,
+    practiceLast: S.practiceLast,
     localUpdatedAt: S.localUpdatedAt,
   };
 }
@@ -658,7 +663,9 @@ function importProgress(file) {
       S.examDate = st.examDate || DEFAULT_EXAM;
       S.qTimes = st.qTimes || {};
       S.memo = st.memo || {};
-      S.memoLast = st.memoLast || null;
+  S.memoLast = st.memoLast || null;
+      S.practiceMemo = st.practiceMemo || {};
+      S.practiceLast = st.practiceLast || null;
       Object.keys(S.wrong).forEach(id => {
         if (typeof S.wrong[id] !== 'object') S.wrong[id] = { streak: 0, attempts: 0, lastWrong: Date.now() };
       });
@@ -671,6 +678,93 @@ function importProgress(file) {
     }
   };
   reader.readAsText(file);
+}
+
+function practiceCards() {
+  return window.PRACTICE_DATA && Array.isArray(window.PRACTICE_DATA.all) ? window.PRACTICE_DATA.all : [];
+}
+function practiceStatus(id) {
+  return S.practiceMemo[id] || { status: 'new', reviews: 0, updatedAt: null };
+}
+function practiceCounts(cards = practiceCards()) {
+  let known = 0, hard = 0;
+  cards.forEach(c => { let st = practiceStatus(c.id).status; if (st === 'known') known++; if (st === 'hard') hard++; });
+  return { total: cards.length, known, hard, new: cards.length - known - hard };
+}
+function renderPracticeHome() {
+  let cards = practiceCards(), counts = practiceCounts(cards);
+  let stats = $('#practiceStats');
+  if (stats) stats.innerHTML = `<div><strong>${counts.total}</strong><span>张模板</span></div><div><strong>${counts.known}</strong><span>已掌握</span></div><div><strong>${counts.hard}</strong><span>生疏</span></div><div><strong>${counts.new}</strong><span>待复习</span></div>`;
+  let filters = $('#practiceChapterFilters');
+  if (filters) {
+    let names = [...new Set(cards.map(c => c.chapter))];
+    filters.innerHTML = `<button class="active" data-ch="all" type="button">全部</button>` + names.map(n => `<button data-ch="${esc(n)}" type="button">${esc(n)}</button>`).join('');
+    filters.querySelectorAll('button').forEach(b => b.onclick = () => {
+      filters.querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b));
+      renderPracticeChapters(b.dataset.ch === 'all' ? cards : cards.filter(c => c.chapter === b.dataset.ch));
+    });
+  }
+  renderPracticeChapters(cards);
+}
+function renderPracticeChapters(cards) {
+  let box = $('#practiceChapterList');
+  if (!box) return;
+  let groups = {};
+  cards.forEach(c => (groups[c.chapter] ??= []).push(c));
+  box.innerHTML = Object.entries(groups).map(([ch, arr]) => {
+    let c = practiceCounts(arr), pct = c.total ? Math.round(c.known / c.total * 100) : 0;
+    let star = arr.filter(x => x.star).length;
+    return `<div class="memoChapter"><div class="memoChapterHead"><div><b>${esc(ch)}</b><small>${c.total} 张 · 已掌握 ${c.known} · 生疏 ${c.hard} · ★${star}</small></div><button data-ch-start="${esc(ch)}" type="button">背这一章</button></div><div class="memoBar"><i style="width:${pct}%"></i></div></div>`;
+  }).join('');
+  box.querySelectorAll('[data-ch-start]').forEach(b => b.onclick = () => startPractice(cards.filter(c => c.chapter === b.dataset.chStart), '章节模板'));
+}
+function startPractice(cards, title = '实务模板') {
+  if (!cards.length) return toast('当前没有符合条件的模板');
+  pmSession = cards;
+  pmIdx = 0;
+  pmFlipped = false;
+  S.practiceLast = { ids: cards.map(c => c.id), idx: 0, title };
+  save();
+  view('practicePractice');
+  renderPracticeCard();
+}
+let pmSession = [], pmIdx = 0, pmFlipped = false;
+function renderPracticeCard() {
+  let c = pmSession[pmIdx];
+  if (!c) return;
+  let st = practiceStatus(c.id), total = pmSession.length;
+  $('#pmSessionTitle').textContent = S.practiceLast?.title || '实务模板';
+  $('#pmSessionMeta').textContent = `第 ${pmIdx + 1} / ${total} 张 · ${c.star ? '★' : ''} ${c.chapter}`;
+  $('#pmProgressBar').style.width = ((pmIdx + 1) / total * 100) + '%';
+  $('#pmCard').innerHTML = `<div class="memoCardTop"><span>${esc(c.chapter)}</span><span class="memoBadge ${st.status}">${st.status === 'known' ? '已掌握' : st.status === 'hard' ? '生疏' : '待复习'}</span></div><div class="memoPrompt">${highlight(c.question).replace(/\n/g,'<br>')}</div>${pmFlipped ? `<div class="memoAnswer"><b>标准答案</b><div>${highlight(c.answer).replace(/\n/g,'<br>')}</div><div class="pmKey"><b>关键词</b><div>${(c.keywords || []).map(k => `<span>${esc(k)}</span>`).join('')}</div></div></div>` : `<div class="memoCover">先在脑中默写，再点“显示答案”</div>`}<div class="memoCardFoot"><small>${esc(c.section || '')} · 第 ${c.page || '?'} 页</small><span>复习 ${st.reviews || 0} 次</span></div>`;
+  $('#pmFlipBottomBtn').textContent = pmFlipped ? '收起答案' : '显示答案';
+  $('#pmHardBtn').classList.toggle('selectedMemo', st.status === 'hard');
+  $('#pmKnownBtn').classList.toggle('selectedMemo', st.status === 'known');
+}
+function flipPractice() { pmFlipped = !pmFlipped; renderPracticeCard(); }
+function markPractice(status) {
+  let c = pmSession[pmIdx]; if (!c) return;
+  let st = practiceStatus(c.id);
+  S.practiceMemo[c.id] = { status, reviews: (st.reviews || 0) + 1, updatedAt: new Date().toISOString() };
+  S.practiceLast = { ids: pmSession.map(x => x.id), idx: pmIdx, title: S.practiceLast?.title || '实务模板' };
+  save();
+  toast(status === 'known' ? '已标记掌握' : '已标记生疏，下次优先复习');
+  pmFlipped = false;
+  renderPracticeCard();
+}
+function pmNext() {
+  if (pmIdx < pmSession.length - 1) { pmIdx++; pmFlipped = false; S.practiceLast.idx = pmIdx; save(); renderPracticeCard(); scrollTo(0,0); }
+  else toast('本轮模板默写完成');
+}
+function pmPrev() {
+  if (pmIdx > 0) { pmIdx--; pmFlipped = false; S.practiceLast.idx = pmIdx; save(); renderPracticeCard(); scrollTo(0,0); }
+}
+function resumePractice() {
+  let map = new Map(practiceCards().map(c => [c.id, c]));
+  if (!S.practiceLast?.ids?.length) return startPractice(practiceCards().filter(c => practiceStatus(c.id).status !== 'known'), '实务模板');
+  let arr = S.practiceLast.ids.map(id => map.get(id)).filter(Boolean);
+  if (!arr.length) return startPractice(practiceCards(), '实务模板');
+  pmSession = arr; pmIdx = Math.min(S.practiceLast.idx || 0, arr.length - 1); pmFlipped = false; view('practicePractice'); renderPracticeCard();
 }
 
 function memoCards() {
@@ -789,6 +883,17 @@ $('#resetAll').onclick = () => {
 };
 $('#continueBig').onclick = continueLast;
 $('#goMemoBtn').onclick = () => view('memo');
+$('#practiceStartAll').onclick = () => startPractice(practiceCards().filter(c => practiceStatus(c.id).status !== 'known'), '实务·未掌握');
+$('#practiceStartStar').onclick = () => startPractice(practiceCards().filter(c => c.star), '实务·★重点');
+$('#practiceStartChapter').onclick = () => { const first = practiceCards()[0]?.chapter; startPractice(practiceCards().filter(c => c.chapter === first), first || '实务章节'); };
+$('#pmBackBtn').onclick = () => { S.practiceLast = { ids: pmSession.map(x => x.id), idx: pmIdx, title: S.practiceLast?.title || '实务模板' }; save(); view('practiceMemo'); };
+$('#pmFlipBtn').onclick = flipPractice;
+$('#pmFlipBottomBtn').onclick = flipPractice;
+$('#pmHardBtn').onclick = () => markPractice('hard');
+$('#pmKnownBtn').onclick = () => markPractice('known');
+$('#pmNextBtn').onclick = pmNext;
+$('#pmPrevBtn').onclick = pmPrev;
+$('#pmCard').onclick = e => { if (e.target.closest('.memoCard')) flipPractice(); };
 $('#memoStartAll').onclick = () => startMemo(memoCards().filter(c => memoStatus(c.id).status !== 'known'), '新增考点·未掌握');
 $('#memoStartWeak').onclick = () => startMemo(memoCards().filter(c => memoStatus(c.id).status === 'hard'), '新增考点·生疏');
 $('#memoStartCore').onclick = () => startMemo(memoCards().filter(c => c.level === 'core'), '新增考点·总览');
