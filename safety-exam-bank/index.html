@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#102a24">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>安考必过 · 安全生产技术题库</title>
-  <link rel="stylesheet" href="style.css?v=23">
+  <link rel="stylesheet" href="style.css?v=24">
 </head>
 <body>
 <header class="topbar">
@@ -187,20 +187,52 @@
     </div>
   </section>
 
-  <section id="stats" class="view">
+  <section id="practiceMemo" class="view">
     <div class="pageHead">
       <div>
-        <h1>学习报告</h1>
-        <p>所有数据仅保存在本机浏览器</p>
+        <h1>实务案例模板</h1>
+        <p>235 道高频模板 + 完整章节模板 · 先默写再对照</p>
+      </div>
+      <a class="filterBtn" href="source/practice1.pdf">简版</a>
+      <a class="filterBtn" href="source/practice2.pdf">完整版</a>
+    </div>
+    <div class="memoStats" id="practiceStats"></div>
+    <div class="memoActions">
+      <button id="practiceStartAll" class="primary" type="button">开始默写（未掌握）</button>
+      <button id="practiceStartStar" type="button">只背 ★ 重点</button>
+      <button id="practiceStartChapter" type="button">按章背诵</button>
+    </div>
+    <div class="memoFilters" id="practiceChapterFilters"></div>
+    <div id="practiceChapterList" class="memoChapterList"></div>
+  </section>
+
+  <section id="practicePractice" class="view">
+    <div class="practiceHead">
+      <button id="pmBackBtn" class="icon" type="button">←</button>
+      <div class="phMid">
+        <b id="pmSessionTitle">实务模板</b>
+        <small id="pmSessionMeta"></small>
+      </div>
+      <div class="phRight">
+        <button id="pmFlipBtn" class="icon" type="button" title="翻面">⇄</button>
       </div>
     </div>
-    <div id="statsContent"></div>
+    <div class="progress"><span id="pmProgressBar"></span></div>
+    <article id="pmCard" class="memoCard"></article>
+    <div class="bottomActions memoBottom">
+      <button id="pmPrevBtn" type="button">上一张</button>
+      <button id="pmHardBtn" type="button">生疏</button>
+      <button id="pmFlipBottomBtn" class="primary" type="button">显示答案</button>
+      <button id="pmKnownBtn" type="button">掌握</button>
+      <button id="pmNextBtn" type="button">下一张</button>
+    </div>
   </section>
 </main>
 
 <nav>
   <button data-view="home" class="active" type="button"><i>⌂</i><span>题库</span></button>
   <button data-view="memo" type="button"><i>讀</i><span>背诵</span></button>
+  <button data-view="practiceMemo" type="button"><i>案</i><span>实务</span></button>
   <button data-view="wrong" type="button"><i>↺</i><span>错题</span></button>
   <button data-view="favorite" type="button"><i>☆</i><span>收藏</span></button>
   <button data-view="stats" type="button"><i>▥</i><span>报告</span></button>
@@ -229,9 +261,10 @@
 </div>
 
 <div id="toast"></div>
-<script src="data.js?v=23"></script>
-<script src="newpoints.js?v=23"></script>
-<script src="point_quiz.js?v=23"></script>
-<script src="app.js?v=23"></script>
+<script src="data.js?v=24"></script>
+<script src="newpoints.js?v=24"></script>
+<script src="point_quiz.js?v=24"></script>
+<script src="practice.js?v=24"></script>
+<script src="app.js?v=24"></script>
 </body>
 </html>

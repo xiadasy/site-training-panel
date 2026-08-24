@@ -26,6 +26,8 @@ function loadState() {
   S.qTimes = S.qTimes || {}; // qid -> total seconds spent
   S.memo = S.memo || {}; // card id -> {status:'known'|'hard', reviews, updatedAt}
   S.memoLast = S.memoLast || null;
+  S.practiceMemo = S.practiceMemo || {}; // practice id -> status
+  S.practiceLast = S.practiceLast || null;
   S.syncCode = S.syncCode || '';
   S.syncUpdatedAt = S.syncUpdatedAt || null;
   S.localUpdatedAt = S.localUpdatedAt || null;
