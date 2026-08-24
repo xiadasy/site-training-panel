@@ -24,6 +24,8 @@ function loadState() {
   S.streakGoal = S.streakGoal || 3;
   S.examDate = S.examDate || DEFAULT_EXAM;
   S.qTimes = S.qTimes || {}; // qid -> total seconds spent
+  S.memo = S.memo || {}; // card id -> {status:'known'|'hard', reviews, updatedAt}
+  S.memoLast = S.memoLast || null;
   S.syncCode = S.syncCode || '';
   S.syncUpdatedAt = S.syncUpdatedAt || null;
   S.localUpdatedAt = S.localUpdatedAt || null;
@@ -40,12 +42,25 @@ let syncTimer = null, syncing = false;
 
 const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
-const all = () => DB.papers.flatMap(p => p.questions.map(q => ({
-  ...q,
-  paperId: p.id,
-  paperTitle: p.title,
-  sourcePdf: p.sourcePdf
-})));
+const all = () => {
+  const base = DB.papers.flatMap(p => p.questions.map(q => ({
+    ...q,
+    paperId: p.id,
+    paperTitle: p.title,
+    sourcePdf: p.sourcePdf
+  })));
+  const pq = window.POINT_QUIZ && window.POINT_QUIZ.paper;
+  if (pq && Array.isArray(pq.questions)) {
+    base.push(...pq.questions.map(q => ({
+      ...q,
+      page: q.page || '',
+      paperId: pq.id,
+      paperTitle: pq.title,
+      sourcePdf: pq.sourcePdf
+    })));
+  }
+  return base;
+};
 const save = (opts = {}) => {
   S.localUpdatedAt = new Date().toISOString();
   localStorage.setItem(KEY, JSON.stringify(S));
@@ -102,9 +117,9 @@ function figHtml(q, where = 'stem') {
 }
 function sourceLink(q) {
   let page = q.page || (q.media && q.media.page) || '';
-  let href = (q.media && q.media.sourcePdf) || (q.sourcePdf ? `${q.sourcePdf}#page=${page}` : '');
+  let href = (q.media && q.media.sourcePdf) || (q.sourcePdf ? (page ? `${q.sourcePdf}#page=${page}` : q.sourcePdf) : '');
   if (!href) return '';
-  return `<a class="sourceLink" href="${href}">查看原卷第 ${page || ''} 页</a>`;
+  return `<a class="sourceLink" href="${href}">${page ? '查看原卷第 ' + page + ' 页' : '查看新增考点原 PDF'}</a>`;
 }
 function fmtTime(sec) {
   sec = Math.max(0, Math.floor(sec || 0));
@@ -162,6 +177,7 @@ function view(id) {
   $$('.view').forEach(x => x.classList.toggle('active', x.id === id));
   $$('nav button').forEach(x => x.classList.toggle('active', x.dataset.view === id));
   if (id === 'wrong') renderList('wrong');
+  if (id === 'memo') renderMemoHome();
   if (id === 'favorite') renderList('fav');
   if (id === 'stats') renderStats();
   if (id !== 'practice') stopQTimer(true), save();
@@ -188,6 +204,11 @@ function updateHome() {
   $('#doneCount').textContent = st.done;
   $('#accuracy').textContent = st.done ? st.acc + '%' : '—';
   $('#wrongText').textContent = Object.keys(S.wrong).length + ' 道待攻克';
+  const memoQuick = $('#memoQuickText');
+  if (memoQuick && window.NEW_POINTS) {
+    const mc = memoCounts();
+    memoQuick.textContent = `${mc.new + mc.hard} 张待背 · ${window.POINT_QUIZ?.stats?.total || 0} 道选择题`;
+  }
   let meta = lastQuestionMeta();
   let btn = $('#continueBig');
   if (meta) {
@@ -275,7 +296,7 @@ function renderQuestion() {
   $('#questionCard').innerHTML = `
     <div class="qmeta">
       <span>${q.knowledge || '安全生产技术'}</span>
-      <span>${isRetry ? '消除进度 ' + streak + '/' + S.streakGoal : 'PDF 第 ' + q.page + ' 页'}${q.media && q.media.stemFigs && q.media.stemFigs.length ? ' · 含图表' : ''}</span>
+      <span>${isRetry ? '消除进度 ' + streak + '/' + S.streakGoal : (q.page ? 'PDF 第 ' + q.page + ' 页' : '教材新增考点')}${q.media && q.media.stemFigs && q.media.stemFigs.length ? ' · 含图表' : ''}</span>
       <button id="favBtn" type="button">${S.fav[q.id] ? '★' : '☆'}</button>
     </div>
     <div class="stem">${q.stem}</div>
@@ -408,6 +429,7 @@ function renderStats() {
     (groups[c] ??= []).push(q);
   });
   let totalSec = Object.values(S.qTimes).reduce((a, b) => a + (b || 0), 0);
+  let memoC = window.NEW_POINTS ? memoCounts() : { total:0, known:0, hard:0, new:0 };
   $('#statsContent').innerHTML = `
     <div class="reportHero">
       <strong>${st.done ? st.acc : 0}%</strong><span> 当前总正确率</span>
@@ -416,6 +438,8 @@ function renderStats() {
     <div class="reportGrid">
       <div><strong>${st.correct}</strong><span>累计答对</span></div>
       <div><strong>${wrong}</strong><span>当前错题</span></div>
+      <div><strong>${memoC.known}/${memoC.total}</strong><span>考点背诵掌握</span></div>
+      <div><strong>${memoC.hard}</strong><span>生疏背诵卡</span></div>
       <div><strong>${Object.keys(S.fav).length}</strong><span>收藏题目</span></div>
       <div><strong>${Object.values(S.notes).filter(Boolean).length}</strong><span>学习笔记</span></div>
     </div>
@@ -460,6 +484,8 @@ function applyRemoteState(remote, updatedAt) {
   S.streakGoal = remote.streakGoal || 3;
   S.examDate = remote.examDate || DEFAULT_EXAM;
   S.qTimes = remote.qTimes || {};
+  S.memo = remote.memo || {};
+  S.memoLast = remote.memoLast || null;
   // keep current sync code
   S.syncUpdatedAt = updatedAt || remote.syncUpdatedAt || new Date().toISOString();
   S.localUpdatedAt = S.syncUpdatedAt;
@@ -484,6 +510,8 @@ function exportableState() {
     streakGoal: S.streakGoal,
     examDate: S.examDate,
     qTimes: S.qTimes,
+    memo: S.memo,
+    memoLast: S.memoLast,
     localUpdatedAt: S.localUpdatedAt,
   };
 }
@@ -627,6 +655,8 @@ function importProgress(file) {
       S.streakGoal = st.streakGoal || 3;
       S.examDate = st.examDate || DEFAULT_EXAM;
       S.qTimes = st.qTimes || {};
+      S.memo = st.memo || {};
+      S.memoLast = st.memoLast || null;
       Object.keys(S.wrong).forEach(id => {
         if (typeof S.wrong[id] !== 'object') S.wrong[id] = { streak: 0, attempts: 0, lastWrong: Date.now() };
       });
@@ -641,7 +671,95 @@ function importProgress(file) {
   reader.readAsText(file);
 }
 
-// bindings
+function memoCards() {
+  return window.NEW_POINTS && Array.isArray(window.NEW_POINTS.cards) ? window.NEW_POINTS.cards : [];
+}
+function memoStatus(id) {
+  return S.memo[id] || { status: 'new', reviews: 0, updatedAt: null };
+}
+function memoCounts(cards = memoCards()) {
+  let known = 0, hard = 0;
+  cards.forEach(c => { let st = memoStatus(c.id).status; if (st === 'known') known++; if (st === 'hard') hard++; });
+  return { total: cards.length, known, hard, new: cards.length - known - hard };
+}
+function renderMemoHome() {
+  let cards = memoCards(), counts = memoCounts(cards);
+  let stats = $('#memoStats');
+  if (stats) stats.innerHTML = `<div><strong>${counts.total}</strong><span>张背诵卡</span></div><div><strong>${counts.known}</strong><span>已掌握</span></div><div><strong>${counts.hard}</strong><span>生疏</span></div><div><strong>${counts.new}</strong><span>待复习</span></div>`;
+  let quick = $('#memoQuickText');
+  if (quick) quick.textContent = `${counts.new} 张待背`;
+  let filters = $('#memoChapterFilters');
+  if (filters) {
+    let names = [...new Set(cards.map(c => c.chapter))];
+    filters.innerHTML = `<button class="active" data-ch="all" type="button">全部</button>` + names.map(n => `<button data-ch="${esc(n)}" type="button">${esc(n).replace(/第|章/g,'')}</button>`).join('');
+    filters.querySelectorAll('button').forEach(b => b.onclick = () => {
+      filters.querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b));
+      renderMemoChapters(b.dataset.ch === 'all' ? cards : cards.filter(c => c.chapter === b.dataset.ch));
+    });
+  }
+  renderMemoChapters(cards);
+}
+function renderMemoChapters(cards) {
+  let box = $('#memoChapterList');
+  if (!box) return;
+  let groups = {};
+  cards.forEach(c => (groups[c.chapter] ??= []).push(c));
+  box.innerHTML = Object.entries(groups).map(([ch, arr]) => {
+    let c = memoCounts(arr), pct = c.total ? Math.round(c.known / c.total * 100) : 0;
+    let sections = [...new Set(arr.map(x => x.section))];
+    return `<div class="memoChapter"><div class="memoChapterHead"><div><b>${esc(ch)}</b><small>${c.total} 张 · 已掌握 ${c.known} · 生疏 ${c.hard}</small></div><button data-ch-start="${esc(ch)}" type="button">背这一章</button></div><div class="memoBar"><i style="width:${pct}%"></i></div><div class="memoSections">${sections.map(s => `<span>${esc(s.replace(/^第[一二三四五六七八九十]+节\s*/,''))}</span>`).join('')}</div></div>`;
+  }).join('');
+  box.querySelectorAll('[data-ch-start]').forEach(b => b.onclick = () => startMemo(cards.filter(c => c.chapter === b.dataset.chStart), '章节背诵'));
+}
+function startMemo(cards, title = '考点背诵') {
+  if (!cards.length) return toast('当前没有符合条件的背诵卡');
+  memoSession = cards;
+  memoIdx = 0;
+  memoFlipped = false;
+  S.memoLast = { ids: cards.map(c => c.id), idx: 0, title };
+  save();
+  view('memoPractice');
+  renderMemoCard();
+}
+let memoSession = [], memoIdx = 0, memoFlipped = false;
+function renderMemoCard() {
+  let c = memoSession[memoIdx];
+  if (!c) return;
+  let st = memoStatus(c.id), total = memoSession.length;
+  $('#memoSessionTitle').textContent = S.memoLast?.title || '考点背诵';
+  $('#memoSessionMeta').textContent = `第 ${memoIdx + 1} / ${total} 张 · ${c.level === 'core' ? '总览卡' : '细点卡'}`;
+  $('#memoProgressBar').style.width = ((memoIdx + 1) / total * 100) + '%';
+  $('#memoCard').innerHTML = `<div class="memoCardTop"><span>${esc(c.chapter)}</span><span class="memoBadge ${st.status}">${st.status === 'known' ? '已掌握' : st.status === 'hard' ? '生疏' : '待复习'}</span></div><div class="memoPrompt">${highlight(c.prompt).replace(/\n/g,'<br>')}</div>${memoFlipped ? `<div class="memoAnswer"><b>参考答案</b><div>${highlight(c.answer).replace(/\n/g,'<br>')}</div></div>` : `<div class="memoCover">先在脑中复述，再点“显示答案”</div>`}<div class="memoCardFoot"><small>${esc(c.section)} · ${esc(c.title)}</small><span>复习 ${st.reviews || 0} 次</span></div>`;
+  $('#memoFlipBottomBtn').textContent = memoFlipped ? '收起答案' : '显示答案';
+  $('#memoHardBtn').classList.toggle('selectedMemo', st.status === 'hard');
+  $('#memoKnownBtn').classList.toggle('selectedMemo', st.status === 'known');
+}
+function flipMemo() { memoFlipped = !memoFlipped; renderMemoCard(); }
+function markMemo(status) {
+  let c = memoSession[memoIdx]; if (!c) return;
+  let st = memoStatus(c.id);
+  S.memo[c.id] = { status, reviews: (st.reviews || 0) + 1, updatedAt: new Date().toISOString() };
+  S.memoLast = { ids: memoSession.map(x => x.id), idx: memoIdx, title: S.memoLast?.title || '考点背诵' };
+  save();
+  toast(status === 'known' ? '已标记掌握' : '已标记生疏，下次优先复习');
+  memoFlipped = false;
+  renderMemoCard();
+}
+function memoNext() {
+  if (memoIdx < memoSession.length - 1) { memoIdx++; memoFlipped = false; S.memoLast.idx = memoIdx; save(); renderMemoCard(); scrollTo(0,0); }
+  else toast('本轮背诵完成');
+}
+function memoPrev() {
+  if (memoIdx > 0) { memoIdx--; memoFlipped = false; S.memoLast.idx = memoIdx; save(); renderMemoCard(); scrollTo(0,0); }
+}
+function resumeMemo() {
+  let map = new Map(memoCards().map(c => [c.id, c]));
+  if (!S.memoLast?.ids?.length) return startMemo(memoCards().filter(c => memoStatus(c.id).status !== 'known'), '考点背诵');
+  let arr = S.memoLast.ids.map(id => map.get(id)).filter(Boolean);
+  if (!arr.length) return startMemo(memoCards(), '考点背诵');
+  memoSession = arr; memoIdx = Math.min(S.memoLast.idx || 0, arr.length - 1); memoFlipped = false; view('memoPractice'); renderMemoCard();
+}
+
 $$('nav button').forEach(b => b.onclick = () => view(b.dataset.view));
 $('#submitBtn').onclick = submit;
 $('#nextBtn').onclick = next;
@@ -668,6 +786,21 @@ $('#resetAll').onclick = () => {
   }
 };
 $('#continueBig').onclick = continueLast;
+$('#goMemoBtn').onclick = () => view('memo');
+$('#memoStartAll').onclick = () => startMemo(memoCards().filter(c => memoStatus(c.id).status !== 'known'), '新增考点·未掌握');
+$('#memoStartWeak').onclick = () => startMemo(memoCards().filter(c => memoStatus(c.id).status === 'hard'), '新增考点·生疏');
+$('#memoStartCore').onclick = () => startMemo(memoCards().filter(c => c.level === 'core'), '新增考点·总览');
+$('#memoBackBtn').onclick = () => { S.memoLast = { ids: memoSession.map(x => x.id), idx: memoIdx, title: S.memoLast?.title || '考点背诵' }; save(); view('memo'); };
+$('#memoFlipBtn').onclick = flipMemo;
+$('#memoFlipBottomBtn').onclick = flipMemo;
+$('#memoHardBtn').onclick = () => markMemo('hard');
+$('#memoKnownBtn').onclick = () => markMemo('known');
+$('#memoNextBtn').onclick = memoNext;
+$('#memoPrevBtn').onclick = memoPrev;
+$('#memoCard').onclick = e => { if (e.target.closest('.memoCard')) flipMemo(); };
+$('#pointQuizMixed').onclick = () => start(POINT_QUIZ.paper.questions, POINT_QUIZ.paper.title, 'practice');
+$('#pointQuizSingle').onclick = () => start(POINT_QUIZ.paper.questions.filter(q => q.type === 'single'), '新增考点·单选', 'practice');
+$('#pointQuizMultiple').onclick = () => start(POINT_QUIZ.paper.questions.filter(q => q.type === 'multiple'), '新增考点·多选', 'practice');
 $$('[data-quick]').forEach(b => b.onclick = () => {
   let t = b.dataset.quick, qs = all();
   if (t === 'wrong') return start(qs.filter(q => S.wrong[q.id]), '错题回炉', 'wrong');

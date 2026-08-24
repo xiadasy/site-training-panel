@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#102a24">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>安考必过 · 安全生产技术题库</title>
-  <link rel="stylesheet" href="style.css?v=21">
+  <link rel="stylesheet" href="style.css?v=23">
 </head>
 <body>
 <header class="topbar">
@@ -32,7 +32,7 @@
     <div class="hero">
       <span class="eyebrow">2026 中级注册安全工程师</span>
       <h1>把错题，练成你的得分点。</h1>
-      <p>三套试卷 255 题。手机 / iPad / 电脑都能刷，进度可导出导入同步。</p>
+      <p>三套试卷 255 题 + 2026 教材新增考点 145 道选择题、398 张背诵卡。手机 / iPad / 电脑都能刷，进度可云同步。</p>
       <div class="heroStats">
         <div><strong id="totalCount">0</strong><span>道真题</span></div>
         <div><strong id="doneCount">0</strong><span>已作答</span></div>
@@ -66,6 +66,7 @@
     <div class="quick">
       <button data-quick="wrong" type="button"><i>↺</i><span><b>错题回炉</b><small id="wrongText">暂无错题</small></span></button>
       <button data-quick="random" type="button"><i>⚡</i><span><b>随机 20 题</b><small>三卷混合强化</small></span></button>
+      <button id="goMemoBtn" type="button"><i>讀</i><span><b>考点背诵</b><small id="memoQuickText">新增考点</small></span></button>
       <button id="exportBtn" type="button"><i>⇪</i><span><b>导出进度</b><small>本地备份</small></span></button>
       <button id="importBtn" type="button"><i>⇩</i><span><b>导入进度</b><small>本地恢复</small></span></button>
     </div>
@@ -134,6 +135,58 @@
     <div id="favoriteList" class="list"></div>
   </section>
 
+  <section id="memo" class="view">
+    <div class="pageHead">
+      <div>
+        <h1>考点背诵</h1>
+        <p>2026 教材新增考点 · 翻面记忆</p>
+      </div>
+      <a class="filterBtn" href="source/newpoints.pdf">原 PDF</a>
+    </div>
+    <div class="memoStats" id="memoStats"></div>
+    <div class="pointQuizBox">
+      <div>
+        <b>新增考点选择练习</b>
+        <small>145 题 · 单选 101 · 多选 44</small>
+      </div>
+      <div class="pointQuizBtns">
+        <button id="pointQuizMixed" class="primary" type="button">混合刷题</button>
+        <button id="pointQuizSingle" type="button">只做单选</button>
+        <button id="pointQuizMultiple" type="button">只做多选</button>
+      </div>
+    </div>
+    <div class="memoModeTitle"><b>翻面背诵卡</b><small>先回忆，再显示答案，标记生疏或掌握</small></div>
+    <div class="memoActions">
+      <button id="memoStartAll" class="primary" type="button">开始背诵（未掌握）</button>
+      <button id="memoStartWeak" type="button">只背生疏</button>
+      <button id="memoStartCore" type="button">只背总览卡</button>
+    </div>
+    <div class="memoFilters" id="memoChapterFilters"></div>
+    <div id="memoChapterList" class="memoChapterList"></div>
+  </section>
+
+  <section id="memoPractice" class="view">
+    <div class="practiceHead">
+      <button id="memoBackBtn" class="icon" type="button">←</button>
+      <div class="phMid">
+        <b id="memoSessionTitle">考点背诵</b>
+        <small id="memoSessionMeta"></small>
+      </div>
+      <div class="phRight">
+        <button id="memoFlipBtn" class="icon" type="button" title="翻面">⇄</button>
+      </div>
+    </div>
+    <div class="progress"><span id="memoProgressBar"></span></div>
+    <article id="memoCard" class="memoCard"></article>
+    <div class="bottomActions memoBottom">
+      <button id="memoPrevBtn" type="button">上一张</button>
+      <button id="memoHardBtn" type="button">生疏</button>
+      <button id="memoFlipBottomBtn" class="primary" type="button">显示答案</button>
+      <button id="memoKnownBtn" type="button">掌握</button>
+      <button id="memoNextBtn" type="button">下一张</button>
+    </div>
+  </section>
+
   <section id="stats" class="view">
     <div class="pageHead">
       <div>
@@ -147,6 +200,7 @@
 
 <nav>
   <button data-view="home" class="active" type="button"><i>⌂</i><span>题库</span></button>
+  <button data-view="memo" type="button"><i>讀</i><span>背诵</span></button>
   <button data-view="wrong" type="button"><i>↺</i><span>错题</span></button>
   <button data-view="favorite" type="button"><i>☆</i><span>收藏</span></button>
   <button data-view="stats" type="button"><i>▥</i><span>报告</span></button>
@@ -175,7 +229,9 @@
 </div>
 
 <div id="toast"></div>
-<script src="data.js?v=21"></script>
-<script src="app.js?v=21"></script>
+<script src="data.js?v=23"></script>
+<script src="newpoints.js?v=23"></script>
+<script src="point_quiz.js?v=23"></script>
+<script src="app.js?v=23"></script>
 </body>
 </html>
