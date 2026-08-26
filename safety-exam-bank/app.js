@@ -28,6 +28,8 @@ function loadState() {
   S.memoLast = S.memoLast || null;
   S.practiceMemo = S.practiceMemo || {}; // practice id -> status
   S.practiceLast = S.practiceLast || null;
+  S.shiwuMemo = S.shiwuMemo || {};
+  S.shiwuLast = S.shiwuLast || null;
   S.syncCode = S.syncCode || '';
   S.syncUpdatedAt = S.syncUpdatedAt || null;
   S.localUpdatedAt = S.localUpdatedAt || null;
@@ -180,7 +182,7 @@ function view(id) {
   $$('nav button').forEach(x => x.classList.toggle('active', x.dataset.view === id));
   if (id === 'wrong') renderList('wrong');
   if (id === 'memo') renderMemoHome();
-  if (id === 'practiceMemo') renderPracticeHome();
+  if (id === 'practiceMemo') { renderPracticeHome(); renderShiwuHome(); }
   if (id === 'favorite') renderList('fav');
   if (id === 'stats') renderStats();
   if (id !== 'practice') stopQTimer(true), save();
@@ -491,6 +493,8 @@ function applyRemoteState(remote, updatedAt) {
   S.memoLast = remote.memoLast || null;
   S.practiceMemo = remote.practiceMemo || {};
   S.practiceLast = remote.practiceLast || null;
+  S.shiwuMemo = remote.shiwuMemo || {};
+  S.shiwuLast = remote.shiwuLast || null;
   // keep current sync code
   S.syncUpdatedAt = updatedAt || remote.syncUpdatedAt || new Date().toISOString();
   S.localUpdatedAt = S.syncUpdatedAt;
@@ -519,6 +523,8 @@ function exportableState() {
     memoLast: S.memoLast,
     practiceMemo: S.practiceMemo,
     practiceLast: S.practiceLast,
+    shiwuMemo: S.shiwuMemo,
+    shiwuLast: S.shiwuLast,
     localUpdatedAt: S.localUpdatedAt,
   };
 }
@@ -759,6 +765,68 @@ function pmNext() {
 function pmPrev() {
   if (pmIdx > 0) { pmIdx--; pmFlipped = false; S.practiceLast.idx = pmIdx; save(); renderPracticeCard(); scrollTo(0,0); }
 }
+function shiwuPages() {
+  return window.SHIWU_TOPICS && Array.isArray(window.SHIWU_TOPICS.all) ? window.SHIWU_TOPICS.all : [];
+}
+function shiwuStatus(id) {
+  return S.shiwuMemo[id] || { status: 'new', reviews: 0, updatedAt: null };
+}
+function shiwuCounts(pages = shiwuPages()) {
+  let known = 0, hard = 0;
+  pages.forEach(p => { let st = shiwuStatus(p.id).status; if (st === 'known') known++; if (st === 'hard') hard++; });
+  return { total: pages.length, known, hard, new: pages.length - known - hard };
+}
+function renderShiwuHome() {
+  let box = $('#shiwuPaperList');
+  if (!box || !window.SHIWU_TOPICS) return;
+  box.innerHTML = (window.SHIWU_TOPICS.papers || []).map(p => {
+    let c = shiwuCounts(p.items || []);
+    let pct = c.total ? Math.round(c.known / c.total * 100) : 0;
+    return `<div class="memoChapter"><div class="memoChapterHead"><div><b>${esc(p.title)}</b><small>${c.total} 页 · 已掌握 ${c.known} · 生疏 ${c.hard}</small></div><button data-sw-start="${esc(p.id)}" type="button">开始看</button></div><div class="memoBar"><i style="width:${pct}%"></i></div><div class="memoSections"><a class="filterBtn" href="${p.sourcePdf}">打开原 PDF</a></div></div>`;
+  }).join('');
+  box.querySelectorAll('[data-sw-start]').forEach(b => b.onclick = () => startShiwu(b.dataset.swStart));
+}
+function startShiwu(paperId, at) {
+  let paper = (window.SHIWU_TOPICS.papers || []).find(p => p.id === paperId);
+  if (!paper || !paper.items.length) return toast('这套讲义还没准备好');
+  swSession = paper.items;
+  swIdx = Math.min(Math.max(0, at | 0), swSession.length - 1);
+  S.shiwuLast = { paperId, idx: swIdx };
+  save();
+  view('shiwuView');
+  renderShiwuPage();
+}
+let swSession = [], swIdx = 0;
+function renderShiwuPage() {
+  let p = swSession[swIdx];
+  if (!p) return;
+  let st = shiwuStatus(p.id);
+  $('#swSessionTitle').textContent = p.paperTitle;
+  $('#swSessionMeta').textContent = `第 ${p.page} / ${swSession.length} 页 · ${st.status === 'known' ? '已掌握' : st.status === 'hard' ? '生疏' : '待复习'}`;
+  $('#swProgressBar').style.width = (p.page / swSession.length * 100) + '%';
+  let pdf = $('#swPdfLink');
+  if (pdf) pdf.href = p.sourcePdf;
+  $('#swCard').innerHTML = `<div class="memoCardTop"><span>${esc(p.title || ('第 '+p.page+' 页'))}</span><span class="memoBadge ${st.status}">${st.status === 'known' ? '已掌握' : st.status === 'hard' ? '生疏' : '待复习'}</span></div><figure class="swFig"><img src="${p.image}" alt="${esc(p.paperTitle)} 第${p.page}页"></figure>`;
+  $('#swHardBtn').classList.toggle('selectedMemo', st.status === 'hard');
+  $('#swKnownBtn').classList.toggle('selectedMemo', st.status === 'known');
+}
+function markShiwu(status) {
+  let p = swSession[swIdx]; if (!p) return;
+  let st = shiwuStatus(p.id);
+  S.shiwuMemo[p.id] = { status, reviews: (st.reviews || 0) + 1, updatedAt: new Date().toISOString() };
+  S.shiwuLast = { paperId: p.paperId, idx: swIdx };
+  save();
+  toast(status === 'known' ? '本页已掌握' : '本页已标生疏');
+  renderShiwuPage();
+}
+function swNext() {
+  if (swIdx < swSession.length - 1) { swIdx++; S.shiwuLast.idx = swIdx; save(); renderShiwuPage(); scrollTo(0,0); }
+  else toast('这套讲义已看完');
+}
+function swPrev() {
+  if (swIdx > 0) { swIdx--; S.shiwuLast.idx = swIdx; save(); renderShiwuPage(); scrollTo(0,0); }
+}
+
 function resumePractice() {
   let map = new Map(practiceCards().map(c => [c.id, c]));
   if (!S.practiceLast?.ids?.length) return startPractice(practiceCards().filter(c => practiceStatus(c.id).status !== 'known'), '实务模板');
@@ -886,6 +954,11 @@ $('#goMemoBtn').onclick = () => view('memo');
 $('#practiceStartAll').onclick = () => startPractice(practiceCards().filter(c => practiceStatus(c.id).status !== 'known'), '实务·未掌握');
 $('#practiceStartStar').onclick = () => startPractice(practiceCards().filter(c => c.star), '实务·★重点');
 $('#practiceStartChapter').onclick = () => { const first = practiceCards()[0]?.chapter; startPractice(practiceCards().filter(c => c.chapter === first), first || '实务章节'); };
+$('#swBackBtn').onclick = () => { if (swSession[swIdx]) S.shiwuLast = { paperId: swSession[swIdx].paperId, idx: swIdx }; save(); view('practiceMemo'); };
+$('#swPrevBtn').onclick = swPrev;
+$('#swNextBtn').onclick = swNext;
+$('#swHardBtn').onclick = () => markShiwu('hard');
+$('#swKnownBtn').onclick = () => markShiwu('known');
 $('#pmBackBtn').onclick = () => { S.practiceLast = { ids: pmSession.map(x => x.id), idx: pmIdx, title: S.practiceLast?.title || '实务模板' }; save(); view('practiceMemo'); };
 $('#pmFlipBtn').onclick = flipPractice;
 $('#pmFlipBottomBtn').onclick = flipPractice;

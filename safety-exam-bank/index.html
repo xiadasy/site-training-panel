@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#102a24">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>安考必过 · 安全生产技术题库</title>
-  <link rel="stylesheet" href="style.css?v=24">
+  <link rel="stylesheet" href="style.css?v=26">
 </head>
 <body>
 <header class="topbar">
@@ -214,6 +214,29 @@
     </div>
     <div class="memoFilters" id="practiceChapterFilters"></div>
     <div id="practiceChapterList" class="memoChapterList"></div>
+    <div class="memoModeTitle"><b>易错考点班原页</b><small>扫描件按页看，可标记掌握</small></div>
+    <div id="shiwuPaperList" class="memoChapterList"></div>
+  </section>
+
+  <section id="shiwuView" class="view">
+    <div class="practiceHead">
+      <button id="swBackBtn" class="icon" type="button">←</button>
+      <div class="phMid">
+        <b id="swSessionTitle">易错考点班</b>
+        <small id="swSessionMeta"></small>
+      </div>
+      <div class="phRight">
+        <a id="swPdfLink" class="filterBtn" href="#">原 PDF</a>
+      </div>
+    </div>
+    <div class="progress"><span id="swProgressBar"></span></div>
+    <article id="swCard" class="memoCard swCard"></article>
+    <div class="bottomActions memoBottom">
+      <button id="swPrevBtn" type="button">上一页</button>
+      <button id="swHardBtn" type="button">生疏</button>
+      <button id="swKnownBtn" class="primary" type="button">掌握</button>
+      <button id="swNextBtn" type="button">下一页</button>
+    </div>
   </section>
 
   <section id="practicePractice" class="view">
@@ -271,10 +294,11 @@
 </div>
 
 <div id="toast"></div>
-<script src="data.js?v=24"></script>
-<script src="newpoints.js?v=24"></script>
-<script src="point_quiz.js?v=24"></script>
-<script src="practice.js?v=24"></script>
-<script src="app.js?v=25"></script>
+<script src="data.js?v=26"></script>
+<script src="newpoints.js?v=26"></script>
+<script src="point_quiz.js?v=26"></script>
+<script src="practice.js?v=26"></script>
+<script src="shiwu_topics.js?v=26"></script>
+<script src="app.js?v=26"></script>
 </body>
 </html>
