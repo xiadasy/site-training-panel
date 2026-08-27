@@ -157,19 +157,29 @@ function startQTimer() {
     if (el2) el2.textContent = fmtTime(qTimerSec);
   }, 250);
 }
+function hasOfficialAnswer(q) {
+  return Array.isArray(q.answer) && q.answer.length > 0;
+}
 function analysisCard(q, a, isRetry, streak) {
   let lastDur = a && a.durationSec ? a.durationSec : (S.qTimes[q.id] || 0);
-  return `<div class="analysis">
-    <div class="answerResult ${a.correct ? 'pass' : 'fail'}">
+  const scored = hasOfficialAnswer(q) && !(a && a.unscored);
+  const resultHtml = scored
+    ? `<div class="answerResult ${a.correct ? 'pass' : 'fail'}">
       <strong>${a.correct ? '✓ 回答正确' : '× 回答错误'}</strong>
       <span>本题 ${questionScore(q, a.selected).got}/${questionScore(q, a.selected).full} 分 · 正确答案：${q.answer.join('、')}</span>
-    </div>
+    </div>`
+    : `<div class="answerResult">
+      <strong>已记录作答</strong>
+      <span>本题暂无官方答案，先练习不判分、不进错题本</span>
+    </div>`;
+  return `<div class="analysis">
+    ${resultHtml}
     <div class="timeLine">本题累计用时 <b>${fmtTime(lastDur)}</b>${qTimerSec ? ` · 本轮 ${fmtTime(qTimerSec)}` : ''}</div>
     ${isRetry ? `<div class="streakMessage">${a.mastered ? '已达到连续答对目标，本题已从错题本消除。' : a.correct ? '当前连续答对 ' + (S.wrong[q.id]?.streak || streak) + ' 次，还需 ' + Math.max(0, S.streakGoal - (S.wrong[q.id]?.streak || 0)) + ' 次。' : '连续次数已归零，请下轮再答。'}</div>` : ''}
-    <section class="breakdown"><h3>逐项判断</h3>${explainOptions(q)}</section>
+    ${scored ? `<section class="breakdown"><h3>逐项判断</h3>${explainOptions(q)}</section>` : ''}
     <details class="originalAnalysis" open>
       <summary>原卷完整解析</summary>
-      <div>${highlight(q.explanation || '原卷未提供解析。')}</div>
+      <div>${highlight(q.explanation || (scored ? '原卷未提供解析。' : '这份是做题版，正文没有答案。你把答案版发我后就能接通判分。'))}</div>
       ${figHtml(q, 'exp')}
       ${sourceLink(q)}
     </details>
@@ -207,20 +217,20 @@ function questionScore(q, selected) {
 function paperRule(qs) {
   const single = qs.filter(q => q.type !== 'multiple').length;
   const multiple = qs.filter(q => q.type === 'multiple').length;
-  const full = single * 1 + multiple * 2;
-  return { single, multiple, full, pass: Math.round(full * 0.6 * 10) / 10 };
+  const scored = qs.filter(q => q.answer && q.answer.length);
+  const full = scored.filter(q => q.type !== 'multiple').length * 1 + scored.filter(q => q.type === 'multiple').length * 2;
+  return { single, multiple, full, pass: Math.round(full * 0.6 * 10) / 10, scoreable: scored.length };
 }
 function statsFor(qs) {
   let done = 0, correct = 0, got = 0;
-  qs.forEach(q => {
+  for (const q of qs) {
     let a = S.answers[q.id];
-    if (a) {
-      if (a.unscored || !q.answer || !q.answer.length) continue;
-      done++;
-      if (a.correct) correct++;
-      got += questionScore(q, a.selected).got;
-    }
-  });
+    if (!a) continue;
+    if (a.unscored || !q.answer || !q.answer.length) continue;
+    done++;
+    if (a.correct) correct++;
+    got += questionScore(q, a.selected).got;
+  }
   const rule = paperRule(qs);
   return { done, correct, acc: done ? Math.round(correct / done * 100) : 0, got: Math.round(got * 10) / 10, full: rule.full, pass: rule.pass, single: rule.single, multiple: rule.multiple };
 }
@@ -263,8 +273,8 @@ function renderPapers() {
         <div class="paperNo">0${i + 1}</div>
         <div>
           <h3>${p.title}</h3>
-          <p>${p.questions.length} 题 · 单选 ${st.single}×1分 · 多选 ${st.multiple}×2分 · 满分 ${st.full} · 合格 ${st.pass}</p>
-          <p>已完成 ${st.done} · 当前得分 ${st.got}/${st.full}${st.done ? ' · 正确率 ' + st.acc + '%' : ''}</p>
+          <p>${p.questions.length} 题 · 单选 ${st.single} · 多选 ${st.multiple}${st.full ? ` · 满分 ${st.full} · 合格 ${st.pass}` : ' · 做题版暂不判分'}</p>
+          <p>${st.full ? `已完成 ${st.done} · 当前得分 ${st.got}/${st.full}${st.done ? ' · 正确率 ' + st.acc + '%' : ''}` : `已作答 ${Object.keys(S.answers).filter(id => p.questions.some(q => q.id === id)).length} 题 · 等答案版后接通计分`}</p>
         </div>
       </div>
       <div class="paperProgress"><i style="width:${pct}%"></i></div>
@@ -335,8 +345,8 @@ function renderQuestion() {
     </div>
     <div class="stem">${q.stem}</div>
     ${figHtml(q, 'stem')}
-    <div class="options">${Object.entries(q.options).map(([k, v]) =>
-      `<button type="button" class="option ${chosen.includes(k) ? 'selected' : ''} ${revealed && q.answer.includes(k) ? 'correct' : ''} ${revealed && chosen.includes(k) && !q.answer.includes(k) ? 'wrongopt' : ''}" data-k="${k}"><i>${k}</i><span>${v}</span></button>`
+    <div class="options">${Object.entries(q.options || {}).map(([k, v]) =>
+      `<button type="button" class="option ${chosen.includes(k) ? 'selected' : ''} ${revealed && hasOfficialAnswer(q) && q.answer.includes(k) ? 'correct' : ''} ${revealed && hasOfficialAnswer(q) && chosen.includes(k) && !q.answer.includes(k) ? 'wrongopt' : ''}" data-k="${k}"><i>${k}</i><span>${v}</span></button>`
     ).join('')}</div>
     ${revealed ? analysisCard(q, a, isRetry, streak) : ''}`;
   $('#submitBtn').textContent = revealed ? '已判定' : '确认答案';
@@ -1073,12 +1083,20 @@ window.addEventListener('beforeunload', () => {
   } catch {}
 });
 
-document.body.classList.toggle('dark', S.dark);
-updateCountdown();
-updateHome();
-updateSyncUI();
-setInterval(updateCountdown, 60000);
-// boot cloud pull
-if (normalizeSyncCode(S.syncCode)) {
-  cloudPull({ force: false }).catch(() => {});
+try {
+  document.body.classList.toggle('dark', S.dark);
+  updateCountdown();
+  updateHome();
+  updateSyncUI();
+  setInterval(updateCountdown, 60000);
+  if (normalizeSyncCode(S.syncCode)) {
+    cloudPull({ force: false }).catch(() => {});
+  }
+} catch (e) {
+  console.error(e);
+  const el = document.getElementById('toast');
+  if (el) {
+    el.textContent = '页面启动失败：' + (e && e.message ? e.message : e);
+    el.classList.add('show');
+  }
 }
