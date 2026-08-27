@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#102a24">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>必拿分精讲 · 安考必过</title>
+  <link rel="stylesheet" href="must-learn.css?v=1">
+</head>
+<body>
+<header class="topbar">
+  <a class="back" href="index.html">← 题库</a>
+  <div><b>必拿分精讲</b><small>按你的 152 道仍错题细化</small></div>
+  <button id="themeBtn" class="icon" type="button">◐</button>
+</header>
+<main>
+  <section class="hero">
+    <span class="eyebrow">2026 安全生产技术基础 · 个人错题版</span>
+    <h1>不是再背一张简卡，<br>是把每个分水岭讲透。</h1>
+    <p>每个知识点都有：人话解释、必背边界、判断流程、常见陷阱、考场动作和闭眼复述。先理解，再回题库验证。</p>
+    <div class="scores"><div><b>51.5</b><span>测评一</span></div><div><b>40.5</b><span>测评二</span></div><div><b>29.5</b><span>第3套</span></div><div><b>60</b><span>先过线</span></div></div>
+  </section>
+
+  <section class="diagnosis">
+    <div><span>01</span><b>对象错位</b><small>介质、设备、场景没对上</small></div>
+    <div><span>02</span><b>边界混淆</b><small>等级、周期、条件记串</small></div>
+    <div><span>03</span><b>方向反了</b><small>阀前阀后、应装不应装</small></div>
+    <div><span>04</span><b>多选求全</b><small>拿不准也勾，整题归零</small></div>
+  </section>
+
+  <section class="toolbar" id="toolbar">
+    <div class="search"><span>⌕</span><input id="searchInput" placeholder="搜知识点、数字、设备、口诀"></div>
+    <div class="filters" id="filters"></div>
+    <div class="progressBox">
+      <div><b id="masteredText">已掌握 0 / 0</b><small>点开知识点，完成闭眼复述后标记</small></div>
+      <div class="meter"><i id="masteredBar"></i></div>
+    </div>
+  </section>
+
+  <section class="route">
+    <div class="sectionHead"><span>建议路线</span><h2>先救及格线，不平均用力</h2></div>
+    <ol>
+      <li><b>防火防爆 + 电气</b><span>先攻 3 天：灭火对口、分区、漏保、防雷</span></li>
+      <li><b>特种设备</b><span>再攻 2 天：压力容器、泄压、气瓶、锅炉</span></li>
+      <li><b>机械 + 危化</b><span>再攻 2 天：装置功能、分类储存</span></li>
+      <li><b>每天 10 道多选</b><span>训练“敢不勾”，错项坚决不碰</span></li>
+    </ol>
+  </section>
+
+  <div id="content"></div>
+  <section class="empty" id="empty" hidden><b>没有匹配结果</b><p>换一个关键词，或点“全部”。</p></section>
+</main>
+
+<div class="reviewBar">
+  <button id="reviewBtn" type="button"><b>闭眼速测</b><span>随机抽 10 个知识点</span></button>
+  <a href="index.html#wrong"><b>回错题本</b><span>网页题库继续验证</span></a>
+</div>
+
+<div class="modal" id="reviewModal" hidden>
+  <div class="modalBox">
+    <div class="modalHead"><div><small id="reviewMeta">1 / 10</small><b id="reviewTitle">闭眼速测</b></div><button id="closeReview" type="button">×</button></div>
+    <div class="reviewQuestion" id="reviewQuestion"></div>
+    <button class="showAnswer" id="showAnswer" type="button">说完了，显示答案</button>
+    <div class="reviewAnswer" id="reviewAnswer" hidden></div>
+    <div class="reviewActions" id="reviewActions" hidden><button data-result="hard" type="button">没说全</button><button data-result="ok" type="button">说对了</button></div>
+  </div>
+</div>
+
+<script src="must-learn.js?v=1"></script>
+</body>
+</html>
