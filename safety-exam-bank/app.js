@@ -162,7 +162,7 @@ function analysisCard(q, a, isRetry, streak) {
   return `<div class="analysis">
     <div class="answerResult ${a.correct ? 'pass' : 'fail'}">
       <strong>${a.correct ? '✓ 回答正确' : '× 回答错误'}</strong>
-      <span>正确答案：${q.answer.join('、')}</span>
+      <span>本题 ${questionScore(q, a.selected).got}/${questionScore(q, a.selected).full} 分 · 正确答案：${q.answer.join('、')}</span>
     </div>
     <div class="timeLine">本题累计用时 <b>${fmtTime(lastDur)}</b>${qTimerSec ? ` · 本轮 ${fmtTime(qTimerSec)}` : ''}</div>
     ${isRetry ? `<div class="streakMessage">${a.mastered ? '已达到连续答对目标，本题已从错题本消除。' : a.correct ? '当前连续答对 ' + (S.wrong[q.id]?.streak || streak) + ' 次，还需 ' + Math.max(0, S.streakGoal - (S.wrong[q.id]?.streak || 0)) + ' 次。' : '连续次数已归零，请下轮再答。'}</div>` : ''}
@@ -188,13 +188,40 @@ function view(id) {
   if (id !== 'practice') stopQTimer(true), save();
   scrollTo(0, 0);
 }
+function questionScore(q, selected) {
+  const type = q.type === 'multiple' ? 'multiple' : 'single';
+  const full = type === 'multiple' ? 2 : 1;
+  const ans = new Set(q.answer || []);
+  const sel = new Set(selected || []);
+  if (!sel.size) return { got: 0, full, status: 'blank' };
+  if (type === 'single') {
+    const ok = sel.size === 1 && ans.has([...sel][0]);
+    return { got: ok ? 1 : 0, full, status: ok ? 'full' : 'wrong' };
+  }
+  // official multi: 2 or more correct options, at least 1 wrong option.
+  // wrong selection => 0; missing some correct => 0.5 each selected correct.
+  for (const x of sel) if (!ans.has(x)) return { got: 0, full, status: 'wrong' };
+  if (sel.size === ans.size) return { got: 2, full, status: 'full' };
+  return { got: Math.round(sel.size * 0.5 * 10) / 10, full, status: 'partial' };
+}
+function paperRule(qs) {
+  const single = qs.filter(q => q.type !== 'multiple').length;
+  const multiple = qs.filter(q => q.type === 'multiple').length;
+  const full = single * 1 + multiple * 2;
+  return { single, multiple, full, pass: Math.round(full * 0.6 * 10) / 10 };
+}
 function statsFor(qs) {
-  let done = 0, correct = 0;
+  let done = 0, correct = 0, got = 0;
   qs.forEach(q => {
     let a = S.answers[q.id];
-    if (a) { done++; if (a.correct) correct++; }
+    if (a) {
+      done++;
+      if (a.correct) correct++;
+      got += questionScore(q, a.selected).got;
+    }
   });
-  return { done, correct, acc: done ? Math.round(correct / done * 100) : 0 };
+  const rule = paperRule(qs);
+  return { done, correct, acc: done ? Math.round(correct / done * 100) : 0, got: Math.round(got * 10) / 10, full: rule.full, pass: rule.pass, single: rule.single, multiple: rule.multiple };
 }
 function lastQuestionMeta() {
   if (!S.last || !S.last.ids || !S.last.ids.length) return null;
@@ -235,7 +262,8 @@ function renderPapers() {
         <div class="paperNo">0${i + 1}</div>
         <div>
           <h3>${p.title}</h3>
-          <p>${p.questions.length} 题 · 单选 ${p.questions.filter(q => q.type === 'single').length} · 多选 ${p.questions.filter(q => q.type === 'multiple').length} · 已完成 ${st.done}</p>
+          <p>${p.questions.length} 题 · 单选 ${st.single}×1分 · 多选 ${st.multiple}×2分 · 满分 ${st.full} · 合格 ${st.pass}</p>
+          <p>已完成 ${st.done} · 当前得分 ${st.got}/${st.full}${st.done ? ' · 正确率 ' + st.acc + '%' : ''}</p>
         </div>
       </div>
       <div class="paperProgress"><i style="width:${pct}%"></i></div>
@@ -384,7 +412,7 @@ function finish() {
   $('#sheetModal').classList.remove('open');
   view('stats');
   renderStats();
-  toast(`本轮完成 ${st.done}/${session.length}，正确率 ${st.acc}%`);
+  toast(`本轮得分 ${st.got}/${st.full}，${st.got >= st.pass ? '达到合格线' : '未达合格线'}`);
 }
 function renderSheet() {
   let box = $('#answerSheet');
@@ -435,11 +463,16 @@ function renderStats() {
   });
   let totalSec = Object.values(S.qTimes).reduce((a, b) => a + (b || 0), 0);
   let memoC = window.NEW_POINTS ? memoCounts() : { total:0, known:0, hard:0, new:0 };
+  const paperRows = DB.papers.map(p => {
+    const s = statsFor(p.questions);
+    return `<div class="chapter"><b>${p.title}</b><small style="float:right">${s.got}/${s.full} 分 · 合格线 ${s.pass}</small><div class="bar"><i style="width:${s.full ? Math.min(100, s.got / s.full * 100) : 0}%"></i></div></div>`;
+  }).join('');
   $('#statsContent').innerHTML = `
     <div class="reportHero">
-      <strong>${st.done ? st.acc : 0}%</strong><span> 当前总正确率</span>
-      <p>已完成 ${st.done}/${qs.length} 道，还有 ${wrong} 道错题待攻克。累计做题 ${fmtTime(totalSec)}。</p>
+      <strong>${st.got}</strong><span> / ${st.full} 分（官方计分）</span>
+      <p>单选每题1分，多选每题2分；多选错选不得分，少选每项0.5分。合格线按满分60%。已完成 ${st.done}/${qs.length} 道，累计做题 ${fmtTime(totalSec)}。</p>
     </div>
+    <div class="chapters"><h3>各卷得分</h3>${paperRows}</div>
     <div class="reportGrid">
       <div><strong>${st.correct}</strong><span>累计答对</span></div>
       <div><strong>${wrong}</strong><span>当前错题</span></div>
