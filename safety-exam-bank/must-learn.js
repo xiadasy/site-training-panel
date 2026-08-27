@@ -38,6 +38,40 @@ const chapters=[
 {id:'multi-process',title:'五步排错：问法—对象—条件—程度—绝对词',tags:['流程','考场'],lead:'多选先删错项，再选对项；不是逐项问“好像能不能成立”。',flow:[['① 问法','正确还是错误'],['② 对象','人/设备/介质'],['③ 条件','何时、何地、前提'],['④ 程度','应/宜/可/严禁'],['⑤ 决断','无依据不勾']],points:['先圈题干问“正确的有”还是“错误的是”，避免方向性全错。','检查选项是否偷换对象：把消防负荷规则套普通插座，把粉尘分区套气体。','检查必要条件是否被删掉：如“隔离变压器”还必须满足“二次侧不接地”。','检查规范程度词：“宜”被改成“必须”，“可以”被改成“一律”，往往就是陷阱。','遇到解释范围突然扩大、出现“任何、均、完全、只要”等绝对词，必须额外审查。'],trap:'绝对词不是一定错，但必须有规范原文或原理支撑；不能看到“严禁”就自动删除。',mnemonic:'先看问法，再对对象；补齐条件，核准程度；没证据就不勾。',recall:'多选题中“宜”被改成“必须”，属于哪类错误？'},
 {id:'multi-training',title:'每天 10 题，只训练“为什么不勾”',tags:['训练','计划'],lead:'这轮不通刷整卷，专门重做多选零分题。',human:'通刷会让你继续在熟题上获得虚假流畅感。专项训练要记录每个没选项的排除理由，建立“敢不勾”的手感。',points:['每天从错题本抽 10 道多选，优先第 1、2 套的 21 道整题 0 分题。','提交前对每个已选项说出“规范词＋对象＋条件”；说不出来就撤选。','看解析后把错误归为：对象错、条件漏、程度错、方向反、绝对化。','同一知识点连续 3 次做对才从错题本消除。'],trap:'只抄正确答案不会改善选择过程。必须练习“这个选项为什么不能勾”。',mnemonic:'选项不是越多越勇敢，能说出排除理由才叫会。',recall:'多选专项复盘时，除了记正确项，还必须记录什么？'}]}];
 
+const sourceMap={
+'fire-extinguish':'讲义依据：第93讲《泄漏控制与销毁处置技术》，PDF 第425页（特殊化学品火灾扑救）',
+'fire-zone':'讲义依据：第40讲《电气防火防爆技术（二）》，PDF 第164—166页（气体/粉尘爆炸危险区域）',
+'fire-combustion':'讲义依据：第74—75讲《火灾爆炸事故机理》，PDF 第333—336页（燃烧形式）',
+'fire-fireworks':'讲义依据：第82讲《烟花爆竹安全技术》，PDF 第371—376页',
+'fire-static':'讲义依据：第44—47讲《雷击和静电防护技术》，PDF 第176—191页',
+'fire-overpressure':'讲义依据：第88讲《危险化学品的分类与主要危害》，PDF 第399页（危害与破坏判定）',
+'fire-explosion-equipment':'讲义依据：第41—43讲《电气防火防爆技术》，PDF 第169—175页；爆破片方向参见第59讲 PDF 第257—259页',
+'elec-rcd':'讲义依据：第38讲《触电防护技术（十一）》，PDF 第155—159页（剩余电流动作保护装置）',
+'elec-grounding':'讲义依据：第28—38讲《触电防护技术》，PDF 第112—158页（接地、隔离、等电位）',
+'elec-lightning':'讲义依据：第44—47讲《雷击和静电防护技术》，PDF 第176—191页',
+'elec-insulation':'讲义依据：第28—38讲《触电防护技术》，PDF 第114—115、148—152页',
+'elec-selection':'讲义依据：第39—43讲《电气防火防爆技术》，PDF 第159—175页',
+'special-vessel':'讲义依据：第63—64讲《压力容器安全技术》，PDF 第270—283页',
+'special-pressure':'讲义依据：第63—64讲《压力容器安全技术》，PDF 第270—283页',
+'special-relief':'讲义依据：第59—64讲《气瓶、压力容器安全技术》，PDF 第257—280页',
+'special-cylinder':'讲义依据：第59—62讲《气瓶安全技术》，PDF 第249—269页',
+'special-boiler':'讲义依据：第53—58讲《锅炉安全技术》，PDF 第219—248页',
+'special-vehicle':'讲义依据：第70—73讲《场（厂）内专用机动车辆、索道、游乐设施》，PDF 第311—330页',
+'machine-hierarchy':'讲义依据：第04—05讲《机械安全基础知识》，PDF 第15—20页（三步法）',
+'machine-device':'讲义依据：第05讲《机械安全基础知识（五）》，PDF 第17—20页',
+'machine-twohand':'讲义依据：第05—07讲《机械安全基础知识》，PDF 第22—27页',
+'machine-robot':'讲义依据：第24讲《工业机器人安全技术》，PDF 第100—102页',
+'machine-numbers':'讲义依据：第01—08讲《机械安全基础知识》，PDF 第1—30页（按具体装置核对）',
+'machine-tools':'讲义依据：第09—17讲《金属切削机床、砂轮机、冲压、木工机械》，PDF 第31—76页',
+'chem-ghs':'讲义依据：第88讲《危险化学品的分类与主要危害》，PDF 第399—408页',
+'chem-storage':'讲义依据：第91讲《危险化学品储存、运输与包装安全技术》，PDF 第416—421页',
+'chem-asphyxia':'讲义依据：第88—89讲《危险化学品的分类与主要危害》，PDF 第399—410页',
+'chem-sds':'讲义依据：第91—92讲《危险化学品储存、运输与包装安全技术/经营要求》，PDF 第416—423页',
+'chem-package':'讲义依据：第91讲《危险化学品储存、运输与包装安全技术》，PDF 第417—420页',
+'multi-score':'讲义依据：2026年技术讲义各章例题与现行题库计分规则；本页结合你的46道多选错题统计',
+'multi-process':'讲义依据：2026年技术讲义各章例题、解析和条件辨析；本页按你的错因归纳',
+'multi-training':'讲义依据：你的云端错题记录（46道多选错题、21道整题归零）与讲义例题回炉方案'
+};
 const stateKey='mustLearnStateV1';
 let state=JSON.parse(localStorage.getItem(stateKey)||'{"mastered":{},"theme":""}');
 let active='all', query='';
@@ -48,7 +82,7 @@ function block(t){let h=`<div class="human"><b>说人话：</b>${t.human}</div>`
 if(t.flow)h+=`<div class="block"><h4>判断流程</h4><div class="flow">${t.flow.map(x=>`<div><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}</div></div>`;
 if(t.compare)h+=`<div class="block"><h4>对比边界</h4><div class="compare">${t.compare.map(x=>`<div><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}</div></div>`;
 if(t.points)h+=`<div class="block"><h4>必须钉死</h4><ul>${t.points.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
-h+=`<div class="trap"><b>常见陷阱：</b>${t.trap}</div><div class="mnemonic">记忆钩子：${t.mnemonic}</div><div class="recall"><b>闭眼复述：</b>${t.recall}</div><button class="masterBtn" data-id="${t.id}" type="button">${state.mastered[t.id]?'✓ 已经能复述':'完成复述，标记掌握'}</button>`;return h}
+h+=`<div class="trap"><b>常见陷阱：</b>${t.trap}</div><div class="mnemonic">记忆钩子：${t.mnemonic}</div><div class="recall"><b>闭眼复述：</b>${t.recall}</div><div class="source">📖 ${sourceMap[t.id]||'依据：2026 技术讲义，待进一步定位页码'}</div><button class="masterBtn" data-id="${t.id}" type="button">${state.mastered[t.id]?'✓ 已经能复述':'完成复述，标记掌握'}</button>`;return h}
 function render(){let html='',shown=0; chapters.forEach(c=>{let ts=c.topics.filter(t=>{let text=[c.name,t.title,t.lead,t.human,t.mnemonic,t.recall,...(t.points||[]),...(t.tags||[])].join(' ').replace(/<[^>]+>/g,'');return(active==='all'||active===c.key)&&(!query||text.toLowerCase().includes(query.toLowerCase()))});if(!ts.length)return;shown+=ts.length;html+=`<section class="chapter" data-key="${c.key}"><div class="chapterTitle"><span class="no">${c.no}</span><div><small>${c.count}</small><h2>${c.name}</h2><p>${c.desc}</p></div></div>${ts.map(t=>`<details class="topic ${state.mastered[t.id]?'mastered':''}" id="${t.id}"><summary><div class="topicTags">${t.tags.map((x,i)=>`<span class="tag ${i?'warn':''}">${x}</span>`).join('')}</div><h3>${t.title}</h3><p class="lead">${t.lead}</p></summary><div class="topicBody">${block(t)}</div></details>`).join('')}</section>`});$('#content').innerHTML=html;$('#empty').hidden=!!shown;document.querySelectorAll('.masterBtn').forEach(b=>b.onclick=()=>{state.mastered[b.dataset.id]=!state.mastered[b.dataset.id];save();render()});updateProgress()}
 function updateProgress(){let all=chapters.flatMap(c=>c.topics),n=all.filter(t=>state.mastered[t.id]).length;$('#masteredText').textContent=`已掌握 ${n} / ${all.length}`;$('#masteredBar').style.width=(n/all.length*100)+'%'}
 function initFilters(){let a=[['all','全部'],...chapters.map(c=>[c.key,c.name])];$('#filters').innerHTML=a.map(x=>`<button data-key="${x[0]}" class="${x[0]==='all'?'active':''}">${x[1]}</button>`).join('');$('#filters').onclick=e=>{if(!e.target.dataset.key)return;active=e.target.dataset.key;document.querySelectorAll('#filters button').forEach(b=>b.classList.toggle('active',b===e.target));render()}}
