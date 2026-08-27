@@ -215,6 +215,7 @@ function statsFor(qs) {
   qs.forEach(q => {
     let a = S.answers[q.id];
     if (a) {
+      if (a.unscored || !q.answer || !q.answer.length) continue;
       done++;
       if (a.correct) correct++;
       got += questionScore(q, a.selected).got;
@@ -365,6 +366,17 @@ function submit() {
   let q = session[idx], isRetry = S.mode === 'wrong';
   if (isRetry ? roundAnswers[q.id] : S.answers[q.id]) return;
   if (!chosen.length) return toast('请先选择答案');
+  if (!q.answer || !q.answer.length) {
+    const result = { selected: [...chosen], correct: false, time: Date.now(), unscored: true, durationSec: Math.max(0, Math.floor((Date.now() - qTimerStartedAt) / 1000)) };
+    stopQTimer(false);
+    S.qTimes[q.id] = (S.qTimes[q.id] || 0) + result.durationSec;
+    if (isRetry) roundAnswers[q.id] = result;
+    S.answers[q.id] = result;
+    save();
+    renderQuestion();
+    toast('已记录选项。本题暂无答案，先练习不判分');
+    return;
+  }
   // freeze timer into this attempt
   let spent = Math.floor((Date.now() - qTimerStartedAt) / 1000);
   stopQTimer(false);
