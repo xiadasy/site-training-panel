@@ -232,10 +232,10 @@
       "workout_id": 1672852844
     },
     {
-      "type": "长距后恢复",
-      "plan": 5.0,
-      "title": "8/30 长距后恢复5",
-      "workout_id": 1674389527
+      "type": "跑休观察",
+      "plan": 0.0,
+      "title": "8/30 跑休观察左脚",
+      "workout_id": null
     }
   ]
 }
