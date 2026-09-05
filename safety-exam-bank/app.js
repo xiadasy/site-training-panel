@@ -24,6 +24,7 @@ function loadState() {
   S.streakGoal = S.streakGoal || 3;
   S.examDate = S.examDate || DEFAULT_EXAM;
   S.qTimes = S.qTimes || {}; // qid -> total seconds spent
+  S.examHistory = S.examHistory || {}; // paper id -> completed attempt snapshots
   S.memo = S.memo || {}; // card id -> {status:'known'|'hard', reviews, updatedAt}
   S.memoLast = S.memoLast || null;
   S.practiceMemo = S.practiceMemo || {}; // practice id -> status
@@ -264,23 +265,68 @@ function updateHome() {
   }
   renderPapers();
 }
+function paperAttemptHistory(paperId) {
+  return Array.isArray(S.examHistory?.[paperId]) ? S.examHistory[paperId] : [];
+}
+function archivePaperAttempt(p) {
+  const qs = p.questions;
+  const answered = qs.filter(q => S.answers[q.id]);
+  if (!answered.length) return null;
+  const st = statsFor(qs);
+  const snapshot = {
+    id: 'attempt-' + Date.now(),
+    finishedAt: new Date().toISOString(),
+    answered: answered.length,
+    total: qs.length,
+    correct: st.correct,
+    accuracy: st.acc,
+    score: st.got,
+    full: st.full,
+    pass: st.got >= st.pass,
+    durationSec: qs.reduce((n, q) => n + (S.answers[q.id]?.durationSec || 0), 0)
+  };
+  (S.examHistory[p.id] ??= []).unshift(snapshot);
+  S.examHistory[p.id] = S.examHistory[p.id].slice(0, 30);
+  return snapshot;
+}
+window.restartPaper = function (id, mode = 'exam') {
+  const p = DB.papers.find(x => x.id === id);
+  if (!p) return;
+  const answered = p.questions.filter(q => S.answers[q.id]).length;
+  if (answered && !confirm(`重新考试将把当前卷 ${answered} 道作答归档为一次历史成绩，并开始全新一轮。收藏、笔记、错题本不会删除。继续吗？`)) return;
+  if (answered) archivePaperAttempt(p);
+  p.questions.forEach(q => {
+    delete S.answers[q.id];
+    delete S.qTimes[q.id];
+  });
+  if (S.last?.ids?.some(qid => p.questions.some(q => q.id === qid))) S.last = null;
+  save();
+  startPaper(id, mode);
+  toast('已开始新一轮，上一轮成绩已保存');
+};
 function renderPapers() {
   let box = $('#paperList');
   box.innerHTML = DB.papers.map((p, i) => {
     let st = statsFor(p.questions), pct = Math.round(st.done / p.questions.length * 100);
+    const history = paperAttemptHistory(p.id);
+    const latest = history[0];
+    const historyText = latest
+      ? `<p>历史考试 ${history.length} 次 · 最近 ${latest.score}/${latest.full} 分 · ${latest.pass ? '已合格' : '未合格'} · ${new Date(latest.finishedAt).toLocaleDateString('zh-CN')}</p>`
+      : '';
     return `<div class="paper">
       <div class="paperTop">
-        <div class="paperNo">0${i + 1}</div>
+        <div class="paperNo">${String(i + 1).padStart(2, '0')}</div>
         <div>
           <h3>${p.title}</h3>
           <p>${p.questions.length} 题 · 单选 ${st.single} · 多选 ${st.multiple}${st.full ? ` · 满分 ${st.full} · 合格 ${st.pass}` : ' · 做题版暂不判分'}</p>
           <p>${st.full ? `已完成 ${st.done} · 当前得分 ${st.got}/${st.full}${st.done ? ' · 正确率 ' + st.acc + '%' : ''}` : `已作答 ${Object.keys(S.answers).filter(id => p.questions.some(q => q.id === id)).length} 题 · 等答案版后接通计分`}</p>
+          ${historyText}
         </div>
       </div>
       <div class="paperProgress"><i style="width:${pct}%"></i></div>
       <div class="paperActions">
-        <button type="button" onclick="openPdf('${p.sourcePdf}')">查看原卷</button>
-        <button type="button" onclick="startPaper('${p.id}','exam')">模拟考试</button>
+        ${p.sourcePdf ? `<button type="button" onclick="openPdf('${p.sourcePdf}')">查看原卷</button>` : ''}
+        <button type="button" onclick="${st.done ? `restartPaper('${p.id}','exam')` : `startPaper('${p.id}','exam')`}">${st.done ? '重新考试' : '模拟考试'}</button>
         <button type="button" class="start" onclick="startPaper('${p.id}','practice')">${st.done ? '继续本卷' : '开始练习'}</button>
       </div>
     </div>`;
@@ -544,6 +590,7 @@ function applyRemoteState(remote, updatedAt) {
   S.streakGoal = remote.streakGoal || 3;
   S.examDate = remote.examDate || DEFAULT_EXAM;
   S.qTimes = remote.qTimes || {};
+  S.examHistory = remote.examHistory || {};
   S.memo = remote.memo || {};
   S.memoLast = remote.memoLast || null;
   S.practiceMemo = remote.practiceMemo || {};
@@ -574,6 +621,7 @@ function exportableState() {
     streakGoal: S.streakGoal,
     examDate: S.examDate,
     qTimes: S.qTimes,
+    examHistory: S.examHistory,
     memo: S.memo,
     memoLast: S.memoLast,
     practiceMemo: S.practiceMemo,
