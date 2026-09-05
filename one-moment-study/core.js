@@ -10,7 +10,7 @@ const shiftDay=(key,n)=>{const d=new Date(key+'T12:00:00');d.setDate(d.getDate()
 const isDate=s=>typeof s==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(s)&&!Number.isNaN(new Date(s+'T12:00:00').getTime());
 function defaultSettings(){return {focus:25,short:5,long:15,cycles:4,goal:4,sound:true,wake:false,notify:true,alarmRepeat:true,examDate:'2026-10-26',cycleStart:day()};}
 function makeTimer(d,phase='focus'){return {phase,status:'idle',durationMs:d.settings[phase]*60000,remainingMs:d.settings[phase]*60000,endAt:null,startedAt:null,sessionId:null,taskId:null,taskTitle:'自由专注',subject:'其他'};}
-function initial(){const d={version:1,settings:defaultSettings(),tasks:[],selectedTaskId:null,sessions:[],distractions:[],cycle:0,pendingReview:null};d.timer=makeTimer(d);return d;}
+function initial(){const d={version:1,settings:defaultSettings(),tasks:[],selectedTaskId:null,sessions:[],distractions:[],deletedTaskIds:[],deletedDistractionIds:[],cycle:0,pendingReview:null};d.timer=makeTimer(d);return d;}
 function remaining(d,now=Date.now()){const t=d.timer;return Math.min(t.durationMs,Math.max(0,t.status==='running'?t.endAt-now:t.remainingMs));}
 function start(d,now=Date.now()){
  const t=d.timer;if(t.status==='running')return;
@@ -23,7 +23,7 @@ function record(d,completed,now){
  const seconds=completed?Math.round(t.durationMs/1000):Math.floor((t.durationMs-remaining(d,now))/1000);
  if(seconds<1)return null;
  const existing=d.sessions.find(x=>x.id===t.sessionId);if(existing)return existing;
- const s={id:t.sessionId,completed,seconds,startedAt:t.startedAt,endedAt:now,date:day(now),taskId:t.taskId,taskTitle:t.taskTitle,subject:t.subject,note:'',nextStep:''};
+ const s={id:t.sessionId,completed,seconds,startedAt:t.startedAt,endedAt:now,date:day(now),taskId:t.taskId,taskTitle:t.taskTitle,subject:t.subject,note:'',nextStep:'',updatedAt:now};
  d.sessions.push(s);return s;
 }
 function nextPhase(d,completed){if(d.timer.phase!=='focus')return 'focus';if(completed)d.cycle=(d.cycle+1)%d.settings.cycles;return completed&&d.cycle===0?'long':'short';}
@@ -46,7 +46,7 @@ function configure(d,patch){
  }
  Object.assign(d.settings,patch);d.cycle=d.cycle%d.settings.cycles;if(d.timer.status==='idle')d.timer=makeTimer(d,d.timer.phase);
 }
-function addTask(d,title,subject='其他',target=1){title=String(title).trim();if(!title||title.length>120)throw Error('任务填写 1–120 个字');if(!SUBJECTS.includes(subject))throw Error('请选择管理、技术、实务等科目');if(d.tasks.length>=300)throw Error('清单已满，请先删除不需要的任务');if(!Number.isInteger(target)||target<1||target>20)throw Error('预计番茄数须为 1–20');const task={id:uid(),title,subject,target,done:false,createdAt:Date.now()};d.tasks.push(task);if(!d.selectedTaskId)d.selectedTaskId=task.id;return task;}
+function addTask(d,title,subject='其他',target=1){title=String(title).trim();if(!title||title.length>120)throw Error('任务填写 1–120 个字');if(!SUBJECTS.includes(subject))throw Error('请选择管理、技术、实务等科目');if(d.tasks.length>=300)throw Error('清单已满，请先删除不需要的任务');if(!Number.isInteger(target)||target<1||target>20)throw Error('预计番茄数须为 1–20');const task={id:uid(),title,subject,target,done:false,createdAt:Date.now(),updatedAt:Date.now()};d.tasks.push(task);if(!d.selectedTaskId)d.selectedTaskId=task.id;return task;}
 function stats(d,date=day()){
  const list=d.sessions.filter(s=>s.date===date);return {count:list.filter(s=>s.completed).length,seconds:list.reduce((a,s)=>a+s.seconds,0),list};
 }
@@ -81,9 +81,13 @@ function validate(raw){
  configure(d,settings);
  if(!Array.isArray(raw.tasks)||raw.tasks.length>300||!Array.isArray(raw.sessions)||raw.sessions.length>50000||!Array.isArray(raw.distractions)||raw.distractions.length>1000)fail();
  const taskIds=new Set(),sessionIds=new Set();
- d.tasks=raw.tasks.map(t=>{if(!t||!id(t.id)||taskIds.has(t.id)||!str(t.title,120)||!t.title.trim()||!SUBJECTS.includes(t.subject)||!Number.isInteger(t.target)||t.target<1||t.target>20||!boolean(t.done)||!time(t.createdAt))fail();taskIds.add(t.id);return {id:t.id,title:t.title,subject:t.subject,target:t.target,done:t.done,createdAt:t.createdAt};});
- d.sessions=raw.sessions.map(s=>{const subject=SUBJECTS.includes(s.subject)?s.subject:(s.subject==='管理'?'安全管理':s.subject==='技术'?'安全技术':s.subject==='实务'?'安全实务':'其他');if(!s||!id(s.id)||sessionIds.has(s.id)||!boolean(s.completed)||!Number.isInteger(s.seconds)||s.seconds<1||s.seconds>7200||!time(s.startedAt)||!time(s.endedAt)||s.endedAt<s.startedAt||!str(s.date,10)||!isDate(s.date)||!optid(s.taskId)||!str(s.taskTitle,120)||!str(s.note,1000)||!str(s.nextStep,1000))fail();sessionIds.add(s.id);return {id:s.id,completed:s.completed,seconds:s.seconds,startedAt:s.startedAt,endedAt:s.endedAt,date:s.date,taskId:s.taskId,taskTitle:s.taskTitle,subject,note:s.note,nextStep:s.nextStep};});
- d.distractions=raw.distractions.map(x=>{if(!x||!id(x.id)||!str(x.text,300)||!time(x.createdAt))fail();return {id:x.id,text:x.text,createdAt:x.createdAt};});
+ d.tasks=raw.tasks.map(t=>{if(!t||!id(t.id)||taskIds.has(t.id)||!str(t.title,120)||!t.title.trim()||!SUBJECTS.includes(t.subject)||!Number.isInteger(t.target)||t.target<1||t.target>20||!boolean(t.done)||!time(t.createdAt)||!(t.updatedAt==null||time(t.updatedAt)))fail();taskIds.add(t.id);return {id:t.id,title:t.title,subject:t.subject,target:t.target,done:t.done,createdAt:t.createdAt,updatedAt:t.updatedAt||t.createdAt};});
+ d.sessions=raw.sessions.map(s=>{const subject=SUBJECTS.includes(s.subject)?s.subject:(s.subject==='管理'?'安全管理':s.subject==='技术'?'安全技术':s.subject==='实务'?'安全实务':'其他');if(!s||!id(s.id)||sessionIds.has(s.id)||!boolean(s.completed)||!Number.isInteger(s.seconds)||s.seconds<1||s.seconds>7200||!time(s.startedAt)||!time(s.endedAt)||s.endedAt<s.startedAt||!str(s.date,10)||!isDate(s.date)||!optid(s.taskId)||!str(s.taskTitle,120)||!str(s.note,1000)||!str(s.nextStep,1000)||!(s.updatedAt==null||time(s.updatedAt)))fail();sessionIds.add(s.id);return {id:s.id,completed:s.completed,seconds:s.seconds,startedAt:s.startedAt,endedAt:s.endedAt,date:s.date,taskId:s.taskId,taskTitle:s.taskTitle,subject,note:s.note,nextStep:s.nextStep,updatedAt:s.updatedAt||s.endedAt};});
+ d.distractions=raw.distractions.map(x=>{if(!x||!id(x.id)||!str(x.text,300)||!time(x.createdAt)||!(x.updatedAt==null||time(x.updatedAt)))fail();return {id:x.id,text:x.text,createdAt:x.createdAt,updatedAt:x.updatedAt||x.createdAt};});
+ const deletedTaskIds=Array.isArray(raw.deletedTaskIds)?raw.deletedTaskIds:[];
+ const deletedDistractionIds=Array.isArray(raw.deletedDistractionIds)?raw.deletedDistractionIds:[];
+ if(deletedTaskIds.length>1000||deletedDistractionIds.length>3000||deletedTaskIds.some(x=>!id(x))||deletedDistractionIds.some(x=>!id(x)))fail();
+ d.deletedTaskIds=[...new Set(deletedTaskIds)];d.deletedDistractionIds=[...new Set(deletedDistractionIds)];
  const t=raw.timer;if(!t||!PHASES.includes(t.phase)||!['idle','running','paused'].includes(t.status)||!finite(t.durationMs)||t.durationMs<60000||t.durationMs>7200000||!finite(t.remainingMs)||t.remainingMs<0||t.remainingMs>t.durationMs||!optid(t.sessionId)||!optid(t.taskId)||!str(t.taskTitle,120)||!str(t.subject,30))fail();
  if(t.status==='running'&&(!time(t.endAt)||!time(t.startedAt)||!t.sessionId||t.endAt<t.startedAt))fail();
  if(t.status==='paused'&&(!time(t.startedAt)||t.endAt!==null||!t.sessionId))fail();

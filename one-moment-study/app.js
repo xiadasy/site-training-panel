@@ -1,12 +1,14 @@
 (()=>{
 'use strict';
-const C=window.FocusCore,KEY='one-moment-study-v1',$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const C=window.FocusCore,KEY='one-moment-study-v1',SYNC_META_KEY='one-moment-sync-v1',SYNC_API='https://safety-exam-sync.a15221082942.workers.dev/api/state',$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const icon=name=>`<svg aria-hidden="true"><use href="#i-${name}"/></svg>`;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let data=C.initial(),storageOK=true,corruptRaw=null,view='focus',reviewId=null,editingReview=false,toastHandle,wakeLock=null,audioCtx=null,lastDay=C.day(),alarm=null,alarmTimer=null;
+let data=C.initial(),storageOK=true,corruptRaw=null,view='focus',reviewId=null,editingReview=false,toastHandle,wakeLock=null,audioCtx=null,lastDay=C.day(),alarm=null,alarmTimer=null,syncTimer=null,syncing=false;
+let syncMeta={code:'',deviceId:'web-'+C.uid(),localUpdatedAt:null,cloudUpdatedAt:null,settingsUpdatedAt:null};
+try{syncMeta={...syncMeta,...JSON.parse(localStorage.getItem(SYNC_META_KEY)||'{}')};}catch(e){}
 function warning(text){$('#storageWarning').hidden=false;$('#storageWarning').textContent=text;}
-try{const raw=localStorage.getItem(KEY);if(raw){try{data=C.validate(JSON.parse(raw));}catch(e){corruptRaw=raw;storageOK=false;warning('旧数据读取失败，原数据未覆盖。可先在设置中导出原备份；本次操作暂不保存。');}}else{localStorage.setItem(KEY,JSON.stringify(data));}}catch(e){storageOK=false;warning('当前浏览器不允许本地保存。请勿关闭页面，并通过设置导出备份。');}
-function save(){if(corruptRaw)return;try{localStorage.setItem(KEY,JSON.stringify(data));storageOK=true;$('#storageWarning').hidden=true;}catch(e){storageOK=false;warning('本地保存失败或空间已满。当前记录仍在页面内，请立即导出备份。');}}
+try{const raw=localStorage.getItem(KEY);if(raw){try{data=C.validate(JSON.parse(raw));localStorage.setItem(KEY,JSON.stringify(data));}catch(e){corruptRaw=raw;storageOK=false;warning('旧数据读取失败，原数据未覆盖。可先在设置中导出原备份；本次操作暂不保存。');}}else{localStorage.setItem(KEY,JSON.stringify(data));}}catch(e){storageOK=false;warning('当前浏览器不允许本地保存。请勿关闭页面，并通过设置导出备份。');}
+function save(opts={}){if(corruptRaw)return;try{localStorage.setItem(KEY,JSON.stringify(data));if(opts.touch!==false)syncMeta.localUpdatedAt=new Date().toISOString();localStorage.setItem(SYNC_META_KEY,JSON.stringify(syncMeta));storageOK=true;$('#storageWarning').hidden=true;if(!opts.skipCloud)scheduleCloudPush();}catch(e){storageOK=false;warning('本地保存失败或空间已满。当前记录仍在页面内，请立即导出备份。');}}
 function toast(text){clearTimeout(toastHandle);$('#toast').textContent=text;$('#toast').hidden=false;toastHandle=setTimeout(()=>$('#toast').hidden=true,4000);}
 function fmt(seconds){const s=Math.max(0,Math.ceil(seconds));return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
 function time(t){return new Date(t).toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit',hour12:false});}
@@ -99,25 +101,65 @@ $$('[data-example]').forEach(b=>b.addEventListener('click',()=>{$('#taskTitle').
 $('#taskList').addEventListener('click',async e=>{
  const select=e.target.closest('[data-select]'),done=e.target.closest('[data-done]'),del=e.target.closest('[data-delete]');
  if(select){data.selectedTaskId=select.dataset.select;save();render();if(data.timer.status!=='idle')toast('已选中，将用于下一轮；当前一轮保持原任务。');}
- if(done){const t=data.tasks.find(x=>x.id===done.dataset.done);if(!t)return;t.done=!t.done;if(t.done&&data.selectedTaskId===t.id)data.selectedTaskId=data.tasks.find(x=>!x.done)?.id||null;else if(!t.done&&!data.selectedTaskId)data.selectedTaskId=t.id;save();render();}
- if(del&&await ask('删除这项任务？','仅删除清单任务，已完成的学习记录仍会保留。')){const id=del.dataset.delete;data.tasks=data.tasks.filter(x=>x.id!==id);if(data.selectedTaskId===id)data.selectedTaskId=data.tasks.find(x=>!x.done)?.id||null;save();render();}
+ if(done){const t=data.tasks.find(x=>x.id===done.dataset.done);if(!t)return;t.done=!t.done;t.updatedAt=Date.now();if(t.done&&data.selectedTaskId===t.id)data.selectedTaskId=data.tasks.find(x=>!x.done)?.id||null;else if(!t.done&&!data.selectedTaskId)data.selectedTaskId=t.id;save();render();}
+ if(del&&await ask('删除这项任务？','仅删除清单任务，已完成的学习记录仍会保留。')){const id=del.dataset.delete;data.deletedTaskIds=[...new Set([...(data.deletedTaskIds||[]),id])].slice(-1000);data.tasks=data.tasks.filter(x=>x.id!==id);if(data.selectedTaskId===id)data.selectedTaskId=data.tasks.find(x=>!x.done)?.id||null;save();render();}
 });
-function openSettings(){const f=$('#settingsForm');for(const [k,v]of Object.entries(data.settings)){if(typeof v==='boolean')f.elements[k].checked=v;else f.elements[k].value=v;}$$('[data-preset]').forEach(x=>x.classList.remove('active'));show($('#settingsDialog'));}
+function normalizeSyncCode(code){return String(code||'').trim().replace(/\s+/g,'');}
+function persistSyncMeta(){try{localStorage.setItem(SYNC_META_KEY,JSON.stringify(syncMeta));}catch(e){}}
+function syncCodeId(code){return crypto.subtle.digest('SHA-256',new TextEncoder().encode('one-moment-id:'+code)).then(b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('').slice(0,40));}
+function b64(bytes){let out='';for(let i=0;i<bytes.length;i+=8192)out+=String.fromCharCode(...bytes.subarray(i,i+8192));return btoa(out);}
+function unb64(s){const x=atob(s),out=new Uint8Array(x.length);for(let i=0;i<x.length;i++)out[i]=x.charCodeAt(i);return out;}
+async function deriveSyncKey(code,salt){const material=await crypto.subtle.importKey('raw',new TextEncoder().encode(code),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:180000,hash:'SHA-256'},material,{name:'AES-GCM',length:256},false,['encrypt','decrypt']);}
+async function encryptCloud(payload,code){const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),key=await deriveSyncKey(code,salt),plain=new TextEncoder().encode(JSON.stringify(payload)),cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,plain);return {app:'one-moment-study',v:1,alg:'PBKDF2-AES-GCM',salt:b64(salt),iv:b64(iv),cipher:b64(new Uint8Array(cipher))};}
+async function decryptCloud(envelope,code){if(!envelope||envelope.app!=='one-moment-study'||envelope.v!==1)throw Error('云端内容不是一刻同步数据');const salt=unb64(envelope.salt),iv=unb64(envelope.iv),key=await deriveSyncKey(code,salt),plain=await crypto.subtle.decrypt({name:'AES-GCM',iv},key,unb64(envelope.cipher));return JSON.parse(new TextDecoder().decode(plain));}
+function cloudState(){return {version:1,settings:data.settings,tasks:data.tasks,sessions:data.sessions,distractions:data.distractions,deletedTaskIds:data.deletedTaskIds||[],deletedDistractionIds:data.deletedDistractionIds||[]};}
+function byLatest(local,remote,stamp){const map=new Map();for(const x of [...(local||[]),...(remote||[])]){if(!x?.id)continue;const old=map.get(x.id);if(!old||Number(x[stamp]||0)>=Number(old[stamp]||0))map.set(x.id,x);}return [...map.values()];}
+function mergeCloud(remote,remoteMeta={}){
+ if(!remote||remote.version!==1)throw Error('云端数据版本不支持');
+ const oldTimer=data.timer,oldSelected=data.selectedTaskId,oldPending=data.pendingReview;
+ const deletedTasks=[...new Set([...(data.deletedTaskIds||[]),...(remote.deletedTaskIds||[])])];
+ const deletedDistractions=[...new Set([...(data.deletedDistractionIds||[]),...(remote.deletedDistractionIds||[])])];
+ const localSettingsTs=Date.parse(syncMeta.settingsUpdatedAt||syncMeta.localUpdatedAt||0)||0,remoteSettingsTs=Date.parse(remoteMeta.settingsUpdatedAt||remoteMeta.localUpdatedAt||0)||0;
+ const merged={...data,settings:remoteSettingsTs>localSettingsTs?remote.settings:data.settings,tasks:byLatest(data.tasks,remote.tasks,'updatedAt').filter(x=>!deletedTasks.includes(x.id)),sessions:byLatest(data.sessions,remote.sessions,'updatedAt'),distractions:byLatest(data.distractions,remote.distractions,'updatedAt').filter(x=>!deletedDistractions.includes(x.id)),deletedTaskIds:deletedTasks.slice(-1000),deletedDistractionIds:deletedDistractions.slice(-3000)};
+ merged.timer=oldTimer;merged.cycle=(merged.cycle||0)%merged.settings.cycles;merged.selectedTaskId=merged.tasks.some(x=>x.id===oldSelected&&!x.done)?oldSelected:(merged.tasks.find(x=>!x.done)?.id||null);merged.pendingReview=oldPending;
+ data=C.validate(merged);
+ if(remoteSettingsTs>localSettingsTs)syncMeta.settingsUpdatedAt=remoteMeta.settingsUpdatedAt||remoteMeta.localUpdatedAt;
+ return true;
+}
+function updateSyncUI(text){const status=$('#syncStatus'),input=$('#syncCodeInput');if(input&&document.activeElement!==input)input.value=syncMeta.code||'';if(!status)return;if(text){status.textContent=text;return;}if(!syncMeta.code){status.textContent='未设置同步码 · 当前仅保存在本机';return;}const t=syncMeta.cloudUpdatedAt?new Date(syncMeta.cloudUpdatedAt).toLocaleString('zh-CN',{hour12:false}):'尚未完成首次上传';status.textContent=`已启用 · 云端 ${t}`;}
+function scheduleCloudPush(){if(!normalizeSyncCode(syncMeta.code)||corruptRaw)return;if(syncTimer)clearTimeout(syncTimer);syncTimer=setTimeout(()=>cloudSync('auto').catch(()=>{}),1500);}
+async function fetchCloud(code){const id=await syncCodeId(code),res=await fetch(SYNC_API+'?code='+encodeURIComponent('om-'+id));const body=await res.json().catch(()=>({}));if(!res.ok||!body.ok)throw Error(body.error||('HTTP '+res.status));return body;}
+async function putCloud(code,envelope){const id=await syncCodeId(code),res=await fetch(SYNC_API,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:'om-'+id,state:envelope,device:syncMeta.deviceId})}),body=await res.json().catch(()=>({}));if(!res.ok||!body.ok)throw Error(body.error||('HTTP '+res.status));return body;}
+async function cloudSync(mode='manual'){
+ const code=normalizeSyncCode(syncMeta.code);if(!code||syncing)return null;if(!crypto?.subtle)throw Error('当前浏览器不支持加密同步');
+ syncing=true;if(syncTimer){clearTimeout(syncTimer);syncTimer=null;}updateSyncUI('正在加密并合并云端历史…');
+ try{
+  const remote=await fetchCloud(code);
+  if(remote.exists&&remote.state){let payload;try{payload=await decryptCloud(remote.state,code);}catch(e){throw Error('同步码不正确，或云端数据无法解密');}mergeCloud(payload.state,payload.meta||{});}
+  const now=new Date().toISOString(),payload={state:cloudState(),meta:{localUpdatedAt:syncMeta.localUpdatedAt||now,settingsUpdatedAt:syncMeta.settingsUpdatedAt||syncMeta.localUpdatedAt||now}};
+  const result=await putCloud(code,await encryptCloud(payload,code));
+  syncMeta.cloudUpdatedAt=result.updatedAt||now;syncMeta.localUpdatedAt=syncMeta.cloudUpdatedAt;persistSyncMeta();localStorage.setItem(KEY,JSON.stringify(data));render();updateSyncUI();if(mode==='manual')toast(remote.exists?'同步完成，历史已合并':'云端空间已建立');return result;
+ }catch(e){updateSyncUI('同步失败 · '+e.message);if(mode==='manual')toast(e.message);throw e;}finally{syncing=false;}
+}
+async function saveSyncCode(){const code=normalizeSyncCode($('#syncCodeInput').value);if(code&&code.length<8)return toast('同步码至少 8 位；建议使用生成的强同步码');if(code.length>64)return toast('同步码最多 64 位');if(!code){syncMeta.code='';syncMeta.cloudUpdatedAt=null;persistSyncMeta();updateSyncUI();toast('已关闭云同步，本机数据仍保留');return;}syncMeta.code=code;persistSyncMeta();updateSyncUI('同步码已保存，正在连接云端…');await cloudSync('manual').catch(()=>{});}
+function generateSyncCode(){const bytes=crypto.getRandomValues(new Uint8Array(12)),parts=[];for(let i=0;i<bytes.length;i+=3)parts.push([...bytes.slice(i,i+3)].map(x=>x.toString(36).padStart(2,'0')).join(''));const code='om-'+parts.join('-');$('#syncCodeInput').value=code;$('#syncCodeInput').type='text';toast('已生成强同步码。请保存，并在其他设备填同一个。');}
+function openSettings(){const f=$('#settingsForm');for(const [k,v]of Object.entries(data.settings)){if(typeof v==='boolean')f.elements[k].checked=v;else f.elements[k].value=v;}$$('[data-preset]').forEach(x=>x.classList.remove('active'));updateSyncUI();show($('#settingsDialog'));}
 $('#settingsOpen').addEventListener('click',openSettings);$('#rhythmOpen').addEventListener('click',openSettings);
+$('#saveSyncCodeBtn').addEventListener('click',saveSyncCode);$('#syncNowBtn').addEventListener('click',()=>cloudSync('manual').catch(()=>{}));$('#generateSyncCodeBtn').addEventListener('click',generateSyncCode);$('#showSyncCodeBtn').addEventListener('click',()=>{$('#syncCodeInput').type=$('#syncCodeInput').type==='password'?'text':'password';});$('#syncCodeInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveSyncCode();}});
 $$('[data-preset]').forEach(b=>b.addEventListener('click',()=>{const p={practice:[25,5,15],lesson:[45,10,20],memory:[20,5,15]}[b.dataset.preset],f=$('#settingsForm');['focus','short','long'].forEach((k,i)=>f.elements[k].value=p[i]);$$('[data-preset]').forEach(x=>x.classList.toggle('active',x===b));}));
-$('#settingsForm').addEventListener('submit',async e=>{e.preventDefault();const f=e.currentTarget,patch={};['focus','short','long','cycles','goal'].forEach(k=>patch[k]=Number(f.elements[k].value));['sound','wake','notify','alarmRepeat'].forEach(k=>patch[k]=f.elements[k].checked);patch.examDate=f.elements.examDate.value;patch.cycleStart=f.elements.cycleStart.value;try{if(patch.notify&&typeof Notification!=='undefined'&&Notification.permission==='default'){const p=await Notification.requestPermission();if(p!=='granted')patch.notify=false;}C.configure(data,patch);save();$('#settingsDialog').close();render();syncWake();let msg='设置已保存';if(patch.wake&&!navigator.wakeLock)msg='设置已保存；此浏览器不支持保持常亮。';if(patch.notify&&(typeof Notification==='undefined'||Notification.permission!=='granted'))msg='设置已保存；系统通知未授权，到点仍靠页面声音。';toast(msg);}catch(err){toast(err.message);}});
+$('#settingsForm').addEventListener('submit',async e=>{e.preventDefault();const f=e.currentTarget,patch={};['focus','short','long','cycles','goal'].forEach(k=>patch[k]=Number(f.elements[k].value));['sound','wake','notify','alarmRepeat'].forEach(k=>patch[k]=f.elements[k].checked);patch.examDate=f.elements.examDate.value;patch.cycleStart=f.elements.cycleStart.value;try{if(patch.notify&&typeof Notification!=='undefined'&&Notification.permission==='default'){const p=await Notification.requestPermission();if(p!=='granted')patch.notify=false;}C.configure(data,patch);syncMeta.settingsUpdatedAt=new Date().toISOString();save();$('#settingsDialog').close();render();syncWake();let msg='设置已保存';if(patch.wake&&!navigator.wakeLock)msg='设置已保存；此浏览器不支持保持常亮。';if(patch.notify&&(typeof Notification==='undefined'||Notification.permission!=='granted'))msg='设置已保存；系统通知未授权，到点仍靠页面声音。';toast(msg);}catch(err){toast(err.message);}});
 $('#alarmAck').addEventListener('click',()=>{const kind=alarm?.kind;stopAlarm();if(kind==='focus'&&data.pendingReview)openReview(data.pendingReview);else toast(kind==='focus'?'先休息，再开始下一轮。':'准备好了，再开始下一个番茄。');});
 $('#alarmDialog').addEventListener('cancel',e=>{e.preventDefault();});
 $$('dialog').forEach(d=>{if(d.id==='alarmDialog')d.addEventListener('click',e=>e.stopPropagation());});
 $$('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
 $$('dialog').forEach(d=>d.addEventListener('click',e=>{if(d.id==='confirmDialog'||d.id==='alarmDialog'||e.target!==d)return;const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}));
-function saveReview(startBreak){const s=data.sessions.find(x=>x.id===reviewId);if(!s)return;s.note=$('#reviewNote').value.trim();s.nextStep=$('#reviewNext').value.trim();if(data.pendingReview===s.id)data.pendingReview=null;save();$('#reviewDialog').close();if(startBreak&&!editingReview&&data.timer.phase!=='focus'&&data.timer.status==='idle'){unlockAudio();C.start(data);save();syncWake();}render();toast('学习收获已保存');}
+function saveReview(startBreak){const s=data.sessions.find(x=>x.id===reviewId);if(!s)return;s.note=$('#reviewNote').value.trim();s.nextStep=$('#reviewNext').value.trim();s.updatedAt=Date.now();if(data.pendingReview===s.id)data.pendingReview=null;save();$('#reviewDialog').close();if(startBreak&&!editingReview&&data.timer.phase!=='focus'&&data.timer.status==='idle'){unlockAudio();C.start(data);save();syncWake();}render();toast('学习收获已保存');}
 $('#reviewForm').addEventListener('submit',e=>{e.preventDefault();saveReview(true);});$('#reviewOnly').addEventListener('click',()=>saveReview(false));
 $('#reviewDialog').addEventListener('close',()=>{if(data.pendingReview===reviewId){data.pendingReview=null;save();}});
 $('#historyList').addEventListener('click',e=>{const b=e.target.closest('[data-review]');if(b)openReview(b.dataset.review,true);});
 $('#distractionOpen').addEventListener('click',()=>{show($('#distractionDialog'));$('#distractionText').focus();});
-$('#distractionForm').addEventListener('submit',e=>{e.preventDefault();const text=$('#distractionText').value.trim();if(!text){toast('先写下一个念头');return;}if(data.distractions.length>=1000){toast('收纳盒满了，请先处理一些念头');return;}data.distractions.push({id:C.uid(),text,createdAt:Date.now()});$('#distractionText').value='';save();$('#distractionDialog').close();toast('已经收好，回到眼前这件事。');});
-$('#distractionList').addEventListener('click',e=>{const b=e.target.closest('[data-distraction-done]');if(!b)return;data.distractions=data.distractions.filter(x=>x.id!==b.dataset.distractionDone);save();renderReport();toast('处理完一件小事');});
+$('#distractionForm').addEventListener('submit',e=>{e.preventDefault();const text=$('#distractionText').value.trim();if(!text){toast('先写下一个念头');return;}if(data.distractions.length>=1000){toast('收纳盒满了，请先处理一些念头');return;}data.distractions.push({id:C.uid(),text,createdAt:Date.now(),updatedAt:Date.now()});$('#distractionText').value='';save();$('#distractionDialog').close();toast('已经收好，回到眼前这件事。');});
+$('#distractionList').addEventListener('click',e=>{const b=e.target.closest('[data-distraction-done]');if(!b)return;const id=b.dataset.distractionDone;data.deletedDistractionIds=[...new Set([...(data.deletedDistractionIds||[]),id])].slice(-3000);data.distractions=data.distractions.filter(x=>x.id!==id);save();renderReport();toast('处理完一件小事');});
 async function exportData(){
  const text=corruptRaw||JSON.stringify(data,null,2),name=`one-moment-${C.day()}${corruptRaw?'-original':''}.json`,blob=new Blob([text],{type:'application/json'});
  try{const file=new File([blob],name,{type:'application/json'});if(navigator.canShare?.({files:[file]})){await navigator.share({files:[file],title:'一刻学习数据备份'});return;}}catch(e){if(e.name==='AbortError')return;}
@@ -127,7 +169,8 @@ $('#exportReport').addEventListener('click',exportData);$('#exportSettings').add
 $('#importFile').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;try{if(file.size>15*1024*1024)throw Error('备份超过 15MB，请检查文件');const candidate=C.validate(JSON.parse(await file.text()));if(!await ask('用备份替换当前数据？',`将载入 ${candidate.tasks.length} 个任务、${candidate.sessions.length} 条学习记录。当前数据会被替换，建议先导出留底。`))return;data=candidate;corruptRaw=null;save();$('#settingsDialog').close();const r=C.finish(data);if(r)settled(r,false);else{render();syncWake();}toast(storageOK?'备份已恢复':'已载入，但本地保存失败，请保留备份');}catch(err){toast('无法恢复：'+(err instanceof SyntaxError?'不是有效的 JSON 备份':err.message));}finally{e.target.value='';}});
 window.addEventListener('storage',e=>{if(e.key!==KEY||!e.newValue)return;try{data=C.validate(JSON.parse(e.newValue));render();syncWake();}catch(err){toast('另一个窗口的数据格式异常，未载入。');}});
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){tick();render();syncWake();}else syncWake();});
-window.addEventListener('pageshow',()=>{tick();render();});
+window.addEventListener('pageshow',()=>{tick();render();if(syncMeta.code)cloudSync('auto').catch(()=>{});});
+window.addEventListener('online',()=>{if(syncMeta.code)cloudSync('auto').catch(()=>{});});
 document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat&&!/INPUT|TEXTAREA|SELECT|BUTTON/.test(e.target.tagName)&&!$('dialog[open]')){e.preventDefault();$('#toggleTimer').click();}if(e.key==='Escape'&&document.body.classList.contains('zen')&&!$('dialog[open]'))$('#zenToggle').click();});
-render();const restored=C.finish(data);if(restored)settled(restored);else if(data.pendingReview)startAlarm('focus');syncWake();setInterval(tick,500);
+render();updateSyncUI();const restored=C.finish(data);if(restored)settled(restored);else if(data.pendingReview)startAlarm('focus');syncWake();if(syncMeta.code)cloudSync('auto').catch(()=>{});setInterval(tick,500);
 })();
