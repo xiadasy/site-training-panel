@@ -32,6 +32,7 @@ function renderTimer(){
  $('#resetTimer').disabled=t.status==='idle';
  $('#skipTimer').disabled=t.status==='idle';
  $('#runtimeNote').textContent=(wakeLock?'屏幕常亮中 · ':'')+(data.settings.sound?(data.settings.alarmRepeat?'到点反复提醒，点确认才停':'到时前台提示音'):'提示音已关闭')+' · 每轮手动开始，不连续空跑';
+ updateBadge();
 }
 function renderTasks(){
  const active=data.tasks.filter(t=>!t.done).length;$('#taskCount').textContent=`${active} 项待完成`;$('#quickTasks').hidden=data.tasks.length>0;
@@ -65,9 +66,13 @@ function render(){dateLabel();renderTimer();renderStats();renderTasks();if(view=
 function show(dialog){if(!dialog.open)dialog.showModal();}
 function ask(title,text){return new Promise(resolve=>{const d=$('#confirmDialog');$('#confirmTitle').textContent=title;$('#confirmText').textContent=text;let done=false;const settle=value=>{if(done)return;done=true;d.close();d.removeEventListener('cancel',cancel);resolve(value);};const cancel=e=>{e.preventDefault();settle(false);};$('#confirmYes').onclick=()=>settle(true);$('#confirmNo').onclick=()=>settle(false);d.addEventListener('cancel',cancel);show(d);});}
 function unlockAudio(){try{if(!audioCtx){const A=window.AudioContext||window.webkitAudioContext;if(A)audioCtx=new A();}if(audioCtx?.state==='suspended')audioCtx.resume().catch(()=>{});}catch(e){}}
-function chime(){if(!data.settings.sound)return;try{unlockAudio();if(!audioCtx)return;const seq=[[880,.18],[660,.16],[990,.22]];seq.forEach(([f,vol],i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=f;o.connect(g);g.connect(audioCtx.destination);const at=audioCtx.currentTime+i*.22;g.gain.setValueAtTime(0,at);g.gain.linearRampToValueAtTime(vol,at+.02);g.gain.exponentialRampToValueAtTime(.001,at+.55);o.start(at);o.stop(at+.58);});if(navigator.vibrate)navigator.vibrate([180,80,180]);}catch(e){}}
+function chime(){if(!data.settings.sound)return;try{unlockAudio();if(!audioCtx)return;const now=audioCtx.currentTime;function beep(f,vol,at,dur){const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='triangle';o.frequency.value=f;o.connect(g);g.connect(audioCtx.destination);g.gain.setValueAtTime(0,at);g.gain.linearRampToValueAtTime(vol,at+.03);g.gain.setValueAtTime(vol,at+dur*.7);g.gain.exponentialRampToValueAtTime(.001,at+dur);o.start(at);o.stop(at+dur+.05);}
+ [880,660,990,880,1100,990,1320].forEach((f,i)=>{const t=now+i*.25;beep(f,.22,t,.28);});
+ if(navigator.vibrate)navigator.vibrate([200,100,200,100,400]);}catch(e){}}
+function badgeCount(){const t=data.timer;if(t.status!=='running'||t.phase!=='focus')return null;return Math.ceil(C.remaining(data)/60000)||1;}
+function updateBadge(){if(typeof navigator.setAppBadge==='function'){const n=badgeCount();if(n)navigator.setAppBadge(n).catch(()=>{});else navigator.clearAppBadge().catch(()=>{});}}
 function stopAlarm(){if(alarmTimer){clearInterval(alarmTimer);alarmTimer=null;}alarm=null;const d=$('#alarmDialog');if(d.open)d.close();}
-function notifyAlarm(kind){if(!data.settings.notify||typeof Notification==='undefined'||Notification.permission!=='granted'||!document.hidden)return;try{new Notification(kind==='focus'?'专注结束，该休息了':'休息结束，准备下一轮',{body:'打开一刻，点确认后开始下一阶段。',tag:'one-moment-alarm',renotify:true});}catch(e){}}
+function notifyAlarm(kind){if(!data.settings.notify||typeof Notification==='undefined'||Notification.permission!=='granted')return;try{const opts={body:kind==='focus'?'专注时间到，该休息了。':'休息结束，准备继续学习。',tag:'one-moment-alarm',renotify:true,requireInteraction:true,vibrate:[200,100,200,100,400],silent:false};const n=new Notification(kind==='focus'?'🍅 专注到点了':'☕ 休息结束',opts);if(n.addEventListener)setTimeout(()=>n.close(),15000);}catch(e){}}
 function startAlarm(kind){
  stopAlarm();
  alarm={kind};
@@ -77,7 +82,7 @@ function startAlarm(kind){
  $('#alarmText').textContent=kind==='focus'?'先离开屏幕。点确认后，再开始休息。':'准备好了，点确认再开始下一轮。不要让它自己空跑。';
  show($('#alarmDialog'));
  chime();notifyAlarm(kind);
- if(data.settings.alarmRepeat)alarmTimer=setInterval(()=>{if(document.hidden&&!data.settings.notify)return;chime();notifyAlarm(kind);},8000);
+ if(data.settings.alarmRepeat)alarmTimer=setInterval(()=>{chime();notifyAlarm(kind);if(navigator.vibrate)navigator.vibrate([200,100,200]);},6000);
 }
 async function syncWake(){
  const should=data.settings.wake&&data.timer.status==='running'&&!document.hidden;
@@ -143,9 +148,11 @@ async function cloudSync(mode='manual'){
 }
 async function saveSyncCode(){const code=normalizeSyncCode($('#syncCodeInput').value);if(code&&code.length<8)return toast('同步码至少 8 位；建议使用生成的强同步码');if(code.length>64)return toast('同步码最多 64 位');if(!code){syncMeta.code='';syncMeta.cloudUpdatedAt=null;persistSyncMeta();updateSyncUI();toast('已关闭云同步，本机数据仍保留');return;}syncMeta.code=code;persistSyncMeta();updateSyncUI('同步码已保存，正在连接云端…');await cloudSync('manual').catch(()=>{});}
 function generateSyncCode(){const bytes=crypto.getRandomValues(new Uint8Array(12)),parts=[];for(let i=0;i<bytes.length;i+=3)parts.push([...bytes.slice(i,i+3)].map(x=>x.toString(36).padStart(2,'0')).join(''));const code='om-'+parts.join('-');$('#syncCodeInput').value=code;$('#syncCodeInput').type='text';toast('已生成强同步码。请保存，并在其他设备填同一个。');}
-function openSettings(){const f=$('#settingsForm');for(const [k,v]of Object.entries(data.settings)){if(typeof v==='boolean')f.elements[k].checked=v;else f.elements[k].value=v;}$$('[data-preset]').forEach(x=>x.classList.remove('active'));updateSyncUI();show($('#settingsDialog'));}
+function openSettings(){const f=$('#settingsForm');for(const [k,v]of Object.entries(data.settings)){if(typeof v==='boolean')f.elements[k].checked=v;else f.elements[k].value=v;}$$('[data-preset]').forEach(x=>x.classList.remove('active'));$('#syncCodeInput').value=syncMeta.code||'';updateSyncUI();show($('#settingsDialog'));}
+function previewChime(){unlockAudio();chime();toast('到点后会响这段铃声');}
 $('#settingsOpen').addEventListener('click',openSettings);$('#rhythmOpen').addEventListener('click',openSettings);
 $('#saveSyncCodeBtn').addEventListener('click',saveSyncCode);$('#syncNowBtn').addEventListener('click',()=>cloudSync('manual').catch(()=>{}));$('#generateSyncCodeBtn').addEventListener('click',generateSyncCode);$('#showSyncCodeBtn').addEventListener('click',()=>{$('#syncCodeInput').type=$('#syncCodeInput').type==='password'?'text':'password';});$('#syncCodeInput').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();saveSyncCode();}});
+$('#previewChimeBtn').addEventListener('click',previewChime);
 $$('[data-preset]').forEach(b=>b.addEventListener('click',()=>{const p={practice:[25,5,15],lesson:[45,10,20],memory:[20,5,15]}[b.dataset.preset],f=$('#settingsForm');['focus','short','long'].forEach((k,i)=>f.elements[k].value=p[i]);$$('[data-preset]').forEach(x=>x.classList.toggle('active',x===b));}));
 $('#settingsForm').addEventListener('submit',async e=>{e.preventDefault();const f=e.currentTarget,patch={};['focus','short','long','cycles','goal'].forEach(k=>patch[k]=Number(f.elements[k].value));['sound','wake','notify','alarmRepeat'].forEach(k=>patch[k]=f.elements[k].checked);patch.examDate=f.elements.examDate.value;patch.cycleStart=f.elements.cycleStart.value;try{if(patch.notify&&typeof Notification!=='undefined'&&Notification.permission==='default'){const p=await Notification.requestPermission();if(p!=='granted')patch.notify=false;}C.configure(data,patch);syncMeta.settingsUpdatedAt=new Date().toISOString();save();$('#settingsDialog').close();render();syncWake();let msg='设置已保存';if(patch.wake&&!navigator.wakeLock)msg='设置已保存；此浏览器不支持保持常亮。';if(patch.notify&&(typeof Notification==='undefined'||Notification.permission!=='granted'))msg='设置已保存；系统通知未授权，到点仍靠页面声音。';toast(msg);}catch(err){toast(err.message);}});
 $('#alarmAck').addEventListener('click',()=>{const kind=alarm?.kind;stopAlarm();if(kind==='focus'&&data.pendingReview)openReview(data.pendingReview);else toast(kind==='focus'?'先休息，再开始下一轮。':'准备好了，再开始下一个番茄。');});
@@ -173,4 +180,5 @@ window.addEventListener('pageshow',()=>{tick();render();if(syncMeta.code)cloudSy
 window.addEventListener('online',()=>{if(syncMeta.code)cloudSync('auto').catch(()=>{});});
 document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat&&!/INPUT|TEXTAREA|SELECT|BUTTON/.test(e.target.tagName)&&!$('dialog[open]')){e.preventDefault();$('#toggleTimer').click();}if(e.key==='Escape'&&document.body.classList.contains('zen')&&!$('dialog[open]'))$('#zenToggle').click();});
 render();updateSyncUI();const restored=C.finish(data);if(restored)settled(restored);else if(data.pendingReview)startAlarm('focus');syncWake();if(syncMeta.code)cloudSync('auto').catch(()=>{});setInterval(tick,500);
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
 })();
