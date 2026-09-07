@@ -336,6 +336,23 @@ window.addEventListener('online',()=>{if(syncMeta.code)cloudSync('auto').catch((
 document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat&&!/INPUT|TEXTAREA|SELECT|BUTTON/.test(e.target.tagName)&&!$('dialog[open]')){e.preventDefault();$('#toggleTimer').click();}if(e.key==='Escape'&&document.body.classList.contains('zen')&&!$('dialog[open]'))$('#zenToggle').click();});
 render();updateSyncUI();const restored=C.finish(data);if(restored)settled(restored);else if(data.pendingReview)startAlarm('focus');syncWake();if(syncMeta.code)cloudSync('auto').catch(()=>{});setInterval(tick,500);
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
+// MINIS_IMPORT_START
+const minisConfirmedSessions = [{"id": "focus-20260907-211725", "completed": true, "seconds": 1500, "startedAt": 1788787045000, "endedAt": 1788788545000, "date": "2026-09-07", "taskId": null, "taskTitle": "管理学习", "subject": "安全管理", "note": "", "nextStep": "", "updatedAt": 1788788545000}];
+function mergeMinisConfirmed(){
+ if(corruptRaw)return;
+ let added=0;
+ for(const s of minisConfirmedSessions){
+  if(data.sessions.some(x=>x.id===s.id))continue;
+  // Also protect against a simultaneous web timer recording the same interval.
+  if(data.sessions.some(x=>x.subject===s.subject&&Math.min(x.endedAt,s.endedAt)-Math.max(x.startedAt,s.startedAt)>=Math.min(x.seconds,s.seconds)*1000*0.8))continue;
+  const candidate=C.validate({...data,sessions:[...data.sessions,s]});
+  data.sessions=candidate.sessions;added++;
+ }
+ if(added){save();render();toast(`已同步 Minis 学习记录 ${added} 条`);}
+}
+mergeMinisConfirmed();
+window.addEventListener('pageshow',mergeMinisConfirmed);
+// MINIS_IMPORT_END
 })();
 </script>
 </body></html>
