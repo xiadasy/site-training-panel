@@ -337,7 +337,7 @@ document.addEventListener('keydown',e=>{if(e.code==='Space'&&!e.repeat&&!/INPUT|
 render();updateSyncUI();const restored=C.finish(data);if(restored)settled(restored);else if(data.pendingReview)startAlarm('focus');syncWake();if(syncMeta.code)cloudSync('auto').catch(()=>{});setInterval(tick,500);
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(()=>{});}
 // MINIS_IMPORT_START
-const minisConfirmedSessions = [{"id": "focus-20260907-211725", "completed": true, "seconds": 1500, "startedAt": 1788787045000, "endedAt": 1788788545000, "date": "2026-09-07", "taskId": null, "taskTitle": "管理学习", "subject": "安全管理", "note": "", "nextStep": "", "updatedAt": 1788788545000}];
+const minisConfirmedSessions = [{"id": "focus-20260907-211725", "completed": true, "seconds": 1500, "startedAt": 1788787045000, "endedAt": 1788788545000, "date": "2026-09-07", "taskId": null, "taskTitle": "管理学习", "subject": "安全管理", "note": "", "nextStep": "", "updatedAt": 1788788545000}, {"id": "focus-20260907-management-manual-02", "completed": true, "seconds": 1500, "startedAt": 1788788778000, "endedAt": 1788790278000, "date": "2026-09-07", "taskId": null, "taskTitle": "管理学习（补记）", "subject": "安全管理", "note": "", "nextStep": "", "updatedAt": 1788790278000}];
 function mergeMinisConfirmed(){
  if(corruptRaw)return;
  let added=0;
