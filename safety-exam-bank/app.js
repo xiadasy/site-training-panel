@@ -610,6 +610,10 @@ function applyRemoteState(remote, updatedAt) {
   updateSyncUI();
   return true;
 }
+function hasMeaningfulLocalProgress() {
+  const maps = [S.answers, S.wrong, S.fav, S.notes, S.qTimes, S.examHistory, S.memo, S.practiceMemo, S.shiwuMemo];
+  return maps.some(x => x && Object.keys(x).length) || !!S.last || !!S.memoLast || !!S.practiceLast || !!S.shiwuLast;
+}
 function exportableState() {
   return {
     answers: S.answers,
@@ -678,7 +682,10 @@ async function cloudPull({ preferRemoteIfNewer = true, force = false } = {}) {
     }
     const remoteTs = Date.parse(data.updatedAt || 0) || 0;
     const localTs = Date.parse(S.localUpdatedAt || S.syncUpdatedAt || 0) || 0;
-    if (force || !preferRemoteIfNewer || remoteTs >= localTs) {
+    // A fresh/cleared browser must never overwrite an existing cloud record merely because
+    // opening the page just updated localUpdatedAt. Pull the cloud copy first.
+    const localHasProgress = hasMeaningfulLocalProgress();
+    if (force || !localHasProgress || !preferRemoteIfNewer || remoteTs >= localTs) {
       applyRemoteState(data.state, data.updatedAt);
       updateSyncStatusText('已从云端恢复');
       return { pulled: true, updatedAt: data.updatedAt };
