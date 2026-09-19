@@ -309,36 +309,46 @@
   ],
   "2026-09-21": [
     {
-      "type": "恢复评估",
-      "plan": 0.0,
-      "title": "9/21 暂停预设课表",
+      "type": "感染后首测",
+      "plan": 4.0,
+      "title": "9/21 条件首测20-30分钟",
       "workout_id": null
     },
     {
-      "type": "恢复评估",
-      "plan": 0.0,
-      "title": "9/22 暂停预设课表",
+      "type": "首测后E",
+      "plan": 6.0,
+      "title": "9/22 条件E30-40分钟",
       "workout_id": null
     },
     {
-      "type": "恢复评估",
-      "plan": 0.0,
-      "title": "9/23 暂停预设课表",
+      "type": "轻松E",
+      "plan": 8.0,
+      "title": "9/23 条件E40-50分钟",
       "workout_id": null
     },
     {
-      "type": "考前恢复评估",
-      "plan": 0.0,
-      "title": "9/24 暂停预设课表",
+      "type": "轻松E",
+      "plan": 9.0,
+      "title": "9/24 条件E45-60分钟",
       "workout_id": null
     },
     {
-      "type": "考试优先跑休",
+      "type": "跑休",
       "plan": 0.0,
-      "title": "9/25 考试优先不安排跑步",
+      "title": "9/25 考试学习优先跑休",
       "workout_id": null
     },
-    null,
-    null
+    {
+      "type": "轻松E",
+      "plan": 11.0,
+      "title": "9/26 条件E60-70分钟",
+      "workout_id": null
+    },
+    {
+      "type": "轻松长跑",
+      "plan": 15.0,
+      "title": "9/27 条件轻松长跑75-90分钟",
+      "workout_id": null
+    }
   ]
 }
