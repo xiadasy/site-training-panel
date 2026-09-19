@@ -301,36 +301,36 @@
       "workout_id": null
     },
     {
-      "type": "症状改善后恢复",
-      "plan": 6.0,
-      "title": "9/20 症状改善后恢复6可休",
-      "workout_id": 1701387020
+      "type": "异常心率后暂停",
+      "plan": 0.0,
+      "title": "9/20 暂停训练并评估",
+      "workout_id": null
     }
   ],
   "2026-09-21": [
     {
-      "type": "维持恢复",
-      "plan": 8.0,
-      "title": "9/21 维持恢复8",
-      "workout_id": 1700622100
+      "type": "恢复评估",
+      "plan": 0.0,
+      "title": "9/21 暂停预设课表",
+      "workout_id": null
     },
     {
-      "type": "维持E",
-      "plan": 12.0,
-      "title": "9/22 维持E12",
-      "workout_id": 1700622130
+      "type": "恢复评估",
+      "plan": 0.0,
+      "title": "9/22 暂停预设课表",
+      "workout_id": null
     },
     {
-      "type": "维持E",
-      "plan": 8.0,
-      "title": "9/23 维持E8",
-      "workout_id": 1700622166
+      "type": "恢复评估",
+      "plan": 0.0,
+      "title": "9/23 暂停预设课表",
+      "workout_id": null
     },
     {
-      "type": "考前恢复可休",
-      "plan": 6.0,
-      "title": "9/24 考前恢复6可休",
-      "workout_id": 1700623075
+      "type": "考前恢复评估",
+      "plan": 0.0,
+      "title": "9/24 暂停预设课表",
+      "workout_id": null
     },
     {
       "type": "考试优先跑休",
