@@ -309,46 +309,53 @@
   ],
   "2026-09-21": [
     {
-      "type": "感染后首测",
+      "type": "复跑评估通过后首测20-30分钟",
       "plan": 4.0,
-      "title": "9/21 条件首测20-30分钟",
-      "workout_id": null
+      "title": "9/21 复跑评估通过后首测20-30分钟",
+      "workout_id": null,
+      "conditional": true
     },
     {
-      "type": "首测后E",
-      "plan": 6.0,
-      "title": "9/22 条件E30-40分钟",
-      "workout_id": null
-    },
-    {
-      "type": "轻松E",
+      "type": "条件E6-8km",
       "plan": 8.0,
-      "title": "9/23 条件E40-50分钟",
-      "workout_id": null
+      "title": "9/22 条件E6-8km",
+      "workout_id": null,
+      "conditional": true
     },
     {
-      "type": "轻松E",
-      "plan": 9.0,
-      "title": "9/24 条件E45-60分钟",
-      "workout_id": null
+      "type": "条件恢复6km",
+      "plan": 6.0,
+      "title": "9/23 条件恢复6km",
+      "workout_id": null,
+      "conditional": true
     },
     {
-      "type": "跑休",
+      "type": "条件E8-10km",
+      "plan": 10.0,
+      "title": "9/24 条件E8-10km",
+      "workout_id": null,
+      "conditional": true
+    },
+    {
+      "type": "学习优先跑休",
       "plan": 0.0,
-      "title": "9/25 考试学习优先跑休",
-      "workout_id": null
+      "title": "9/25 学习优先跑休",
+      "workout_id": null,
+      "conditional": true
     },
     {
-      "type": "轻松E",
-      "plan": 11.0,
-      "title": "9/26 条件E60-70分钟",
-      "workout_id": null
+      "type": "条件E10-12km",
+      "plan": 12.0,
+      "title": "9/26 条件E10-12km",
+      "workout_id": null,
+      "conditional": true
     },
     {
-      "type": "轻松长跑",
-      "plan": 15.0,
-      "title": "9/27 条件轻松长跑75-90分钟",
-      "workout_id": null
+      "type": "条件恢复6-8km",
+      "plan": 8.0,
+      "title": "9/27 条件恢复6-8km",
+      "workout_id": null,
+      "conditional": true
     }
   ]
 }
