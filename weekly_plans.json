@@ -68,12 +68,7 @@
       "title": "10/1 首堂M6总12",
       "workout_id": 1710360866
     },
-    {
-      "type": "跑休｜M后吸收",
-      "plan": 0.0,
-      "title": "10/2 M后完整跑休",
-      "workout_id": null
-    },
+    null,
     {
       "type": "轻松E10",
       "plan": 10.0,
