@@ -1,0 +1,3 @@
+date,sleep_total_min,deep_min,light_min,rem_min,awake_min,hrv_last_night_ms,hrv_7d_avg_ms,subjective_sleep,source,notes
+2026-10-08,464,92,311,61,20,57,63,睡眠质量还可以且跑步状态可以,manual_chat_from_garmin_watch,晨起日期；分期之和464分钟=7小时44分；清醒20分钟单列不加入睡眠总时长；HRV个人基线范围及状态未报；佳明云端sleep字段空和hrv数据空；不等同医学睡眠检测
+2026-10-14,,,,,,,,近两晚睡眠和精神不错且今日跑步轻松腿脚无明显酸痛,manual_user_ask_card_recovery_normal,用户卡片选择恢复正常；两晚具体时长未报不得填为≥7小时；云端睡眠HRV晨心readiness仍缺测；这是主观恢复证据不是设备实测
