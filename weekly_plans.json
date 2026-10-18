@@ -31,16 +31,16 @@
       "workout_id": 1732757340
     },
     {
-      "type": "考试跑休",
-      "plan": 0,
-      "title": "10/24 考试跑休",
-      "workout_id": null
+      "type": "考试日恢复6",
+      "plan": 6,
+      "title": "10/24 考试日恢复6",
+      "workout_id": 1732763867
     },
     {
-      "type": "考试跑休",
-      "plan": 0,
-      "title": "10/25 考试跑休",
-      "workout_id": null
+      "type": "考试日恢复6",
+      "plan": 6,
+      "title": "10/25 考试日恢复6",
+      "workout_id": 1732763930
     }
   ],
   "2026-09-21": [
