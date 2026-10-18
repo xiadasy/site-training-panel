@@ -491,40 +491,40 @@
       "workout_id": 1732571734
     },
     {
-      "type": "轻松中长E16",
-      "plan": 16.0,
-      "title": "10/20 轻松中长E16",
-      "workout_id": 1732571760
+      "type": "轻松E14",
+      "plan": 14.0,
+      "title": "10/20 轻松E14",
+      "workout_id": 1732756734
     },
     {
-      "type": "M前恢复10",
-      "plan": 10.0,
-      "title": "10/21 M前恢复10",
-      "workout_id": 1732571779
+      "type": "M前恢复8",
+      "plan": 8.0,
+      "title": "10/21 M前恢复8",
+      "workout_id": 1732756900
     },
     {
       "type": "条件M8总14",
       "plan": 14.0,
       "title": "10/22 条件M8总14",
-      "workout_id": 1732571786
+      "workout_id": 1732757127
     },
     {
-      "type": "长跑前保护6",
+      "type": "考前恢复6可休",
       "plan": 6.0,
-      "title": "10/23 长跑前保护6",
-      "workout_id": 1732571798
+      "title": "10/23 考前恢复6可休",
+      "workout_id": 1732757340
     },
     {
-      "type": "纯E长跑24",
-      "plan": 24.0,
-      "title": "10/24 纯E长跑24",
-      "workout_id": 1732571813
+      "type": "考试跑休",
+      "plan": 0,
+      "title": "10/24 考试跑休",
+      "workout_id": null
     },
     {
-      "type": "考前恢复8可休",
-      "plan": 8.0,
-      "title": "10/25 恢复8可休",
-      "workout_id": 1732571829
+      "type": "考试跑休",
+      "plan": 0,
+      "title": "10/25 考试跑休",
+      "workout_id": null
     }
   ]
 }
