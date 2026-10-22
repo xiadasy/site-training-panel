@@ -124,3 +124,5 @@ date,weight_kg,body_fat_pct,source
 2026-10-14,56.1,,manual_chat_postrun_Mpre_recovery10_body_composition_concern
 2026-10-17,55.8,,manual_chat_postrun
 2026-10-20,55.45,,manual_chat_postrun
+2026-10-21,56,,manual_chat_postrun_backfill
+2026-10-22,55.7,,manual_chat_postrun
