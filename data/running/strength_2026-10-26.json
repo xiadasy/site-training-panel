@@ -1,0 +1,21 @@
+{
+ "date":"2026-10-26",
+ "activity_id":"24852181673",
+ "activity_type":"strength_training",
+ "start_time_local":"2026-10-26 07:19:34",
+ "status":"completed_user_report_and_garmin",
+ "duration_seconds_recorded_including_rest":404.1789855957031,
+ "active_sets_recorded":7,
+ "active_seconds_recorded":236.135,
+ "rest_seconds_recorded":168.044,
+ "repetitions_device_count":45,
+ "average_hr":89,
+ "max_hr":108,
+ "activity_load_device":1.736114501953125,
+ "exercise_identity":"unconfirmed_device_auto_labels",
+ "exercise_notes":"部分自动识别PUSH_UP/SIT_UP，其余UNKNOWN且概率有限；不能当用户确认动作，不能据低HR判断有效肌肉负荷。",
+ "user_details_confirmation":"card_timed_out",
+ "plan_completed_15min":"not_confirmed",
+ "later_soreness":"not_reported",
+ "source_files":["shared/garmin/data/activities_2026-10-26.json","shared/garmin/data/activity_exercise_sets_24852181673.json"]
+}
