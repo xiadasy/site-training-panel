@@ -63,10 +63,12 @@
       "workout_id": 1739990544
     },
     {
-      "type": "受控M6总12｜力量后保护",
-      "plan": 12.0,
-      "title": "10/29 受控M6总12",
-      "workout_id": 1743932500
+      "type": "条件M6—8｜总12—14",
+      "plan": 14,
+      "title": "10/29 条件M8总14",
+      "workout_id": 1739990573,
+      "alternative_workout_id": 1743932500,
+      "alternative_plan": 12
     },
     {
       "type": "长跑前恢复8",

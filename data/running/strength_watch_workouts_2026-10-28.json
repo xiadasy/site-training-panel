@@ -1,0 +1,70 @@
+{
+  "ok": true,
+  "all_steps_verified": true,
+  "workouts": {
+    "A": {
+      "workout_id": 1743943102,
+      "name": "力量A 徒手全身13分45秒",
+      "sport": "strength_training",
+      "steps": 20,
+      "duration_seconds": 825.0,
+      "all_time_based_no_lap": true,
+      "exercise_names_verified": true
+    },
+    "B": {
+      "workout_id": 1743943106,
+      "name": "力量B 赛前轻激活5分20秒",
+      "sport": "strength_training",
+      "steps": 8,
+      "duration_seconds": 320.0,
+      "all_time_based_no_lap": true,
+      "exercise_names_verified": true
+    }
+  },
+  "schedules": [
+    {
+      "date": "2026-11-02",
+      "label": "A",
+      "workout_id": 1743943102,
+      "schedule_id": 1822933125,
+      "optional": false
+    },
+    {
+      "date": "2026-10-30",
+      "label": "B",
+      "workout_id": 1743943106,
+      "schedule_id": 1822933165,
+      "optional": true
+    },
+    {
+      "date": "2026-11-04",
+      "label": "B",
+      "workout_id": 1743943106,
+      "schedule_id": 1822933182,
+      "optional": true
+    }
+  ],
+  "device_model": "Forerunner 265",
+  "device_strength_capable_readonly_verified": true,
+  "delivery_status": "queued_for_Forerunner265_pending_bluetooth_sync",
+  "completed_activities_created": 0,
+  "device_queue": {
+    "device": "Forerunner 265",
+    "post_succeeded": true,
+    "workout_ids_requested": [
+      1743943102,
+      1743943106,
+      1743932500,
+      1739990573
+    ],
+    "workout_ids_read_back": [
+      1743943102,
+      1743943106,
+      1743932500,
+      1739990573
+    ],
+    "queue_verified": true,
+    "physical_download_verified": false,
+    "note": "加入设备发送队列仍需Garmin Connect蓝牙同步，不等于手表已下载。"
+  }
+}
