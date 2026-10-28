@@ -1,0 +1,17 @@
+{
+  "activity_id": "24875854131",
+  "status": "completed_user_report_and_garmin",
+  "recorded_duration_seconds_including_rest": 1264.583984375,
+  "active_sets": 20,
+  "device_reps": 111,
+  "active_seconds": 701.538,
+  "rest_seconds": 563.046,
+  "avg_hr": 81,
+  "max_hr": 96,
+  "device_load": 2.463165283203125,
+  "exercise_identity": "auto_labels_unconfirmed",
+  "start_time_local": "2026-10-28 07:33:54",
+  "confirmed_equipment_for_future_plan": "bodyweight",
+  "goal": "upper_and_lower_body",
+  "next_workout_status": "discuss_content_first_not_created_or_uploaded"
+}
