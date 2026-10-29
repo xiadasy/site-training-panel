@@ -2,3 +2,4 @@ date,sleep_total_min,deep_min,light_min,rem_min,awake_min,hrv_last_night_ms,hrv_
 2026-10-08,464,92,311,61,20,57,63,睡眠质量还可以且跑步状态可以,manual_chat_from_garmin_watch,晨起日期；分期之和464分钟=7小时44分；清醒20分钟单列不加入睡眠总时长；HRV个人基线范围及状态未报；佳明云端sleep字段空和hrv数据空；不等同医学睡眠检测
 2026-10-14,,,,,,,,近两晚睡眠和精神不错且今日跑步轻松腿脚无明显酸痛,manual_user_ask_card_recovery_normal,用户卡片选择恢复正常；两晚具体时长未报不得填为≥7小时；云端睡眠HRV晨心readiness仍缺测；这是主观恢复证据不是设备实测
 2026-10-25,,,,,,,,考试后有精神疲劳，体能自觉无问题；今晚睡眠尚未知,manual_user_ask_card_and_note,用户选择仍有疲劳并说明主要精神疲劳；今天两杯咖啡，时间剂量未知；10/23—25跑休；不预记明天已恢复；云端sleep null/HRV{}
+2026-10-29,,,,,,,,昨晚没睡好；用户认为与昨日下午茶饮咖啡因有关,manual_chat_sleep_and_caffeine_label_report,10/28下午一杯霸王茶姬柠檬茶，用户看到咖啡因143（按通常mg口径记录，品牌具体产品剂量未经独立核验）；未报具体睡眠小时；今天主动M6收住、其他没啥；云端sleep null/HRV{}，不据此确诊失眠原因或饮品全系列含量

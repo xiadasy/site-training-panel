@@ -63,12 +63,15 @@
       "workout_id": 1739990544
     },
     {
-      "type": "条件M6—8｜总12—14",
-      "plan": 14,
-      "title": "10/29 条件M8总14",
+      "type": "已选M6｜计划总12",
+      "plan": 12,
+      "title": "10/29 已选M6（计划总12）",
       "workout_id": 1739990573,
       "alternative_workout_id": 1743932500,
-      "alternative_plan": 12
+      "alternative_plan": 12,
+      "selected_quality_km": 6,
+      "original_conditional_max_km": 14,
+      "actual_workout_id": 1739990573
     },
     {
       "type": "长跑前恢复8",
