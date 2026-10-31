@@ -576,5 +576,53 @@
       "title": "9/20 暂停训练并评估",
       "workout_id": null
     }
+  ],
+  "2026-11-02": [
+    {
+      "type": "轻松E10",
+      "plan": 10.0,
+      "title": "11/2 轻松E10",
+      "workout_id": 1746320226
+    },
+    {
+      "type": "营课Q1待审｜预算14",
+      "plan": 14.0,
+      "title": "11/3 营课Q1待审（预算14）",
+      "workout_id": null,
+      "status": "pending_camp_details",
+      "plan_is_budget": true
+    },
+    {
+      "type": "营课后恢复10",
+      "plan": 10.0,
+      "title": "11/4 营课后恢复10",
+      "workout_id": 1746320246
+    },
+    {
+      "type": "中长E18｜条件20",
+      "plan": 18.0,
+      "title": "11/5 中长E18（条件20）",
+      "workout_id": 1746320284
+    },
+    {
+      "type": "营课前恢复8",
+      "plan": 8.0,
+      "title": "11/6 营课前恢复8",
+      "workout_id": 1746320308
+    },
+    {
+      "type": "营课Q2待审｜预算24",
+      "plan": 24.0,
+      "title": "11/7 营课Q2待审（预算24）",
+      "workout_id": null,
+      "status": "pending_camp_details",
+      "plan_is_budget": true
+    },
+    {
+      "type": "营课后恢复8可休",
+      "plan": 8.0,
+      "title": "11/8 营课后恢复8可休",
+      "workout_id": 1746320358
+    }
   ]
 }
