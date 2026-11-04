@@ -1,146 +1,4 @@
 {
-  "2026-10-19": [
-    {
-      "type": "恢复8可休",
-      "plan": 8.0,
-      "title": "10/19 恢复8可休",
-      "workout_id": 1732571734
-    },
-    {
-      "type": "轻松长跑22",
-      "plan": 22.0,
-      "title": "10/20 轻松长跑22",
-      "workout_id": 1732769270
-    },
-    {
-      "type": "长跑后恢复8",
-      "plan": 8.0,
-      "title": "10/21 长跑后恢复8",
-      "workout_id": 1732769387
-    },
-    {
-      "type": "受控M6总12",
-      "plan": 12.0,
-      "title": "10/22 受控M6总12",
-      "workout_id": 1732769479
-    },
-    {
-      "type": "考前恢复6可休",
-      "plan": 6.0,
-      "title": "10/23 考前恢复6可休",
-      "workout_id": 1732757340
-    },
-    {
-      "type": "考试日恢复6",
-      "plan": 6,
-      "title": "10/24 考试日恢复6",
-      "workout_id": 1732763867
-    },
-    {
-      "type": "考试日恢复6",
-      "plan": 6,
-      "title": "10/25 考试日恢复6",
-      "workout_id": 1732763930
-    }
-  ],
-  "2026-10-26": [
-    {
-      "type": "考后轻松恢复8",
-      "plan": 8.0,
-      "title": "10/26 考后轻松恢复8",
-      "workout_id": 1739990501
-    },
-    {
-      "type": "中长E18",
-      "plan": 18.0,
-      "title": "10/27 中长E18",
-      "workout_id": 1739990510
-    },
-    {
-      "type": "M前恢复10",
-      "plan": 10.0,
-      "title": "10/28 M前恢复10",
-      "workout_id": 1739990544
-    },
-    {
-      "type": "已选M6｜计划总12",
-      "plan": 12,
-      "title": "10/29 已选M6（计划总12）",
-      "workout_id": 1739990573,
-      "alternative_workout_id": 1743932500,
-      "alternative_plan": 12,
-      "selected_quality_km": 6,
-      "original_conditional_max_km": 14,
-      "actual_workout_id": 1739990573
-    },
-    {
-      "type": "长跑前恢复8",
-      "plan": 8.0,
-      "title": "10/30 长跑前恢复8",
-      "workout_id": 1739990597
-    },
-    {
-      "type": "纯E长跑24",
-      "plan": 24.0,
-      "title": "10/31 纯E长跑24",
-      "workout_id": 1739990686
-    },
-    {
-      "type": "营课后恢复6可休",
-      "plan": 6,
-      "title": "11/1 营课后恢复6可休",
-      "workout_id": 1746305281,
-      "original_plan": 8
-    }
-  ],
-  "2026-11-02": [
-    {
-      "type": "轻松E10",
-      "plan": 10.0,
-      "title": "11/2 轻松E10",
-      "workout_id": 1746320226
-    },
-    {
-      "type": "营课Q1待审｜预算14",
-      "plan": 14.0,
-      "title": "11/3 营课Q1待审（预算14）",
-      "workout_id": null,
-      "status": "pending_camp_details",
-      "plan_is_budget": true
-    },
-    {
-      "type": "营课后恢复10",
-      "plan": 10.0,
-      "title": "11/4 营课后恢复10",
-      "workout_id": 1746320246
-    },
-    {
-      "type": "中长E18｜条件20",
-      "plan": 18.0,
-      "title": "11/5 中长E18（条件20）",
-      "workout_id": 1746320284
-    },
-    {
-      "type": "营课前恢复8",
-      "plan": 8.0,
-      "title": "11/6 营课前恢复8",
-      "workout_id": 1746320308
-    },
-    {
-      "type": "营课Q2待审｜预算24",
-      "plan": 24.0,
-      "title": "11/7 营课Q2待审（预算24）",
-      "workout_id": null,
-      "status": "pending_camp_details",
-      "plan_is_budget": true
-    },
-    {
-      "type": "营课后恢复8可休",
-      "plan": 8.0,
-      "title": "11/8 营课后恢复8可休",
-      "workout_id": 1746320358
-    }
-  ],
   "2026-08-03": [
     {
       "type": "重新接轨E",
@@ -623,6 +481,148 @@
       "plan": 8.0,
       "title": "10/18 长距后恢复8可休",
       "workout_id": 1725375290
+    }
+  ],
+  "2026-10-19": [
+    {
+      "type": "恢复8可休",
+      "plan": 8.0,
+      "title": "10/19 恢复8可休",
+      "workout_id": 1732571734
+    },
+    {
+      "type": "轻松长跑22",
+      "plan": 22.0,
+      "title": "10/20 轻松长跑22",
+      "workout_id": 1732769270
+    },
+    {
+      "type": "长跑后恢复8",
+      "plan": 8.0,
+      "title": "10/21 长跑后恢复8",
+      "workout_id": 1732769387
+    },
+    {
+      "type": "受控M6总12",
+      "plan": 12.0,
+      "title": "10/22 受控M6总12",
+      "workout_id": 1732769479
+    },
+    {
+      "type": "考前恢复6可休",
+      "plan": 6.0,
+      "title": "10/23 考前恢复6可休",
+      "workout_id": 1732757340
+    },
+    {
+      "type": "考试日恢复6",
+      "plan": 6,
+      "title": "10/24 考试日恢复6",
+      "workout_id": 1732763867
+    },
+    {
+      "type": "考试日恢复6",
+      "plan": 6,
+      "title": "10/25 考试日恢复6",
+      "workout_id": 1732763930
+    }
+  ],
+  "2026-10-26": [
+    {
+      "type": "考后轻松恢复8",
+      "plan": 8.0,
+      "title": "10/26 考后轻松恢复8",
+      "workout_id": 1739990501
+    },
+    {
+      "type": "中长E18",
+      "plan": 18.0,
+      "title": "10/27 中长E18",
+      "workout_id": 1739990510
+    },
+    {
+      "type": "M前恢复10",
+      "plan": 10.0,
+      "title": "10/28 M前恢复10",
+      "workout_id": 1739990544
+    },
+    {
+      "type": "已选M6｜计划总12",
+      "plan": 12,
+      "title": "10/29 已选M6（计划总12）",
+      "workout_id": 1739990573,
+      "alternative_workout_id": 1743932500,
+      "alternative_plan": 12,
+      "selected_quality_km": 6,
+      "original_conditional_max_km": 14,
+      "actual_workout_id": 1739990573
+    },
+    {
+      "type": "长跑前恢复8",
+      "plan": 8.0,
+      "title": "10/30 长跑前恢复8",
+      "workout_id": 1739990597
+    },
+    {
+      "type": "纯E长跑24",
+      "plan": 24.0,
+      "title": "10/31 纯E长跑24",
+      "workout_id": 1739990686
+    },
+    {
+      "type": "营课后恢复6可休",
+      "plan": 6,
+      "title": "11/1 营课后恢复6可休",
+      "workout_id": 1746305281,
+      "original_plan": 8
+    }
+  ],
+  "2026-11-02": [
+    {
+      "type": "轻松E10",
+      "plan": 10.0,
+      "title": "11/2 轻松E10",
+      "workout_id": 1746320226
+    },
+    {
+      "type": "营课Q1待审｜预算14",
+      "plan": 14.0,
+      "title": "11/3 营课Q1待审（预算14）",
+      "workout_id": null,
+      "status": "pending_camp_details",
+      "plan_is_budget": true
+    },
+    {
+      "type": "营课后恢复10",
+      "plan": 10.0,
+      "title": "11/4 营课后恢复10",
+      "workout_id": 1746320246
+    },
+    {
+      "type": "中长E18｜条件20",
+      "plan": 18.0,
+      "title": "11/5 中长E18（条件20）",
+      "workout_id": 1746320284
+    },
+    {
+      "type": "营课前恢复8",
+      "plan": 8.0,
+      "title": "11/6 营课前恢复8",
+      "workout_id": 1746320308
+    },
+    {
+      "type": "营课Q2待审｜预算24",
+      "plan": 24.0,
+      "title": "11/7 营课Q2待审（预算24）",
+      "workout_id": null,
+      "status": "pending_camp_details",
+      "plan_is_budget": true
+    },
+    {
+      "type": "营课后恢复8可休",
+      "plan": 8.0,
+      "title": "11/8 营课后恢复8可休",
+      "workout_id": 1746320358
     }
   ]
 }
