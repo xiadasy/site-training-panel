@@ -151,24 +151,24 @@
       "workout_id": 1753783416
     },
     {
-      "type": "营课Q1待审｜预算12",
+      "type": "B组800×14/80秒",
+      "plan": 19.0,
+      "title": "11/10 B组800x14｜80秒恢复",
+      "workout_id": 1757537448,
+      "plan_is_budget": true,
+      "status": "b_group_controlled_M_repeats_approved"
+    },
+    {
+      "type": "主课后恢复6可休",
+      "plan": 6.0,
+      "title": "11/11 800主课后恢复6可休",
+      "workout_id": 1757537513
+    },
+    {
+      "type": "轻松E12",
       "plan": 12.0,
-      "title": "11/10 营课Q1待审预算12",
-      "workout_id": null,
-      "status": "pending_camp_and_recovery_review",
-      "plan_is_budget": true
-    },
-    {
-      "type": "营课后恢复8",
-      "plan": 8.0,
-      "title": "11/11 营课后恢复8",
-      "workout_id": 1753783429
-    },
-    {
-      "type": "中长E16｜条件18",
-      "plan": 16.0,
-      "title": "11/12 中长E16条件18",
-      "workout_id": 1753783438
+      "title": "11/12 轻松E12｜不加专项",
+      "workout_id": 1757537566
     },
     {
       "type": "长跑前保护6",
@@ -177,12 +177,12 @@
       "workout_id": 1753783461
     },
     {
-      "type": "营课Q2待审｜预算22",
+      "type": "纯E长课待审预算22",
       "plan": 22.0,
       "title": "11/14 长课Q2待审预算22",
       "workout_id": null,
-      "status": "pending_camp_and_recovery_review",
-      "plan_is_budget": true
+      "plan_is_budget": true,
+      "status": "pending_camp_and_recovery_review"
     },
     {
       "type": "长跑后恢复8可休",
