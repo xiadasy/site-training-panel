@@ -159,8 +159,23 @@ if csv_path.exists():
         print(f"⚖️ Kept {len(weights)} existing weights")
 else:
     print(f"⚖️ Kept {len(weights)} existing weights (no CSV)")
-# Shoes from existing
+# Shoes from existing; count confirmed usage dates separately from Garmin records.
 shoes = existing.get('shoes', [])
+shoe_ledger_path = Path(os.environ.get('SHOE_CSV', 'data/shoes/shoe_mileage.csv'))
+if shoe_ledger_path.exists():
+    import csv
+    shoe_records = {}
+    with shoe_ledger_path.open(encoding='utf-8', newline='') as f:
+        for row in csv.DictReader(f):
+            if row.get('shoe') and row.get('activity_id'):
+                shoe_records.setdefault(row['shoe'], {})[row['activity_id']] = row
+    for shoe in shoes:
+        records = shoe_records.get(shoe.get('name'))
+        if records is not None:
+            dates = sorted({row['date'][:10] for row in records.values() if row.get('date')})
+            shoe['activity_records'] = len(records)
+            shoe['training_days'] = len(dates)
+            shoe['usage_dates'] = dates
 # Career total: 悦跑圈 confirmed baseline + Garmin runs after baseline date
 career = existing.get('career', {
     'distance_km': 44932.08, 'runs': 5113, 'hours': 3686.1,

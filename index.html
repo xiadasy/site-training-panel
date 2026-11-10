@@ -884,7 +884,7 @@ document.getElementById('shoeGrid').innerHTML=shoes.map(s=>{
     ${s.note?`<div style="font-size:10px;color:var(--text3)">${s.note}</div>`:''}
     <div class="shoe-km">${s.km} / ${s.limit} km</div>
     <div class="shoe-bar"><div class="shoe-bar-fill" style="width:${pct}%;background:${barColor}"></div></div>
-    <div class="shoe-runs">${s.runs} 次使用 · ${pct.toFixed(0)}% 磨损</div>
+    <div class="shoe-runs">${Number.isFinite(s.training_days)?`${s.training_days} 个训练日 · `:''}${s.activity_records??s.runs} 条活动 · ${pct.toFixed(0)}% 磨损</div>
   </div>`;
 }).join('');
 const shoeGridEl=document.getElementById('shoeGrid');
