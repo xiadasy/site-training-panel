@@ -661,18 +661,18 @@
       "workout_id": 1753783461
     },
     {
-      "type": "纯E长课待审预算22",
+      "type": "营课已完成｜原预算22",
       "plan": 22.0,
-      "title": "11/14 长课Q2待审预算22",
+      "title": "11/14 营课已完成（三段）｜原预算22",
       "workout_id": null,
       "plan_is_budget": true,
-      "status": "pending_camp_and_recovery_review"
+      "status": "completed_camp_postrun_review_not_preapproved"
     },
     {
-      "type": "长跑后恢复8可休",
-      "plan": 8.0,
-      "title": "11/15 长跑后恢复8可休",
-      "workout_id": 1753783472
+      "type": "营课后恢复6可休",
+      "plan": 6.0,
+      "title": "11/15 营课后恢复6可休",
+      "workout_id": 1761232465
     }
   ]
 }
