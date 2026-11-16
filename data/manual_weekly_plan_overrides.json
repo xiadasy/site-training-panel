@@ -683,10 +683,14 @@
       "workout_id": 1762033200
     },
     {
-      "type": "连续M10总16｜教练版",
+      "type": "B组1600×6/走120秒",
       "plan": 16.0,
-      "title": "11/17 连续M10总16（教练版）",
-      "workout_id": 1762033242
+      "title": "11/17 B组1600x6｜走120秒",
+      "workout_id": 1764041897,
+      "plan_is_budget": true,
+      "status": "camp_B_reviewed_replaces_continuous_M10",
+      "fixed_running_km": 14.6,
+      "recovery_seconds_total": 600
     },
     {
       "type": "M后恢复8",
