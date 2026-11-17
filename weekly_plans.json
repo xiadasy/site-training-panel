@@ -209,16 +209,18 @@
       "recovery_seconds_total": 600
     },
     {
-      "type": "M后恢复8",
-      "plan": 8.0,
-      "title": "11/18 M后恢复8可休",
-      "workout_id": 1762033314
+      "type": "跑休观察恢复",
+      "plan": 0.0,
+      "title": "11/18 跑休｜观察恢复",
+      "workout_id": null,
+      "status": "rest_after_quality_state_change"
     },
     {
-      "type": "中长E16不渐进",
-      "plan": 16.0,
-      "title": "11/19 中长E16｜不渐进",
-      "workout_id": 1762033358
+      "type": "条件轻松8",
+      "plan": 8.0,
+      "title": "11/19 条件轻松8｜恢复观察",
+      "workout_id": 1765263091,
+      "status": "conditional_easy_after_rest_requires_normal_response"
     },
     {
       "type": "长跑前保护6可休",
@@ -227,10 +229,12 @@
       "workout_id": 1762033414
     },
     {
-      "type": "纯E长距离26｜教练版",
+      "type": "长跑待复核预算26",
       "plan": 26.0,
-      "title": "11/21 纯E长距离26（教练版）",
-      "workout_id": 1762033496
+      "title": "11/21 长跑待复核｜预算26未放行",
+      "workout_id": null,
+      "status": "pending_recovery_review_no_calendar_workout",
+      "plan_is_budget": true
     },
     {
       "type": "长跑后恢复6可休",
