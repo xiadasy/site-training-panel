@@ -300,7 +300,7 @@ a{color:var(--accent);text-decoration:none}
 <div class="header">
   <div>
     <h1>🏃 <span>小老虎</span> 训练中心</h1>
-    <div class="sub">Daniels + Hansons · A赛 2026上海马拉松 · 目标 ≤ 2:38:00</div>
+    <div class="sub" id="headerRaceGoal">Daniels + Hansons · 2026上海马拉松 · 争取 2:45—2:50 · 稳进3小时</div>
   </div>
   <div class="header-right">
     <div class="search-box">
@@ -367,7 +367,7 @@ a{color:var(--accent);text-decoration:none}
       <img class="runner-avatar" src="assets/redesign/awei-runner-cartoon-clean.png" alt="透明背景黑色跑步装备漫画阿伟形象">
       <div class="runner-identity">
         <div class="runner-title">超级跑者 · <span>阿伟</span></div>
-        <div class="runner-meta">全马 PB <b id="profilePb">2:38:07</b><br>累计 <b id="profileCareerKm">44,993</b> km · 连续 <b id="profileStreak">125</b> 周<br>上马目标 <span class="runner-goal">≤ 2:38:00</span> · 长期目标 2:31:00</div>
+        <div class="runner-meta">全马 PB <b id="profilePb">2:38:07</b><br>累计 <b id="profileCareerKm">44,993</b> km · 连续 <b id="profileStreak">125</b> 周<br>上马执行目标 <span class="runner-goal" id="profileRaceGoal">2:45—2:50，稳进3小时</span> · 长期目标 2:31:00</div>
       </div>
     </section>
   </div>
@@ -559,6 +559,11 @@ a{color:var(--accent);text-decoration:none}
 // ===== Real merged data summary =====
 if(window.MERGED_DATA){
   const D=window.MERGED_DATA, S=D.summary, C=D.career;
+  if(S.race_execution){
+    const T=S.race_execution;
+    document.getElementById('headerRaceGoal').textContent=`Daniels + Hansons · ${T.race} · 争取 ${T.time_range} · ${T.primary_goal}`;
+    document.getElementById('profileRaceGoal').textContent=`${T.time_range}，${T.primary_goal}`;
+  }
   document.getElementById('careerKm').textContent=C.distance_km.toLocaleString('zh-CN',{minimumFractionDigits:2});
   document.getElementById('careerSub').textContent=`${C.runs.toLocaleString()}次 · ${C.hours.toLocaleString()}小时`;
   document.getElementById('profileCareerKm').textContent=Math.floor(C.distance_km).toLocaleString('zh-CN');

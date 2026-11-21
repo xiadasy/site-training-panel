@@ -48,6 +48,7 @@ if Path('garmin_data.json').exists():
 
 # Merge runs by activity_id (dedupe, prefer newer fetch with laps)
 all_runs = {}
+source_km_by_id = {}
 for r in existing.get('runs', []):
     all_runs[str(r.get('activity_id'))] = r
 
@@ -62,6 +63,7 @@ for a in new_runs:
         dist = float(override['distance_km'])
         print(f"📏 Override {aid}: Garmin {raw_dist:.5f}km -> {dist:.5f}km ({override.get('source','manual')})")
     if dist <= 0: continue
+    source_km_by_id[aid] = dist
     date = str(a.get('startTimeLocal',''))[:10]
     dur = a.get('duration') or 0
     pace = dur/dist if dist else 0
@@ -86,6 +88,8 @@ for a in new_runs:
             'step': l.get('wktStepIndex')
         })
 
+    if not laps:
+        laps = all_runs.get(aid, {}).get('laps', [])
     all_runs[aid] = {
         'date': date,
         'start': a.get('startTimeLocal'),
@@ -202,7 +206,7 @@ out = {
     'career': career,
     'summary': {
         'latest_date': latest,
-        'week_km': round(sum(r['distance'] for r in week_runs), 2),
+        'week_km': round(sum(source_km_by_id.get(r.get('activity_id'), r.get('distance_exact_km', r['distance'])) for r in week_runs), 2),
         'week_runs': len(week_runs),
         'month_km': round(sum(r['distance'] for r in month_runs), 2),
         'month_runs': len(month_runs),
@@ -225,6 +229,13 @@ out = {
     'shoes': shoes,
     'days': days
 }
+
+# Dated race execution target supersedes the original cycle goal for this race only.
+execution_path = Path('data/running/RACE_EXECUTION_2026_SHANGHAI.json')
+if execution_path.exists():
+    execution = json.loads(execution_path.read_text(encoding='utf-8'))
+    if execution['race_date'] == out['summary']['goal_race_date'][:10]:
+        out['summary'].update(goal=execution['time_range'], goal_pace=execution['pace_range'], race_execution=execution)
 
 Path('merged_data.js').write_text(
     'window.MERGED_DATA=' + json.dumps(out, ensure_ascii=False, separators=(',',':')) + ';\n',

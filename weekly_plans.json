@@ -229,18 +229,20 @@
       "workout_id": 1762033414
     },
     {
-      "type": "长跑待复核预算26",
+      "type": "营课已跑｜保留原待审预算",
       "plan": 26.0,
-      "title": "11/21 长跑待复核｜预算26未放行",
+      "title": "11/21 营课已跑｜原26为待审预算",
       "workout_id": null,
-      "status": "pending_recovery_review_no_calendar_workout",
-      "plan_is_budget": true
+      "status": "actual_camp_completed_original_budget_was_not_approved",
+      "plan_is_budget": true,
+      "actual_distance_km": 32.37482
     },
     {
-      "type": "长跑后恢复6可休",
-      "plan": 6.0,
-      "title": "11/22 长跑后恢复6可休",
-      "workout_id": 1762033591
+      "type": "长课后跑休",
+      "plan": 0.0,
+      "title": "11/22 跑休｜长课后吸收",
+      "workout_id": null,
+      "status": "rest_after_actual_long_run"
     }
   ],
   "2026-08-03": [
@@ -725,6 +727,111 @@
       "plan": 8.0,
       "title": "10/18 长距后恢复8可休",
       "workout_id": 1725375290
+    }
+  ],
+  "2026-11-23": [
+    {
+      "type": "条件恢复6",
+      "plan": 6,
+      "title": "11/23 条件恢复｜至多6",
+      "workout_id": null,
+      "status": "conditional_easy"
+    },
+    {
+      "type": "轻松E8",
+      "plan": 8,
+      "title": "11/24 轻松E8",
+      "workout_id": null,
+      "status": "coach_prescription"
+    },
+    {
+      "type": "极轻松6可休",
+      "plan": 6,
+      "title": "11/25 极轻松6可休",
+      "workout_id": null,
+      "status": "coach_prescription"
+    },
+    {
+      "type": "条件马配6｜总12",
+      "plan": 12,
+      "title": "11/26 连续M6｜4′02″—4′06″",
+      "workout_id": null,
+      "status": "pending_recovery_gate",
+      "main_km": 6
+    },
+    {
+      "type": "跑休",
+      "plan": 0,
+      "title": "11/27 跑休",
+      "workout_id": null,
+      "status": "rest"
+    },
+    {
+      "type": "纯E16上限",
+      "plan": 16,
+      "title": "11/28 纯E16上限",
+      "workout_id": null,
+      "status": "conditional_easy"
+    },
+    {
+      "type": "恢复6可休",
+      "plan": 6,
+      "title": "11/29 恢复6可休",
+      "workout_id": null,
+      "status": "coach_prescription"
+    }
+  ],
+  "2026-11-30": [
+    {
+      "type": "恢复6可休",
+      "plan": 6,
+      "title": "11/30 恢复6可休",
+      "workout_id": null,
+      "status": "coach_prescription"
+    },
+    {
+      "type": "轻松E6",
+      "plan": 6,
+      "title": "12/01 轻松E6",
+      "workout_id": null,
+      "status": "coach_prescription"
+    },
+    {
+      "type": "条件唤醒3×1K",
+      "plan": 8,
+      "title": "12/02 3×1km｜4′00″—4′05″",
+      "workout_id": null,
+      "status": "pending_recovery_gate",
+      "main_km": 3
+    },
+    {
+      "type": "跑休",
+      "plan": 0,
+      "title": "12/03 跑休",
+      "workout_id": null,
+      "status": "rest"
+    },
+    {
+      "type": "轻松E5",
+      "plan": 5,
+      "title": "12/04 轻松E5",
+      "workout_id": null,
+      "status": "coach_prescription"
+    },
+    {
+      "type": "赛前可选3",
+      "plan": 3,
+      "title": "12/05 可休或3km极轻松",
+      "workout_id": null,
+      "status": "optional_easy"
+    },
+    {
+      "type": "上海马拉松",
+      "plan": 42.195,
+      "title": "12/06 上海马拉松｜按状态选档",
+      "workout_id": null,
+      "status": "race_not_scheduled_to_watch",
+      "is_race": true
     }
   ]
 }
