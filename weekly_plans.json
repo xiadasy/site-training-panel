@@ -731,54 +731,51 @@
   ],
   "2026-11-23": [
     {
-      "type": "条件恢复6",
-      "plan": 6,
-      "title": "11/23 条件恢复｜至多6",
-      "workout_id": null,
-      "status": "conditional_easy"
+      "type": "轻松恢复4可休",
+      "plan": 4.0,
+      "title": "11/23 轻松恢复4可休",
+      "workout_id": 1770416003
     },
     {
-      "type": "轻松E8",
-      "plan": 8,
-      "title": "11/24 轻松E8",
+      "type": "训练营待审",
+      "plan": 12.0,
+      "title": "11/24 周二训练营｜原表待审",
       "workout_id": null,
-      "status": "coach_prescription"
+      "status": "pending_camp_plan_and_recovery",
+      "plan_is_budget": true
     },
     {
-      "type": "极轻松6可休",
-      "plan": 6,
-      "title": "11/25 极轻松6可休",
-      "workout_id": null,
-      "status": "coach_prescription"
+      "type": "营课后恢复6可休",
+      "plan": 6.0,
+      "title": "11/25 营课后恢复6可休",
+      "workout_id": 1770416032
     },
     {
-      "type": "条件马配6｜总12",
-      "plan": 12,
-      "title": "11/26 连续M6｜4′02″—4′06″",
-      "workout_id": null,
-      "status": "pending_recovery_gate",
-      "main_km": 6
+      "type": "轻松E6—8可减",
+      "plan": 8.0,
+      "title": "11/26 只跑轻松E8｜可减6",
+      "workout_id": 1770416051
     },
     {
       "type": "跑休",
-      "plan": 0,
+      "plan": 0.0,
       "title": "11/27 跑休",
       "workout_id": null,
-      "status": "rest"
+      "status": "rest_day"
     },
     {
-      "type": "纯E16上限",
-      "plan": 16,
-      "title": "11/28 纯E16上限",
+      "type": "训练营待审",
+      "plan": 16.0,
+      "title": "11/28 周六训练营｜减量版待审",
       "workout_id": null,
-      "status": "conditional_easy"
+      "status": "pending_camp_plan_and_recovery",
+      "plan_is_budget": true
     },
     {
-      "type": "恢复6可休",
-      "plan": 6,
-      "title": "11/29 恢复6可休",
-      "workout_id": null,
-      "status": "coach_prescription"
+      "type": "恢复4—6可休",
+      "plan": 6.0,
+      "title": "11/29 营课后恢复6可休",
+      "workout_id": 1770416091
     }
   ],
   "2026-11-30": [
