@@ -253,12 +253,15 @@
       "workout_id": 1770416003
     },
     {
-      "type": "训练营待审",
+      "type": "上马B组6×1200｜走90秒",
       "plan": 12.0,
-      "title": "11/24 周二训练营｜原表待审",
-      "workout_id": null,
-      "status": "pending_camp_plan_and_recovery",
-      "plan_is_budget": true
+      "title": "11/24 上马B组 1200x6｜走90秒",
+      "workout_id": 1771620151,
+      "status": "camp_B_workout_scheduled_check_recovery",
+      "plan_is_budget": true,
+      "main_km": 7.2,
+      "fixed_running_km": 10.8,
+      "recovery_seconds_total": 450
     },
     {
       "type": "营课后恢复6可休",
