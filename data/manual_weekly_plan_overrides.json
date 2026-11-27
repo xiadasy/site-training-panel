@@ -767,11 +767,11 @@
       "status": "rest_day"
     },
     {
-      "type": "训练营待审",
-      "plan": 16.0,
-      "title": "11/28 周六训练营｜减量版待审",
+      "type": "轻松6—8或休",
+      "plan": 8.0,
+      "title": "11/28 轻松6—8或休｜不做强度",
       "workout_id": null,
-      "status": "pending_camp_plan_and_recovery",
+      "status": "recovery_easy_or_rest_no_workout",
       "plan_is_budget": true
     },
     {
